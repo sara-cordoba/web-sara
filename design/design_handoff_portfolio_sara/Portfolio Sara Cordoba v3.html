@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sara Córdoba · Sistema</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="v3-styles.css" />
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="v3-particles.jsx"></script>
+  <script type="text/babel" src="v3-pages.jsx"></script>
+
+  <script type="text/babel">
+  const { useState, useEffect } = React;
+
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "limeShade": "#a3d977",
+    "speed": 1,
+    "particles": true,
+    "particleDensity": 60
+  }/*EDITMODE-END*/;
+
+  function applyTokens(t) {
+    const r = document.documentElement;
+    r.style.setProperty('--lime', t.limeShade);
+    r.style.setProperty('--speed', String(t.speed));
+  }
+
+  function App() {
+    const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+    const setTweaks = (patch) => Object.entries(patch).forEach(([k,v]) => setTweak(k, v));
+    const [page, setPage] = useState('home');
+
+    useEffect(() => { applyTokens(tweaks); }, [tweaks]);
+    useEffect(() => { window.scrollTo({top: 0, behavior: 'smooth'}); }, [page]);
+
+    const PAGES = [
+      { id: 'home', label: 'Inicio' },
+      { id: 'servicios', label: 'Servicios' },
+      { id: 'trabajos', label: 'Trabajos' },
+      { id: 'contacto', label: 'Contacto' },
+    ];
+
+    return (
+      <>
+        <div className="v3-bg" />
+        {tweaks.particles && <V3Particles density={tweaks.particleDensity} speed={tweaks.speed} color={tweaks.limeShade} />}
+
+        <div className="v3-chrome">
+          <div className="v3-brand" onClick={() => setPage('home')}>
+            <div className="v3-brand-mark">SC</div>
+            <div className="v3-brand-text">
+              <b>Sara Córdoba</b>
+              <span>Estudio · Barcelona</span>
+            </div>
+          </div>
+          <nav className="v3-nav">
+            {PAGES.map(p => (
+              <button key={p.id} className={page === p.id ? 'active' : ''} onClick={() => setPage(p.id)}>
+                {p.label}
+              </button>
+            ))}
+          </nav>
+          <button className="v3-cta" onClick={() => setPage('contacto')}>
+            Empezar conversación <span className="arrow">→</span>
+          </button>
+        </div>
+
+        <div className={`v3-page ${page === 'home' ? 'active' : ''}`} key={`h-${page}`}>
+          {page === 'home' && <HomeV3 onCta={(p) => setPage(p || 'contacto')} />}
+        </div>
+        <div className={`v3-page ${page === 'servicios' ? 'active' : ''}`} key={`s-${page}`}>
+          {page === 'servicios' && <ServiciosV3 />}
+        </div>
+        <div className={`v3-page ${page === 'trabajos' ? 'active' : ''}`} key={`t-${page}`}>
+          {page === 'trabajos' && <TrabajosV3 />}
+        </div>
+        <div className={`v3-page ${page === 'contacto' ? 'active' : ''}`} key={`c-${page}`}>
+          {page === 'contacto' && <ContactoV3 />}
+        </div>
+
+        <TweaksPanel title="Tweaks">
+          <TweakSection label="Color">
+            <TweakColor label="Acento lime" value={tweaks.limeShade} onChange={v => setTweaks({limeShade: v})} />
+            <TweakSlider label="Velocidad" min={0.3} max={2.5} step={0.1} value={tweaks.speed} onChange={v => setTweaks({speed: v})} />
+          </TweakSection>
+          <TweakSection label="Partículas">
+            <TweakToggle label="Activar partículas" value={tweaks.particles} onChange={v => setTweaks({particles: v})} />
+            <TweakSlider label="Densidad" min={10} max={150} step={5} value={tweaks.particleDensity} onChange={v => setTweaks({particleDensity: v})} />
+          </TweakSection>
+        </TweaksPanel>
+      </>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
