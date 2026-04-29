@@ -4,7 +4,7 @@ import { Section, Eyebrow, H1, Lede, CtaButton, GhostButton } from "../ui";
 export default function Hero() {
   return (
     <Section className="!pt-20 !pb-[60px]">
-      <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-12 lg:gap-[60px] items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-12 lg:gap-20 items-center">
         <div>
           <Eyebrow>Estudio independiente · Barcelona</Eyebrow>
           <H1>
@@ -30,7 +30,7 @@ export default function Hero() {
         </div>
 
         <div
-          className="v3-hero-card relative w-full max-w-[380px] aspect-[4/5] rounded-[24px] overflow-hidden border border-border-strong shadow-card-glow mx-auto lg:ml-auto lg:mr-0"
+          className="v3-hero-card relative w-full max-w-[340px] aspect-[4/5] rounded-[24px] overflow-hidden border border-border-strong shadow-card-glow mx-auto lg:ml-auto lg:mr-0"
           style={{
             background: "linear-gradient(160deg, #18342a, #0d3b2e)",
           }}

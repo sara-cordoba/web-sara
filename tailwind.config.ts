@@ -37,7 +37,7 @@ const config: Config = {
         mono: ["var(--font-mono)", "monospace"],
       },
       maxWidth: {
-        page: "1280px",
+        page: "1180px",
       },
       boxShadow: {
         card: "0 1px 0 rgba(255,255,255,0.04) inset, 0 30px 60px -20px rgba(0,0,0,0.5)",

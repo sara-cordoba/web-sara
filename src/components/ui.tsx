@@ -12,7 +12,7 @@ export function Section({
   return (
     <section
       className={clsx(
-        "relative max-w-page mx-auto px-8 py-[100px] md:px-5 md:py-[70px]",
+        "relative max-w-page mx-auto px-6 sm:px-10 lg:px-16 py-[100px] md:py-[70px]",
         className
       )}
     >
@@ -47,8 +47,8 @@ export function H1({
         className
       )}
       style={{
-        fontSize: "clamp(36px, 4.6vw, 60px)",
-        lineHeight: 1.05,
+        fontSize: "clamp(34px, 3.8vw, 52px)",
+        lineHeight: 1.08,
         letterSpacing: "-0.035em",
       }}
     >
