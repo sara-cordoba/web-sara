@@ -20,7 +20,7 @@ export default function Navbar() {
       style={{
         backdropFilter: "blur(14px) saturate(140%)",
         WebkitBackdropFilter: "blur(14px) saturate(140%)",
-        background: "rgba(10, 22, 18, 0.72)",
+        background: "rgba(8, 11, 10, 0.72)",
       }}
     >
       <Link href="/" className="flex items-center gap-3 cursor-pointer">
