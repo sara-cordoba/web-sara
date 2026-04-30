@@ -25,7 +25,7 @@ export default function About() {
         <br />
         Soy <span className="text-lime">tu equipo</span> creativo.
       </H2>
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-[60px] items-center mt-[60px]">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-[60px] items-start mt-[60px]">
         <div
           className="relative aspect-square rounded-[24px] overflow-hidden border border-border-strong shadow-card-glow"
           style={{
