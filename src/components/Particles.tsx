@@ -77,7 +77,7 @@ export default function Particles({
           r: Math.random() * 1.6 + 0.4,
           phase: Math.random() * Math.PI * 2,
           phaseSpeed: 0.005 + Math.random() * 0.01,
-          baseAlpha: 0.18 + Math.random() * 0.4,
+          baseAlpha: 0.08 + Math.random() * 0.18,
         });
       }
     }
@@ -114,7 +114,7 @@ export default function Particles({
         const alpha = p.baseAlpha * flicker;
 
         const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 6);
-        grad.addColorStop(0, `rgba(${cr},${cg},${cb},${alpha * 0.6})`);
+        grad.addColorStop(0, `rgba(${cr},${cg},${cb},${alpha * 0.35})`);
         grad.addColorStop(1, `rgba(${cr},${cg},${cb},0)`);
         ctx.fillStyle = grad;
         ctx.beginPath();
@@ -138,7 +138,7 @@ export default function Particles({
           const d2 = dx * dx + dy * dy;
           if (d2 < maxDist * maxDist) {
             const t = 1 - Math.sqrt(d2) / maxDist;
-            ctx.strokeStyle = `rgba(${cr},${cg},${cb},${t * 0.1})`;
+            ctx.strokeStyle = `rgba(${cr},${cg},${cb},${t * 0.05})`;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);

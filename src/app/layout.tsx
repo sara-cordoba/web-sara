@@ -42,7 +42,7 @@ export default function RootLayout({
       <body className="antialiased">
         <Cursor />
         <Background />
-        <Particles density={60} speed={1} color="#a3d977" />
+        <Particles density={45} speed={1} color="#a3d977" />
         <Navbar />
         <div className="relative z-[5] pt-[90px] animate-page-fade">
           {children}
