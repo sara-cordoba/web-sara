@@ -17,9 +17,7 @@ export default function Works({
       <H2>
         {heading ?? (
           <>
-            Proyectos
-            <br />
-            <span className="text-lime">recientes</span>.
+            Proyectos <span className="text-lime">recientes</span>.
           </>
         )}
       </H2>
@@ -27,7 +25,7 @@ export default function Works({
         {WORKS.map((w, i) => (
           <div
             key={i}
-            className="group relative aspect-[4/5] rounded-[18px] overflow-hidden border border-border bg-surface cursor-pointer transition-all duration-[350ms] ease-smooth hover:-translate-y-1 hover:border-border-strong hover:shadow-glow-edge"
+            className="group relative aspect-square rounded-[14px] overflow-hidden border border-border bg-surface cursor-pointer transition-all duration-[350ms] ease-smooth hover:-translate-y-1 hover:border-border-strong hover:shadow-glow-edge"
           >
             {w.placeholder ? (
               <div
@@ -52,7 +50,7 @@ export default function Works({
                   fill
                   sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
                   quality={95}
-                  className={w.logoFill ? "object-cover" : "object-contain p-8"}
+                  className={w.logoFill ? "object-cover" : "object-contain p-12"}
                 />
               </div>
             )}
