@@ -25,12 +25,34 @@ export default function Cursor() {
         svgRef.current.style.transform = hovered ? "scale(1.25)" : "scale(1)";
       }
     };
+    const onLeave = (e: MouseEvent) => {
+      if (e.relatedTarget === null && ref.current) {
+        ref.current.style.opacity = "0";
+      }
+    };
+    const onEnter = () => {
+      if (ref.current) ref.current.style.opacity = "1";
+    };
+    const onBlur = () => {
+      if (ref.current) ref.current.style.opacity = "0";
+    };
+    const onFocus = () => {
+      if (ref.current) ref.current.style.opacity = "1";
+    };
 
     window.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("mouseover", onOver, { passive: true });
+    document.addEventListener("mouseout", onLeave);
+    document.addEventListener("mouseover", onEnter);
+    window.addEventListener("blur", onBlur);
+    window.addEventListener("focus", onFocus);
     return () => {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseover", onOver);
+      document.removeEventListener("mouseout", onLeave);
+      document.removeEventListener("mouseover", onEnter);
+      window.removeEventListener("blur", onBlur);
+      window.removeEventListener("focus", onFocus);
     };
   }, []);
 
@@ -41,7 +63,11 @@ export default function Cursor() {
       ref={ref}
       aria-hidden
       className="pointer-events-none fixed left-0 top-0 z-[9999] will-change-transform"
-      style={{ transform: "translate3d(-100px, -100px, 0)" }}
+      style={{
+        transform: "translate3d(-100px, -100px, 0)",
+        opacity: 1,
+        transition: "opacity 0.15s ease-out",
+      }}
     >
       <svg
         ref={svgRef}

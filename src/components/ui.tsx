@@ -71,9 +71,9 @@ export function H2({
         className
       )}
       style={{
-        fontSize: "clamp(32px, 4.5vw, 56px)",
-        lineHeight: 1.05,
-        letterSpacing: "-0.03em",
+        fontSize: "clamp(34px, 3.8vw, 52px)",
+        lineHeight: 1.08,
+        letterSpacing: "-0.035em",
       }}
     >
       {children}
