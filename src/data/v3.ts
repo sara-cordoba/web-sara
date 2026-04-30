@@ -103,13 +103,13 @@ export const WORKS: Work[] = [
   {
     title: "AJE Madrid",
     year: "2026",
-    type: "Eventos · Vídeo",
+    type: "Eventos · Visuales · Contenido",
     logo: "/img/aje-madrid.png",
     logoBg: "#fff",
   },
   {
     title: "October Hollow Studio",
-    year: "2025",
+    year: "2024 · ACTUAL",
     type: "Próximamente",
     placeholder: true,
   },
