@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Section, Eyebrow, H2, Lede } from "../ui";
+import { Section, Eyebrow, H2 } from "../ui";
 
 const BULLETS = [
   {
@@ -54,11 +54,28 @@ export default function About() {
           </div>
         </div>
         <div>
-          <Lede>
-            Llevo años ayudando a marcas con algo verdadero que decir a
-            construir su voz visual y narrativa. No me caso con una herramienta
-            ni con una disciplina — me caso con tu propósito.
-          </Lede>
+          <div
+            className="text-text-soft max-w-[640px] flex flex-col gap-4 font-normal"
+            style={{ fontSize: "clamp(16px, 1.3vw, 19px)", lineHeight: 1.6 }}
+          >
+            <p className="m-0">
+              Llevo un año dentro de una startup de IA viendo cómo se construye
+              una marca desde cero mientras todo cambia a tu alrededor, eso te
+              da una{" "}
+              <strong className="font-semibold text-text">
+                visión que no se aprende en ningún curso
+              </strong>
+              .
+            </p>
+            <p className="m-0">
+              No trabajo con todo el mundo. Me interesa{" "}
+              <strong className="font-semibold text-text">
+                entender tu proyecto de verdad
+              </strong>{" "}
+              antes de meterme en él.
+            </p>
+            <p className="m-0">Si crees que encajamos, ¡escríbeme!</p>
+          </div>
           <div className="mt-8 flex flex-col gap-4">
             {BULLETS.map((b, i) => (
               <div
