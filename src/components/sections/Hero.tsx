@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Section, Eyebrow, H1, Lede, CtaButton, GhostButton } from "../ui";
+import { Section, Eyebrow, H1, CtaButton, GhostButton } from "../ui";
 
 export default function Hero() {
   return (
