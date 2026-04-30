@@ -12,17 +12,43 @@ export default function Hero() {
             <br />
             Es contenido que <span className="text-lime not-italic">conecta</span>.
           </H1>
-          <Lede>
-            No solo diseño webs ni edito vídeos. Antes de tocar nada, quiero{" "}
-            <strong className="font-semibold text-text">conocerte</strong> y
-            entender el{" "}
-            <strong className="font-semibold text-text">
-              propósito real de tu proyecto
-            </strong>{" "}
-            — para plasmarlo con{" "}
-            <strong className="font-semibold text-text">honestidad</strong> y
-            transmitirlo al máximo.
-          </Lede>
+          <div
+            className="text-text-soft max-w-[640px] flex flex-col gap-4 font-normal"
+            style={{ fontSize: "clamp(16px, 1.3vw, 19px)", lineHeight: 1.6 }}
+          >
+            <p className="m-0">
+              Si estás aquí es porque algo en tu marca no termina de encajar. La
+              web no convence, el contenido no conecta, o simplemente no sabes
+              por dónde empezar.
+            </p>
+            <p className="m-0 font-semibold text-text">
+              Yo me encargo de eso.
+            </p>
+            <p className="m-0">
+              Diseño webs, creo identidad visual, produzco contenido y lo
+              cuento todo de forma que tenga sentido para ti y tu público
+              objetivo.
+            </p>
+            <p className="m-0">
+              Llevo un año dentro de una startup de IA viendo cómo se construye
+              una marca desde cero mientras todo cambia a tu alrededor, eso te
+              da una{" "}
+              <strong className="font-semibold text-text">
+                visión que no se aprende en ningún curso
+              </strong>
+              .
+            </p>
+            <p className="m-0">
+              No trabajo con todo el mundo. Me interesa{" "}
+              <strong className="font-semibold text-text">
+                entender tu proyecto de verdad
+              </strong>{" "}
+              antes de meterme en él.
+            </p>
+            <p className="m-0">
+              Si crees que encajamos, ¡escríbeme!
+            </p>
+          </div>
           <div className="flex gap-[14px] mt-9 flex-wrap">
             <CtaButton href="/contacto">Empezar conversación</CtaButton>
             <GhostButton href="/trabajos">Ver trabajos</GhostButton>
