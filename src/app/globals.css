@@ -157,29 +157,6 @@ html {
   font-weight: 600;
 }
 
-/* ---------- Background grid mask ---------- */
-.v3-bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(
-      rgba(163, 217, 119, 0.04) 1px,
-      transparent 1px
-    ),
-    linear-gradient(90deg, rgba(163, 217, 119, 0.04) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(
-    ellipse 80% 80% at 50% 50%,
-    black 30%,
-    transparent 70%
-  );
-  -webkit-mask-image: radial-gradient(
-    ellipse 80% 80% at 50% 50%,
-    black 30%,
-    transparent 70%
-  );
-}
-
 /* ---------- Banner subtle grid ---------- */
 .v3-banner::before {
   content: "";
