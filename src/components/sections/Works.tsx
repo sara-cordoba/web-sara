@@ -14,7 +14,7 @@ export default function Works({
   return (
     <Section>
       <Eyebrow>{eyebrow}</Eyebrow>
-      <H2>
+      <H2 className="whitespace-nowrap !max-w-none">
         {heading ?? (
           <>
             Proyectos <span className="text-lime">recientes</span>.

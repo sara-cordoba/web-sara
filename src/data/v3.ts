@@ -74,8 +74,9 @@ export const WORKS: Work[] = [
     title: "Cronos AI Consulting",
     year: "2025",
     type: "Brand · Web",
-    logo: "/img/cronos.jpg",
+    logo: "/img/cronos.png",
     logoBg: "#000",
+    logoFill: true,
   },
   {
     title: "GPAthletes",
