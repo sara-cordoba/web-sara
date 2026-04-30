@@ -62,7 +62,7 @@ export default function Works({
               }}
             >
               <div className="font-mono text-[10px] tracking-[0.12em] text-lime uppercase mb-1">
-                {String(i + 1).padStart(2, "0")} — {w.year}
+                {w.year}
               </div>
               <div className="text-text text-[16px] font-semibold tracking-[-0.01em]">
                 {w.title}

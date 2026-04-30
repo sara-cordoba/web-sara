@@ -72,8 +72,8 @@ export type Work = {
 export const WORKS: Work[] = [
   {
     title: "Cronos AI Consulting",
-    year: "2025",
-    type: "Brand · Web",
+    year: "2025 — ACTUAL",
+    type: "COO & CMO · Brand · Web · Contenido",
     logo: "/img/cronos.png",
     logoBg: "#000",
     logoFill: true,
