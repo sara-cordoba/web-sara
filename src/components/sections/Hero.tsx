@@ -4,87 +4,85 @@ import { Section, Eyebrow, H1, CtaButton, GhostButton } from "../ui";
 export default function Hero() {
   return (
     <Section className="!pt-20 !pb-[60px]">
-      <div className="max-w-[760px] mx-auto">
-        <Eyebrow>Estudio independiente · Barcelona</Eyebrow>
-        <H1>
-          No es <span className="v3-strike">solo</span> contenido.
-          <br />
-          Es contenido que{" "}
-          <span className="text-lime not-italic">conecta</span>.
-        </H1>
-
-        <p
-          className="text-text-soft mt-2"
-          style={{ fontSize: "clamp(17px, 1.3vw, 19px)", lineHeight: 1.65 }}
-        >
-          Si estás aquí es porque algo en tu marca no termina de encajar. La
-          web no convence, el contenido no conecta, o simplemente no sabes por
-          dónde empezar.
-        </p>
-
-        <div className="flex items-center gap-4 my-7">
-          <div className="relative w-14 h-14 rounded-[12px] overflow-hidden border border-border-strong shadow-glow-soft flex-shrink-0">
-            <Image
-              src="/img/sara.png"
-              alt="Sara Córdoba"
-              fill
-              sizes="56px"
-              quality={95}
-              className="object-cover"
-              priority
-            />
+      <div className="grid grid-cols-1 lg:grid-cols-[1.7fr_1fr] gap-10 lg:gap-16 items-start">
+        <div>
+          <Eyebrow>Estudio independiente · Barcelona</Eyebrow>
+          <H1>
+            No es <span className="v3-strike">solo</span> contenido.
+            <br />
+            Es contenido que{" "}
+            <span className="text-lime not-italic">conecta</span>.
+          </H1>
+          <div
+            className="text-text-soft max-w-[640px] flex flex-col gap-4 font-normal"
+            style={{ fontSize: "clamp(16px, 1.3vw, 19px)", lineHeight: 1.6 }}
+          >
+            <p className="m-0">
+              Si estás aquí es porque algo en tu marca no termina de encajar.
+              La web no convence, el contenido no conecta, o simplemente no
+              sabes por dónde empezar.
+            </p>
+            <p className="m-0 font-semibold text-text">
+              Yo me encargo de eso.
+            </p>
+            <p className="m-0">
+              Diseño webs, creo identidad visual, produzco contenido y lo
+              cuento todo de forma que tenga sentido para ti y tu público
+              objetivo.
+            </p>
+            <p className="m-0">
+              Llevo un año dentro de una startup de IA viendo cómo se construye
+              una marca desde cero mientras todo cambia a tu alrededor, eso te
+              da una{" "}
+              <strong className="font-semibold text-text">
+                visión que no se aprende en ningún curso
+              </strong>
+              .
+            </p>
+            <p className="m-0">
+              No trabajo con todo el mundo. Me interesa{" "}
+              <strong className="font-semibold text-text">
+                entender tu proyecto de verdad
+              </strong>{" "}
+              antes de meterme en él.
+            </p>
+            <p className="m-0">Si crees que encajamos, ¡escríbeme!</p>
           </div>
-          <div className="leading-[1.2]">
-            <b className="block text-text text-[14px] font-semibold tracking-[-0.01em]">
+          <div className="flex gap-[14px] mt-9 flex-wrap">
+            <CtaButton href="/contacto">Empezar conversación</CtaButton>
+            <GhostButton href="/trabajos">Ver trabajos</GhostButton>
+          </div>
+        </div>
+
+        <div
+          className="v3-hero-card relative w-full max-w-[240px] aspect-[4/5] rounded-[20px] overflow-hidden border border-border-strong shadow-card-glow mx-auto lg:ml-auto lg:mr-0 lg:sticky lg:top-[110px]"
+          style={{
+            background: "linear-gradient(160deg, #18342a, #0d3b2e)",
+          }}
+        >
+          <Image
+            src="/img/sara.png"
+            alt="Sara Córdoba"
+            fill
+            sizes="(max-width: 1000px) 240px, 240px"
+            quality={95}
+            className="object-cover"
+            priority
+          />
+          <div
+            className="absolute left-3 right-3 bottom-3 z-[3] py-[10px] px-3 rounded-[10px] border border-border"
+            style={{
+              background: "rgba(10, 22, 18, 0.85)",
+              backdropFilter: "blur(8px)",
+            }}
+          >
+            <b className="block font-semibold text-text text-[12px] tracking-[-0.01em]">
               Sara Córdoba
             </b>
-            <span className="text-[12px] text-text-muted">
+            <span className="text-[11px] text-text-muted">
               Diseño & dirección · Barcelona
             </span>
           </div>
-        </div>
-
-        <p
-          className="text-text font-semibold mb-6"
-          style={{
-            fontSize: "clamp(22px, 2.2vw, 28px)",
-            lineHeight: 1.3,
-            letterSpacing: "-0.015em",
-          }}
-        >
-          Yo me encargo de eso.
-        </p>
-
-        <div
-          className="text-text-soft flex flex-col gap-4"
-          style={{ fontSize: "clamp(16px, 1.2vw, 18px)", lineHeight: 1.7 }}
-        >
-          <p className="m-0">
-            Diseño webs, creo identidad visual, produzco contenido y lo cuento
-            todo de forma que tenga sentido para ti y tu público objetivo.
-          </p>
-          <p className="m-0">
-            Llevo un año dentro de una startup de IA viendo cómo se construye
-            una marca desde cero mientras todo cambia a tu alrededor, eso te da
-            una{" "}
-            <strong className="font-semibold text-text">
-              visión que no se aprende en ningún curso
-            </strong>
-            .
-          </p>
-          <p className="m-0">
-            No trabajo con todo el mundo. Me interesa{" "}
-            <strong className="font-semibold text-text">
-              entender tu proyecto de verdad
-            </strong>{" "}
-            antes de meterme en él.
-          </p>
-          <p className="m-0">Si crees que encajamos, ¡escríbeme!</p>
-        </div>
-
-        <div className="flex gap-[14px] mt-9 flex-wrap">
-          <CtaButton href="/contacto">Empezar conversación</CtaButton>
-          <GhostButton href="/trabajos">Ver trabajos</GhostButton>
         </div>
       </div>
     </Section>
