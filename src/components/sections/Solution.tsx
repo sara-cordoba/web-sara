@@ -15,15 +15,7 @@ export default function Solution({
   return (
     <Section>
       <Eyebrow>{eyebrow}</Eyebrow>
-      <H2>
-        {heading ?? (
-          <>
-            Tu sistema visual y narrativo,
-            <br />
-            en <span className="text-lime">un solo equipo</span>.
-          </>
-        )}
-      </H2>
+      <H2>{heading ?? "Lo que hago"}</H2>
       <Lede>{lede}</Lede>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-[60px]">
         {SOLUTIONS.map((s, i) => (
