@@ -32,7 +32,7 @@ export default function Hero() {
             </p>
           </div>
           <div className="flex gap-[14px] mt-9 flex-wrap">
-            <CtaButton href="/contacto">Empezar conversación</CtaButton>
+            <CtaButton href="/contacto">¡Hablemos!</CtaButton>
             <GhostButton href="/trabajos">Ver trabajos</GhostButton>
           </div>
         </div>

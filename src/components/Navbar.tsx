@@ -66,7 +66,7 @@ export default function Navbar() {
         href="/contacto"
         className="group inline-flex items-center gap-2 bg-lime text-green font-semibold text-[13px] px-[18px] py-[10px] rounded-[10px] shadow-cta transition-all duration-200 hover:bg-lime-bright hover:-translate-y-px"
       >
-        Empezar conversación
+¡Hablemos!
         <span className="inline-block transition-transform duration-[250ms] ease-smooth group-hover:translate-x-[3px]">
           →
         </span>

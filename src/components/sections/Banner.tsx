@@ -27,7 +27,7 @@ export default function Banner() {
           compromiso, para ver si encajamos.
         </p>
         <div className="relative z-[1] inline-flex">
-          <CtaButton href="/contacto">Empezar conversación</CtaButton>
+          <CtaButton href="/contacto">¡Hablemos!</CtaButton>
         </div>
         <div className="mt-6 font-mono text-[12px] text-text-muted relative z-[1]">
           Sin compromiso · Respuesta en menos de 48h
