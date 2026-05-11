@@ -33,7 +33,7 @@ export default function About() {
           }}
         >
           <Image
-            src="/img/sara-pc.png"
+            src="/img/sara.png"
             alt="Sara Córdoba"
             fill
             sizes="(max-width: 900px) 100vw, 600px"
