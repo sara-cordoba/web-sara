@@ -14,8 +14,8 @@ export default function HomePage() {
       <Marquee />
       <Solution />
       <Process />
-      <About />
       <Works />
+      <About />
       <Banner />
       <Footer />
     </>
