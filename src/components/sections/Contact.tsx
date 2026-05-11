@@ -34,14 +34,6 @@ export default function Contact() {
             </span>
             <span className="text-text">Barcelona, ES</span>
           </div>
-          <div className="grid grid-cols-[120px_1fr] items-center py-[18px] border-t border-border text-[14px]">
-            <span className="text-text-muted font-mono text-[11px] tracking-[0.08em] uppercase">
-              Disponibilidad
-            </span>
-            <span className="text-text">
-              <span className="text-lime">Q3</span> 2026
-            </span>
-          </div>
           <div className="grid grid-cols-[120px_1fr] items-center py-[18px] border-t border-b border-border text-[14px]">
             <span className="text-text-muted font-mono text-[11px] tracking-[0.08em] uppercase">
               Estado

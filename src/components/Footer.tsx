@@ -46,7 +46,6 @@ export default function Footer() {
         <ul className="p-0 m-0 list-none flex flex-col gap-2 text-text-soft">
           <li>scordobalazaro@gmail.com</li>
           <li>Barcelona, ES</li>
-          <li>Disponible Q3 2026</li>
         </ul>
       </div>
     </footer>

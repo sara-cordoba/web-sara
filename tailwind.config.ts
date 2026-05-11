@@ -73,11 +73,16 @@ const config: Config = {
           from: { transform: "translateX(0)" },
           to: { transform: "translateX(-50%)" },
         },
+        "neon-sweep": {
+          "0%": { transform: "translateX(-120%)" },
+          "100%": { transform: "translateX(400%)" },
+        },
       },
       animation: {
         "page-fade": "page-fade 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
         "pulse-dot": "pulse-dot 2s infinite",
         marquee: "marquee 60s linear infinite",
+        "neon-sweep": "neon-sweep 4.5s ease-in-out infinite",
       },
     },
   },
