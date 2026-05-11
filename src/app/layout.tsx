@@ -23,7 +23,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Sara Córdoba · Sistema",
   description:
-    "Estudio independiente en Barcelona. Diseño, dirección creativa y sistemas visuales para marcas con algo verdadero que decir.",
+    "Freelance en Barcelona. Diseño, dirección creativa y sistemas visuales para marcas con algo verdadero que decir.",
 };
 
 export const viewport: Viewport = {

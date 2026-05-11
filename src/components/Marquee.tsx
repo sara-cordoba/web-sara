@@ -5,7 +5,7 @@ const ITEMS: { text: string; accent?: string }[] = [
   { text: "Web · UI/UX · Branding" },
   { text: "Disponible", accent: "Q3 2026" },
   { text: "Vídeo · Motion · Color" },
-  { text: "Estudio independiente ·", accent: "Barcelona" },
+  { text: "Freelance ·", accent: "Barcelona" },
   { text: "Conversación honesta", accent: "→" },
   { text: "Sistemas que tu equipo puede mantener" },
   { text: "Respuesta en", accent: "< 48h" },

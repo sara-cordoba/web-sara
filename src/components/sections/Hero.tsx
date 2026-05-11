@@ -6,7 +6,7 @@ export default function Hero() {
     <Section className="!pt-20 !pb-[60px]">
       <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-12 lg:gap-20 items-start">
         <div>
-          <Eyebrow>Estudio independiente · Barcelona</Eyebrow>
+          <Eyebrow>Freelance · Barcelona</Eyebrow>
           <H1>
             No es <span className="v3-strike">solo</span> contenido.
             <br />
