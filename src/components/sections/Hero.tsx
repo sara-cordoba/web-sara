@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Section, Eyebrow, H1, CtaButton, GhostButton } from "../ui";
 
 export default function Hero() {
@@ -43,14 +42,13 @@ export default function Hero() {
             background: "linear-gradient(160deg, #18342a, #0d3b2e)",
           }}
         >
-          <Image
-            src="/img/sara.png"
-            alt="Sara Córdoba"
-            fill
-            sizes="(max-width: 1000px) 100vw, 380px"
-            quality={95}
-            className="object-cover"
-            priority
+          <video
+            src="/img/showreel.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
           />
           <div
             className="absolute left-4 right-4 bottom-4 z-[3] py-[14px] px-4 rounded-[12px] border border-border"
