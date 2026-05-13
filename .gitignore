@@ -35,3 +35,9 @@ dev.log
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Vídeo máster (source de encoding, no se sirve)
+public/img/showreel.mp4
+
+# Locks internos del agente
+.claude/
