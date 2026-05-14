@@ -38,6 +38,8 @@ next-env.d.ts
 
 # Vídeo máster (source de encoding, no se sirve)
 public/img/showreel.mp4
+public/img/reel-titulos.mp4
+public/img/reel-disenos.mp4
 
 # Locks internos del agente
 .claude/
