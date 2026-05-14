@@ -25,7 +25,7 @@ export default function Works({
         {WORKS.map((w, i) => (
           <div
             key={i}
-            className="group relative aspect-square rounded-[14px] overflow-hidden border border-border bg-surface cursor-pointer transition-all duration-[350ms] ease-smooth hover:-translate-y-1 hover:border-border-strong hover:shadow-glow-edge"
+            className="group relative aspect-square rounded-[14px] overflow-hidden border border-border bg-surface cursor-pointer transition-all duration-[350ms] ease-smooth hover:-translate-y-1 hover:border-border-strong shadow-[0_0_50px_-15px_rgba(163,217,119,0.12)] hover:shadow-[0_0_70px_-10px_rgba(163,217,119,0.25)]"
           >
             {w.placeholder ? (
               <div
@@ -55,19 +55,21 @@ export default function Works({
               </div>
             )}
             <div
-              className="absolute left-0 right-0 bottom-0 p-[18px] opacity-0 translate-y-2 transition-all duration-[350ms] group-hover:opacity-100 group-hover:translate-y-0"
+              className="absolute left-0 right-0 bottom-0 p-[18px]"
               style={{
                 background:
                   "linear-gradient(180deg, transparent, rgba(0,0,0,0.85))",
               }}
             >
-              <div className="font-mono text-[10px] tracking-[0.12em] text-lime uppercase mb-1">
-                {w.year}
+              <div className="inline-flex items-center self-start px-2.5 py-1 rounded-md bg-black/70 backdrop-blur-sm border border-lime/20 mb-2">
+                <span className="font-mono text-[10px] text-lime tracking-[0.15em] uppercase">
+                  {w.year}
+                </span>
               </div>
               <div className="text-text text-[16px] font-semibold tracking-[-0.01em]">
                 {w.title}
               </div>
-              <div className="text-text-muted text-[12px] mt-[2px]">
+              <div className="text-text-soft text-[12px] mt-[2px]">
                 {w.type}
               </div>
             </div>

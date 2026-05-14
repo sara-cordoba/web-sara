@@ -1,39 +1,101 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, type Variants } from "framer-motion";
-import { Eyebrow, H1, CtaButton, GhostButton } from "@/components/ui";
+import { motion } from "framer-motion";
 import MarqueeClients from "@/components/MarqueeClients";
 
-const containerVariants: Variants = {
-  hidden: { opacity: 1 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.12, delayChildren: 0.25 },
-  },
+// Ajuste visual de cada vídeo dentro de su tile.
+// scale = zoom (1 = sin zoom). translateX positivo mueve el contenido visible hacia la IZQUIERDA del vídeo
+// (porque desplaza el frame del vídeo hacia la derecha dentro del tile).
+// Modificar estos valores para encuadrar mejor el contenido sin re-editar el reel.
+const VIDEO_1_TRANSFORM = "scale(2) translateX(0%)";  // capa de títulos — zoom + encuadre izquierdo
+const VIDEO_2_TRANSFORM = "scale(1)";                 // capa de diseños — zoom centrado
+
+type VideoTileProps = {
+  webmSrc?: string;
+  mp4Src: string;
+  mobileMp4Src?: string;
+  posterSrc?: string;
+  isMobile: boolean;
+  reducedMotion: boolean;
+  ariaLabel: string;
+  className?: string;
+  videoTransform?: string;
 };
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 18 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
-  },
-};
+function VideoTile({
+  webmSrc,
+  mp4Src,
+  mobileMp4Src,
+  posterSrc,
+  isMobile,
+  reducedMotion,
+  ariaLabel,
+  className = "",
+  videoTransform,
+}: VideoTileProps) {
+  const tileClasses = `relative aspect-square w-full md:w-auto overflow-hidden rounded-[10px] bg-black ${className}`;
+  const activeMp4 = isMobile && mobileMp4Src ? mobileMp4Src : mp4Src;
+
+  if (reducedMotion && posterSrc) {
+    return (
+      <div
+        className={tileClasses}
+        style={{
+          backgroundImage: `url(${posterSrc})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          transform: videoTransform,
+        }}
+        role="img"
+        aria-label={ariaLabel}
+      />
+    );
+  }
+
+  return (
+    <motion.video
+      key={isMobile ? `${ariaLabel}-mobile` : `${ariaLabel}-desktop`}
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="metadata"
+      poster={posterSrc}
+      aria-label={ariaLabel}
+      className={`${tileClasses} object-cover`}
+      style={{ transform: videoTransform }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1.2, ease: "easeOut" }}
+    >
+      {webmSrc && <source src={webmSrc} type="video/webm" />}
+      <source src={activeMp4} type="video/mp4" />
+    </motion.video>
+  );
+}
 
 export interface HeroProps {
-  videoWebmSrc?: string;
-  videoMp4Src?: string;
-  videoMobileMp4Src?: string;
-  posterSrc?: string;
+  video1WebmSrc?: string;
+  video1Mp4Src?: string;
+  video1MobileMp4Src?: string;
+  video1PosterSrc?: string;
+  video2WebmSrc?: string;
+  video2Mp4Src?: string;
+  video2MobileMp4Src?: string;
+  video2PosterSrc?: string;
 }
 
 export default function Hero({
-  videoWebmSrc = "/img/showreel.webm",
-  videoMp4Src = "/img/showreel-1080.mp4",
-  videoMobileMp4Src = "/img/showreel-mobile.mp4",
-  posterSrc = "/img/showreel-poster.jpg",
+  video1WebmSrc = "/img/reel-titulos.webm",
+  video1Mp4Src = "/img/reel-titulos-720.mp4",
+  video1MobileMp4Src = "/img/reel-titulos-mobile.mp4",
+  video1PosterSrc = "/img/reel-titulos-poster.jpg",
+  video2WebmSrc = "/img/reel-disenos.webm",
+  video2Mp4Src = "/img/reel-disenos-720.mp4",
+  video2MobileMp4Src = "/img/reel-disenos-mobile.mp4",
+  video2PosterSrc = "/img/reel-disenos-poster.jpg",
 }: HeroProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -58,42 +120,41 @@ export default function Hero({
   }, []);
 
   return (
-    <section aria-label="Inicio" className="relative w-full bg-bg">
-      {/* 1. Bloque vídeo */}
-      <div className="relative w-full h-[60vh] max-h-[680px] min-h-[420px] bg-bg-deep overflow-hidden">
-        {reducedMotion ? (
-          <div
-            className="absolute inset-0 w-full h-full"
-            style={{
-              backgroundImage: `url(${posterSrc})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-            aria-hidden="true"
+    <section aria-label="Inicio" className="relative w-full bg-black -mt-[90px] pt-[90px]">
+      {/* 1. Bloque vídeo — dos tiles 16:9 flotantes lado a lado */}
+      <div className="relative w-full bg-black overflow-hidden">
+        <div
+          className="
+            flex flex-col items-center justify-center gap-4 px-6 py-6
+            md:flex-row md:gap-6 md:px-[60px] md:py-[30px]
+            md:h-[min(75vh,720px)] md:min-h-[460px]
+          "
+        >
+          <VideoTile
+            webmSrc={video1WebmSrc}
+            mp4Src={video1Mp4Src}
+            mobileMp4Src={video1MobileMp4Src}
+            posterSrc={video1PosterSrc}
+            isMobile={isMobile}
+            reducedMotion={reducedMotion}
+            ariaLabel="Reel — capa de títulos"
+            className="md:h-full md:aspect-auto md:flex-[2]"
+            videoTransform={VIDEO_1_TRANSFORM}
           />
-        ) : (
-          <motion.video
-            key={isMobile ? "mobile" : "desktop"}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            poster={posterSrc}
-            className="absolute inset-0 w-full h-full object-cover"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-          >
-            <source src={videoWebmSrc} type="video/webm" />
-            <source
-              src={isMobile ? videoMobileMp4Src : videoMp4Src}
-              type="video/mp4"
-            />
-          </motion.video>
-        )}
+          <VideoTile
+            webmSrc={video2WebmSrc}
+            mp4Src={video2Mp4Src}
+            mobileMp4Src={video2MobileMp4Src}
+            posterSrc={video2PosterSrc}
+            isMobile={isMobile}
+            reducedMotion={reducedMotion}
+            ariaLabel="Reel — capa de diseños"
+            className="md:h-full md:aspect-auto md:flex-[3]"
+            videoTransform={VIDEO_2_TRANSFORM}
+          />
+        </div>
 
-        {/* Overlays editoriales */}
+        {/* Overlays editoriales — sobre el contenedor exterior, no sobre los tiles */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -106,15 +167,13 @@ export default function Hero({
             />
             <span>REC</span>
           </div>
-
           <div className="absolute top-4 right-4 lg:top-6 lg:right-6 font-mono text-[10px] tracking-wider text-lime/85 z-10 pointer-events-none">
             LOOP · 01:10
           </div>
-
           <div className="absolute bottom-4 right-4 lg:bottom-6 lg:right-6 font-mono text-[10px] tracking-wider text-right text-text-soft/60 leading-relaxed z-10 pointer-events-none">
-            <div>9 PROYECTOS</div>
+            <div>SC</div>
             <div className="text-lime/60 mt-0.5">
-              DISEÑO · CONTENIDO · DIRECCIÓN
+              DISEÑO · CONTENIDO · DESARROLLO
             </div>
           </div>
         </motion.div>
@@ -122,58 +181,6 @@ export default function Hero({
 
       {/* 2. MarqueeClients */}
       <MarqueeClients />
-
-      {/* 3. Bloque héroe */}
-      <div className="relative max-w-page mx-auto px-6 sm:px-10 lg:px-16 py-[60px] lg:py-[80px]">
-        <motion.div
-          className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-8 lg:gap-16 items-end"
-          variants={containerVariants}
-          initial="hidden"
-          animate="show"
-        >
-          <motion.div
-            variants={itemVariants}
-            className="mb-5 lg:col-start-1 lg:row-start-1"
-          >
-            <Eyebrow>Freelance · Barcelona</Eyebrow>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            className="lg:col-start-1 lg:row-start-2"
-          >
-            <H1>
-              No es <span className="v3-strike">solo</span> contenido. Es
-              contenido que <span className="text-lime">conecta</span>.
-            </H1>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-wrap gap-3 mt-7 lg:col-start-1 lg:row-start-3"
-          >
-            <CtaButton href="/contacto">¡Hablemos!</CtaButton>
-            <GhostButton href="/trabajos">Ver trabajos</GhostButton>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            className="lg:pb-1 max-w-md lg:col-start-2 lg:row-start-1 lg:row-span-3"
-          >
-            <p
-              className="text-text-soft leading-relaxed"
-              style={{ fontSize: "clamp(15px, 1.2vw, 17px)", lineHeight: 1.65 }}
-            >
-              Si estás aquí es porque algo en tu marca no termina de encajar. La
-              web no convence, el contenido no conecta, o simplemente no sabes
-              por dónde empezar.{" "}
-              <strong className="text-text font-semibold">
-                Yo me encargo de eso.
-              </strong>
-            </p>
-          </motion.div>
-        </motion.div>
-      </div>
     </section>
   );
 }

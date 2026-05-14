@@ -14,15 +14,15 @@ export const SOLUTIONS = [
     title: "Contenido & Comunicación",
     sub: "Redes · Copy · Mensaje",
     items: [
-      "Estrategia y producción para Instagram, TikTok y LinkedIn",
+      "Estrategia y producción para Instagram, TikTok, LinkedIn y YouTube",
       "Copys que conectan y posicionan",
       "Mensaje y storytelling",
     ],
   },
   {
     icon: "03",
-    title: "Vídeo & Motion",
-    sub: "Audiovisual de marca",
+    title: "Edición de vídeos",
+    sub: "Edición · Narrativa · Motion",
     items: [
       "CapCut · Motion graphics",
       "Color, ritmo y narrativa cuidados",
@@ -32,11 +32,11 @@ export const SOLUTIONS = [
   {
     icon: "04",
     title: "Dirección creativa",
-    sub: "COO · CMO · Project lead",
+    sub: "Gestión del proyecto",
     items: [
-      "Coordinación de creativos, devs y partners",
-      "Briefs, roadmap y entregables claros",
-      "Que todo llegue a tiempo y sin perder el alma",
+      "Coordino a todo el equipo: diseño, desarrollo, contenido",
+      "Marco objetivos, plazos y entregas",
+      "Tú no gestionas, tú decides",
     ],
   },
 ];

@@ -1,38 +1,65 @@
 import { Section, Eyebrow, H2 } from "../ui";
-import { STEPS } from "@/data/v3";
+
+const STEPS = [
+  {
+    n: "01",
+    title: "Diagnóstico",
+    body: (
+      <>
+        Hablamos sin compromiso. Te escucho, entiendo qué quieres conseguir y
+        por qué ahora.{" "}
+        <strong className="text-text font-semibold">
+          No vendo nada que no necesites.
+        </strong>
+      </>
+    ),
+  },
+  {
+    n: "02",
+    title: "Propuesta",
+    body: (
+      <>
+        Te mando una propuesta clara:{" "}
+        <strong className="text-text font-semibold">
+          qué hago, cuándo lo entrego, cuánto cuesta y qué vas a conseguir
+        </strong>
+        . Sin sorpresas.
+      </>
+    ),
+  },
+  {
+    n: "03",
+    title: "Ejecución",
+    body: (
+      <>
+        Me pongo manos a la obra. Tú revisas en puntos clave, yo me ocupo del
+        resto.{" "}
+        <strong className="text-text font-semibold">
+          Sin emails de relleno, sin retrasos por mi parte.
+        </strong>
+      </>
+    ),
+  },
+];
 
 export default function Process() {
   return (
     <Section>
       <Eyebrow>Cómo funciono</Eyebrow>
-      <H2>
-        De la conversación al impacto
-        <br />
-        en <span className="text-lime">tres pasos</span>.
-      </H2>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-[14px] mt-[60px]">
+      <H2>Cómo trabajo contigo.</H2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12">
         {STEPS.map((s, i) => (
           <div
             key={i}
-            className="relative rounded-[18px] p-7 border border-border transition-all duration-[350ms] ease-smooth hover:-translate-y-[3px] hover:border-border-strong hover:shadow-glow-edge"
-            style={{
-              background: "linear-gradient(180deg, #122821, #0f1f1a)",
-            }}
+            className="group relative bg-[#0c0c0c] border-l-2 border-l-lime border-y border-r border-y-lime/10 border-r-lime/10 rounded-r-xl px-6 py-7 transition-all duration-300 hover:border-l-[3px] hover:bg-[#141414] hover:pl-[25px]"
           >
-            <div className="font-mono text-[11px] tracking-[0.08em] text-text-muted mb-[14px] font-medium">
-              <span
-                className="text-lime font-semibold mr-[6px] px-2 py-1 rounded-md"
-                style={{ background: "rgba(163, 217, 119, 0.10)" }}
-              >
-                {s.n}
-              </span>
+            <div className="font-mono text-xs text-lime/80 tracking-[0.15em] mb-4">
+              {s.n}
             </div>
-            <h4 className="font-display font-semibold text-[18px] tracking-[-0.01em] text-text m-0 mb-[10px]">
+            <h3 className="text-text text-lg font-medium mb-2 leading-tight">
               {s.title}
-            </h4>
-            <p className="text-[13px] text-text-soft leading-[1.55] m-0">
-              {s.body}
-            </p>
+            </h3>
+            <p className="text-text-soft text-sm leading-relaxed">{s.body}</p>
           </div>
         ))}
       </div>

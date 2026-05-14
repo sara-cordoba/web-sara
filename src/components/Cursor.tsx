@@ -12,6 +12,7 @@ export default function Cursor() {
   useEffect(() => {
     if (window.matchMedia("(pointer: coarse)").matches) return;
     setMounted(true);
+    document.documentElement.classList.add("cursor-custom-active");
 
     const onMove = (e: MouseEvent) => {
       if (ref.current) {
@@ -46,6 +47,7 @@ export default function Cursor() {
       document.documentElement.removeEventListener("mouseenter", show);
       window.removeEventListener("blur", hide);
       window.removeEventListener("focus", show);
+      document.documentElement.classList.remove("cursor-custom-active");
     };
   }, []);
 

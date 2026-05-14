@@ -15,8 +15,8 @@ export default function Contact() {
         con un <span className="text-lime">chocolate</span>?
       </H2>
       <Lede>
-        Cuéntame en qué estás trabajando. Respondo en menos de 48 horas — sin
-        formularios automáticos, sin plantillas.
+        Cuéntame en qué estás trabajando. Sin formularios automáticos, sin
+        plantillas.
       </Lede>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-[60px] items-center">
         <div className="flex flex-col">

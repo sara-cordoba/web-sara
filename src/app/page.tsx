@@ -1,4 +1,5 @@
 import Hero from "@/components/sections/Hero";
+import Statement from "@/components/sections/Statement";
 import Solution from "@/components/sections/Solution";
 import Process from "@/components/sections/Process";
 import About from "@/components/sections/About";
@@ -10,6 +11,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <Statement />
       <Solution />
       <Process />
       <Works />

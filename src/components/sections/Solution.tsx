@@ -10,46 +10,33 @@ type Props = {
 export default function Solution({
   eyebrow = "Servicios",
   heading,
-  lede = "No vendo piezas sueltas. Construyo el sistema completo: marca, web, contenido, vídeo y dirección.",
+  lede = "Marca, web, contenido, vídeo y dirección.",
 }: Props) {
   return (
     <Section>
       <Eyebrow>{eyebrow}</Eyebrow>
-      <H2>{heading ?? "Lo que hago"}</H2>
+      <H2>{heading ?? "Lo que hago."}</H2>
       <Lede>{lede}</Lede>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-[60px]">
+      <div className="bg-[#0c0c0c] border border-lime/15 rounded-2xl p-2 lg:p-4 mt-12">
         {SOLUTIONS.map((s, i) => (
           <div
             key={i}
-            className="relative overflow-hidden rounded-[16px] p-6 border border-border-strong shadow-glow-soft cursor-pointer transition-all duration-[350ms] ease-smooth hover:-translate-y-1 hover:shadow-glow-edge"
-            style={{
-              background: "linear-gradient(180deg, #122821, #0f1f1a)",
-            }}
+            className="group flex items-center gap-5 lg:gap-6 px-4 lg:px-6 py-4 lg:py-5 border-b border-lime/10 last:border-b-0 border-dashed transition-all duration-300 hover:bg-lime/[0.04] hover:px-5 lg:hover:px-7 cursor-default"
           >
-            <div
-              className="grid place-items-center w-10 h-10 rounded-[10px] text-green mb-4 font-bold text-[14px]"
-              style={{
-                background: "linear-gradient(135deg, #a3d977, #6fa44a)",
-              }}
-            >
+            <div className="font-mono text-2xl lg:text-3xl text-lime font-medium min-w-[38px] tabular-nums">
               {s.icon}
             </div>
-            <h3 className="font-display font-semibold text-[18px] tracking-[-0.015em] m-0 mb-1 text-text">
-              {s.title}
-            </h3>
-            <div className="text-text-muted text-[11px] mb-4 font-mono tracking-[0.04em]">
-              {s.sub}
+            <div className="flex-1 min-w-0">
+              <h3 className="text-text text-lg lg:text-xl font-medium mb-1.5 leading-tight">
+                {s.title}
+              </h3>
+              <div className="font-mono text-[10px] text-text-soft/50 tracking-[0.15em] uppercase mb-3">
+                {s.sub}
+              </div>
+              <p className="text-text-soft/65 text-sm leading-relaxed">
+                {s.items.join(" · ")}
+              </p>
             </div>
-            <ul className="v3-solution-list flex flex-col gap-1 p-0 m-0 list-none">
-              {s.items.map((it, j) => (
-                <li
-                  key={j}
-                  className="text-[13px] text-text-soft py-[6px] border-t border-dashed border-border first:border-t-0 first:pt-0 flex items-center gap-[10px]"
-                >
-                  {it}
-                </li>
-              ))}
-            </ul>
           </div>
         ))}
       </div>

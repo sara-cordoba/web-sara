@@ -7,8 +7,8 @@ const CLIENTS = [
 ] as const;
 
 export default function MarqueeClients() {
-  // Duplicamos el array para que el bucle se vea continuo cuando la animación llega a -50%
-  const items = [...CLIENTS, ...CLIENTS];
+  // Repetimos lo suficiente para cubrir viewports anchos sin huecos cuando la animación llega a -50%
+  const items = Array.from({ length: 6 }, () => CLIENTS).flat();
 
   return (
     <div

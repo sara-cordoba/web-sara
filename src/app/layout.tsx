@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import Background from "@/components/Background";
-import Particles from "@/components/Particles";
+import DotGrid from "@/components/DotGrid";
 import Navbar from "@/components/Navbar";
 import Cursor from "@/components/Cursor";
 import "./globals.css";
@@ -21,7 +21,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sara Córdoba · Sistema",
+  title: "Freelance",
   description:
     "Freelance en Barcelona. Diseño, dirección creativa y sistemas visuales para marcas con algo verdadero que decir.",
 };
@@ -39,10 +39,10 @@ export default function RootLayout({
       lang="es"
       className={`${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="antialiased">
+      <body className="antialiased bg-bg">
         <Cursor />
         <Background />
-        <Particles density={45} speed={1} color="#a3d977" />
+        <DotGrid />
         <Navbar />
         <div className="relative z-[5] pt-[90px] animate-page-fade">
           {children}

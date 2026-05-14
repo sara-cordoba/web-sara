@@ -6,8 +6,6 @@ import clsx from "clsx";
 
 const PAGES = [
   { href: "/", label: "Inicio" },
-  { href: "/servicios", label: "Servicios" },
-  { href: "/trabajos", label: "Trabajos" },
   { href: "/contacto", label: "Contacto" },
 ];
 
