@@ -31,13 +31,7 @@ body {
 
 @media (pointer: fine) {
   html.cursor-custom-active,
-  html.cursor-custom-active body,
-  html.cursor-custom-active a,
-  html.cursor-custom-active button,
-  html.cursor-custom-active input,
-  html.cursor-custom-active textarea,
-  html.cursor-custom-active select,
-  html.cursor-custom-active [role="button"] {
+  html.cursor-custom-active * {
     cursor: none !important;
   }
 }

@@ -25,7 +25,7 @@ export default function Works({
         {WORKS.map((w, i) => (
           <div
             key={i}
-            className="group relative aspect-square rounded-[14px] overflow-hidden border border-border bg-surface cursor-pointer transition-all duration-[350ms] ease-smooth hover:-translate-y-1 hover:border-border-strong shadow-[0_0_50px_-15px_rgba(163,217,119,0.12)] hover:shadow-[0_0_70px_-10px_rgba(163,217,119,0.25)]"
+            className="group relative aspect-square rounded-[14px] overflow-hidden border border-border bg-surface transition-all duration-[350ms] ease-smooth hover:-translate-y-1 hover:border-border-strong shadow-[0_0_50px_-15px_rgba(163,217,119,0.12)] hover:shadow-[0_0_70px_-10px_rgba(163,217,119,0.25)]"
           >
             {w.placeholder ? (
               <div
