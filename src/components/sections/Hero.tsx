@@ -34,7 +34,7 @@ function VideoTile({
   className = "",
   videoTransform,
 }: VideoTileProps) {
-  const tileClasses = `relative aspect-square w-full md:w-auto overflow-hidden rounded-[10px] bg-black ${className}`;
+  const tileClasses = `relative aspect-square w-full max-h-[40vh] md:max-h-none md:w-auto overflow-hidden rounded-[10px] bg-black ${className}`;
   const activeMp4 = isMobile && mobileMp4Src ? mobileMp4Src : mp4Src;
 
   if (reducedMotion && posterSrc) {

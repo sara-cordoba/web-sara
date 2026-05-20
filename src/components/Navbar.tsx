@@ -14,7 +14,7 @@ export default function Navbar() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-[150] flex items-center justify-between px-8 py-[18px] border-b border-border md:px-5 md:py-[14px]"
+      className="fixed top-0 left-0 right-0 z-[150] flex items-center justify-between px-5 py-[14px] border-b border-border md:px-5 md:py-[14px]"
       style={{
         backdropFilter: "blur(14px) saturate(140%)",
         WebkitBackdropFilter: "blur(14px) saturate(140%)",

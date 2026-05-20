@@ -12,7 +12,7 @@ export function Section({
   return (
     <section
       className={clsx(
-        "relative max-w-page mx-auto px-6 sm:px-10 lg:px-16 py-[100px] md:py-[70px]",
+        "relative max-w-page mx-auto px-6 sm:px-10 lg:px-16 py-[64px] md:py-[90px]",
         className
       )}
     >

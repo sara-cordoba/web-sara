@@ -3,7 +3,7 @@ import { Section, CtaButton } from "../ui";
 export default function Banner() {
   return (
     <Section>
-      <div className="relative bg-[#0a0a0a] border-2 border-lime/40 rounded-3xl px-8 lg:px-16 py-14 lg:py-20 overflow-hidden mt-12 text-center animate-banner-pulse">
+      <div className="relative bg-[#0a0a0a] border-2 border-lime/40 rounded-3xl px-6 lg:px-16 py-12 lg:py-20 overflow-hidden mt-12 text-center animate-banner-pulse">
         <div
           className="absolute inset-0 bg-gradient-to-br from-lime/[0.06] via-transparent to-lime/[0.02] pointer-events-none"
           aria-hidden
