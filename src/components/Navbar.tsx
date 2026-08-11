@@ -35,7 +35,7 @@ export default function Navbar() {
             Sara Córdoba
           </b>
           <span className="text-[11px] text-text-muted tracking-[0.02em] mt-[2px] hidden md:inline">
-            Freelance · Barcelona
+            Desarrollo web · Branding
           </span>
         </div>
       </Link>

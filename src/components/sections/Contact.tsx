@@ -32,7 +32,7 @@ export default function Contact() {
             <span className="text-text-muted font-mono text-[11px] tracking-[0.08em] uppercase">
               Base
             </span>
-            <span className="text-text">Barcelona, ES</span>
+            <span className="text-text">España · Remoto</span>
           </div>
           <div className="grid grid-cols-[120px_1fr] items-center py-[18px] border-t border-b border-border text-[14px]">
             <span className="text-text-muted font-mono text-[11px] tracking-[0.08em] uppercase">

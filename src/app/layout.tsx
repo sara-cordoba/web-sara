@@ -21,9 +21,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Freelance",
+  title: "Sara Córdoba · Desarrollo web y branding",
   description:
-    "Freelance en Barcelona. Diseño, dirección creativa y sistemas visuales para marcas con algo verdadero que decir.",
+    "Desarrollo web y branding en remoto desde España. Diseño, dirección creativa y sistemas visuales para marcas con algo verdadero que decir.",
 };
 
 export const viewport: Viewport = {

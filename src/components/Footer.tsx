@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr] gap-10 pt-10 pb-8">
         <div>
           <h5 className="font-mono text-[11px] tracking-[0.08em] uppercase text-text mb-[14px] font-medium">
-            Sara Córdoba · Freelance
+            Sara Córdoba
           </h5>
           <p className="m-0 text-text-soft max-w-[360px]">
             Diseño con propósito para marcas que tienen algo verdadero que decir.
@@ -35,13 +35,13 @@ export default function Footer() {
           </h5>
           <ul className="p-0 m-0 list-none flex flex-col gap-2 text-text-soft">
             <li>scordobalazaro@gmail.com</li>
-            <li>Barcelona, ES</li>
+            <li>España · Remoto</li>
           </ul>
         </div>
       </div>
 
       <div className="border-t border-border pt-6 pb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div className="text-[12px] text-text-dim">© 2026 · Barcelona</div>
+        <div className="text-[12px] text-text-dim">© 2026 · España</div>
         <nav
           aria-label="Enlaces legales"
           className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-text-muted"

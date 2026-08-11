@@ -90,7 +90,7 @@ export default function Statement() {
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            <Eyebrow>Freelance · Barcelona</Eyebrow>
+            <Eyebrow>España · Remoto</Eyebrow>
           </motion.div>
 
           <H1>
