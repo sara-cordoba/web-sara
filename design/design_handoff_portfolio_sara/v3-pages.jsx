@@ -116,7 +116,7 @@ function HomeV3({ onCta }) {
       <section className="v3-section v3-hero">
         <div className="v3-hero-inner">
           <div>
-            <div className="v3-eyebrow">Estudio independiente · Barcelona</div>
+            <div className="v3-eyebrow">España · Remoto</div>
             <h1 className="v3-h1">
               No es un problema de <span className="strike">diseño</span>.<br/>
               Es un problema de <span className="accent">sistema</span>.
@@ -150,7 +150,7 @@ function HomeV3({ onCta }) {
             <img src="assets/sara.png" alt="Sara Córdoba" />
             <div className="v3-card-foot">
               <b>Sara Córdoba</b>
-              <span>Diseño & dirección · Barcelona</span>
+              <span>Diseño & dirección · Remoto</span>
             </div>
           </div>
         </div>
@@ -211,7 +211,7 @@ function HomeV3({ onCta }) {
               <span className="v3-mqs" />
               <span className="v3-mqi">Vídeo · Motion · Color</span>
               <span className="v3-mqs" />
-              <span className="v3-mqi">Estudio independiente · <span className="a">Barcelona</span></span>
+              <span className="v3-mqi">España · <span className="a">Remoto</span></span>
               <span className="v3-mqs" />
               <span className="v3-mqi">Conversación honesta <span className="a">→</span></span>
               <span className="v3-mqs" />
@@ -375,7 +375,7 @@ function HomeV3({ onCta }) {
           <p style={{margin: 0, color: 'var(--text-soft)', maxWidth: 360}}>
             Diseño con propósito para marcas que tienen algo verdadero que decir.
           </p>
-          <div className="v3-footer-copy">© 2026 · Barcelona</div>
+          <div className="v3-footer-copy">© 2026 · España</div>
         </div>
         <div>
           <h5>Navegación</h5>
@@ -390,7 +390,7 @@ function HomeV3({ onCta }) {
           <h5>Contacto</h5>
           <ul>
             <li>scordobalazaro@gmail.com</li>
-            <li>Barcelona, ES</li>
+            <li>España · Remoto</li>
             <li>Disponible Q3 2026</li>
           </ul>
         </div>
@@ -466,7 +466,7 @@ function ContactoV3() {
             </div>
             <div className="v3-contact-meta-item">
               <span className="label">Base</span>
-              <span className="val">Barcelona, ES</span>
+              <span className="val">España · Remoto</span>
             </div>
             <div className="v3-contact-meta-item">
               <span className="label">Disponibilidad</span>

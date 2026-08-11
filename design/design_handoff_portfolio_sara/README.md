@@ -1,7 +1,7 @@
 # Handoff: Portfolio Sara Córdoba
 
 ## Overview
-Portfolio web personal de Sara Córdoba — diseñadora & directora creativa con base en Barcelona. Es un site one-page (SPA con cuatro vistas: Inicio, Servicios, Trabajos, Contacto) que comunica un posicionamiento estratégico ("no es un problema de diseño, es un problema de sistema") y agrupa siete disciplinas en cuatro categorías de servicio.
+Portfolio web personal de Sara Córdoba — diseñadora & directora creativa en remoto desde España. Es un site one-page (SPA con cuatro vistas: Inicio, Servicios, Trabajos, Contacto) que comunica un posicionamiento estratégico ("no es un problema de diseño, es un problema de sistema") y agrupa siete disciplinas en cuatro categorías de servicio.
 
 Hay tres direcciones visuales en el bundle. Implementar la **v3** salvo indicación contraria — es la versión final aprobada (verde forest, partículas, franja en movimiento, calculadora interactiva).
 
@@ -98,7 +98,7 @@ Importar Google Fonts: `Space Grotesk:400,500,600,700` + `JetBrains Mono:400,500
 #### a) Hero
 - Grid 2 cols (1.4fr / 1fr), gap 60px, align center
 - **Izquierda**:
-  - Eyebrow: "Estudio independiente · Barcelona"
+  - Eyebrow: "España · Remoto"
   - H1: `No es un problema de [diseño-tachado]. Es un problema de [sistema-lime]`
     - Tachado: `::after` lime rotado -2deg sobre la palabra "diseño" en color text-muted
   - Lede: "No solo diseño webs ni edito vídeos. Antes de tocar nada, quiero conocerte y entender el propósito real de tu proyecto — para plasmarlo con honestidad y transmitirlo al máximo."
@@ -107,12 +107,12 @@ Importar Google Fonts: `Space Grotesk:400,500,600,700` + `JetBrains Mono:400,500
 - **Derecha**: card retrato 4/5 max-width 380px
   - `<img src="sara.png">` cover
   - Tag flotante top-left: "● EN ESTUDIO" (dot lime pulsante)
-  - Foot card bottom: "Sara Córdoba" + "Diseño & dirección · Barcelona"
+  - Foot card bottom: "Sara Córdoba" + "Diseño & dirección · Remoto"
 
 #### b) Marquee (entre hero y problema)
 - Banda 54px edge-to-edge, fondo verde gradient
 - Texto mono uppercase scroll continuo (60s loop), separadores con dot lime + glow
-- Items: "Diseño con propósito" · "Web · UI/UX · Branding" · "Disponible Q3 2026" · "Vídeo · Motion · Color" · "Estudio independiente · Barcelona" · "Conversación honesta →" · "Sistemas que tu equipo puede mantener" · "Respuesta en < 48h"
+- Items: "Diseño con propósito" · "Web · UI/UX · Branding" · "Disponible Q3 2026" · "Vídeo · Motion · Color" · "España · Remoto" · "Conversación honesta →" · "Sistemas que tu equipo puede mantener" · "Respuesta en < 48h"
 - Fade laterales 100px verde → transparent
 
 #### c) El problema (3 cards, grid 3 cols)
