@@ -3,9 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import { GALERIA } from "@/data/galeria";
 
 const PAGES = [
   { href: "/", label: "Inicio" },
+  // El enlace a la galería solo aparece cuando hay piezas que enseñar.
+  ...(GALERIA.length > 0 ? [{ href: "/trabajos", label: "Trabajos" }] : []),
   { href: "/contacto", label: "Contacto" },
 ];
 

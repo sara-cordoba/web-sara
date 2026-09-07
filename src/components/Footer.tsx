@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { GALERIA } from "@/data/galeria";
 
 export default function Footer() {
   return (
@@ -22,6 +23,16 @@ export default function Footer() {
                 Inicio
               </Link>
             </li>
+            {GALERIA.length > 0 && (
+              <li>
+                <Link
+                  href="/trabajos"
+                  className="text-text-soft hover:text-lime"
+                >
+                  Trabajos
+                </Link>
+              </li>
+            )}
             <li>
               <Link href="/contacto" className="text-text-soft hover:text-lime">
                 Contacto
