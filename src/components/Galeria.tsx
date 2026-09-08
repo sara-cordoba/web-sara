@@ -2,12 +2,24 @@
 
 import Image from "next/image";
 import { createPortal } from "react-dom";
-import { useCallback, useEffect, useState } from "react";
-import { CARPETA_GALERIA, type Pieza } from "@/data/galeria";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  CARPETA_GALERIA,
+  esVideo,
+  portadaDe,
+  type Pieza,
+} from "@/data/galeria";
 
 /* Las cuatro primeras se cargan enseguida porque son las que se ven al entrar.
    El resto se carga sola según se baja, para no penalizar la velocidad. */
 const CARGA_INMEDIATA = 4;
+
+const ruta = (archivo: string) => `${CARPETA_GALERIA}/${archivo}`;
+
+/* Por defecto la pieza llena la casilla y se recorta por los lados. Las que
+   se marcan como "completa" se ven enteras, con aire alrededor. */
+const encajeDe = (p: Pieza) =>
+  p.encaje === "completa" ? "object-contain" : "object-cover";
 
 export default function Galeria({ piezas }: { piezas: Pieza[] }) {
   const [abierta, setAbierta] = useState<number | null>(null);
@@ -61,15 +73,19 @@ export default function Galeria({ piezas }: { piezas: Pieza[] }) {
               className="group block w-full text-left cursor-pointer bg-transparent border-0 p-0"
             >
               <div className="relative aspect-square w-full overflow-hidden rounded-[12px] border border-border bg-surface transition-all duration-[350ms] ease-smooth group-hover:border-border-strong group-hover:-translate-y-0.5 group-focus-visible:border-lime">
-                <Image
-                  src={`${CARPETA_GALERIA}/${p.archivo}`}
-                  alt={p.alt || `${p.titulo} — ${p.cliente}`}
-                  fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  priority={i < CARGA_INMEDIATA}
-                  loading={i < CARGA_INMEDIATA ? undefined : "lazy"}
-                  className="object-cover transition-transform duration-[600ms] ease-smooth group-hover:scale-[1.04]"
-                />
+                {esVideo(p.archivo) ? (
+                  <VideoEnRejilla pieza={p} />
+                ) : (
+                  <Image
+                    src={ruta(p.archivo)}
+                    alt={p.alt || p.titulo}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    priority={i < CARGA_INMEDIATA}
+                    loading={i < CARGA_INMEDIATA ? undefined : "lazy"}
+                    className={`${encajeDe(p)} transition-transform duration-[600ms] ease-smooth group-hover:scale-[1.04]`}
+                  />
+                )}
                 <span
                   className="absolute inset-0 grid place-items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/45"
                   aria-hidden
@@ -84,7 +100,7 @@ export default function Galeria({ piezas }: { piezas: Pieza[] }) {
                   {p.titulo}
                 </div>
                 <div className="font-mono text-[10px] tracking-[0.1em] uppercase text-text-muted mt-1">
-                  {p.cliente} · {p.tipo}
+                  {p.tipo}
                 </div>
               </div>
             </button>
@@ -107,7 +123,7 @@ export default function Galeria({ piezas }: { piezas: Pieza[] }) {
               type="button"
               onClick={cerrar}
               aria-label="Cerrar"
-              className="absolute top-4 right-4 sm:top-6 sm:right-6 w-11 h-11 grid place-items-center rounded-full border border-border-strong text-text text-xl bg-black/60 hover:border-lime hover:text-lime transition-colors cursor-pointer"
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 w-11 h-11 grid place-items-center rounded-full border border-border-strong text-text text-xl bg-black/60 hover:border-lime hover:text-lime transition-colors cursor-pointer z-10"
             >
               ✕
             </button>
@@ -135,14 +151,18 @@ export default function Galeria({ piezas }: { piezas: Pieza[] }) {
               onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-[1100px] h-[64vh] sm:h-[72vh]"
             >
-              <Image
-                src={`${CARPETA_GALERIA}/${pieza.archivo}`}
-                alt={pieza.alt || `${pieza.titulo} — ${pieza.cliente}`}
-                fill
-                sizes="(max-width: 640px) 92vw, 1100px"
-                quality={92}
-                className="object-contain"
-              />
+              {esVideo(pieza.archivo) ? (
+                <VideoAmpliado pieza={pieza} />
+              ) : (
+                <Image
+                  src={ruta(pieza.archivo)}
+                  alt={pieza.alt || pieza.titulo}
+                  fill
+                  sizes="(max-width: 640px) 92vw, 1100px"
+                  quality={92}
+                  className="object-contain"
+                />
+              )}
             </div>
 
             <div
@@ -153,7 +173,7 @@ export default function Galeria({ piezas }: { piezas: Pieza[] }) {
                 {pieza.titulo}
               </div>
               <div className="font-mono text-[11px] tracking-[0.12em] uppercase text-text-muted mt-1.5">
-                {pieza.cliente} · {pieza.tipo}
+                {pieza.tipo}
               </div>
               {piezas.length > 1 && (
                 <div className="font-mono text-[11px] text-text-dim mt-3 tabular-nums">
@@ -165,6 +185,81 @@ export default function Galeria({ piezas }: { piezas: Pieza[] }) {
           document.body,
         )}
     </>
+  );
+}
+
+/* En la rejilla los vídeos van mudos y en bucle, y solo se reproducen mientras
+   se ven en pantalla: así no se descargan todos a la vez ni se calienta el
+   móvil con los que están fuera de cuadro. Hasta que arrancan se ve la imagen
+   de portada. */
+function VideoEnRejilla({ pieza }: { pieza: Pieza }) {
+  const ref = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+
+    // Quien pide menos animación no recibe vídeo en movimiento: se queda la portada.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const observador = new IntersectionObserver(
+      ([entrada]) => {
+        if (entrada.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.25 },
+    );
+    observador.observe(video);
+    return () => observador.disconnect();
+  }, []);
+
+  return (
+    <video
+      ref={ref}
+      muted
+      loop
+      playsInline
+      preload="none"
+      poster={ruta(portadaDe(pieza.archivo))}
+      aria-label={pieza.alt || pieza.titulo}
+      className={`absolute inset-0 w-full h-full ${encajeDe(pieza)} transition-transform duration-[600ms] ease-smooth group-hover:scale-[1.04]`}
+    >
+      <source src={ruta(pieza.archivo)} type="video/mp4" />
+    </video>
+  );
+}
+
+/* Ampliado sí lleva sonido y controles. Si el navegador no deja arrancar con
+   sonido, se reintenta en silencio para que al menos se vea. */
+function VideoAmpliado({ pieza }: { pieza: Pieza }) {
+  const ref = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+    video.play().catch(() => {
+      video.muted = true;
+      video.play().catch(() => {});
+    });
+  }, []);
+
+  return (
+    <video
+      key={pieza.archivo}
+      ref={ref}
+      controls
+      loop
+      playsInline
+      preload="auto"
+      poster={ruta(portadaDe(pieza.archivo))}
+      aria-label={pieza.alt || pieza.titulo}
+      className="absolute inset-0 w-full h-full object-contain"
+    >
+      <source src={ruta(pieza.archivo)} type="video/mp4" />
+    </video>
   );
 }
 

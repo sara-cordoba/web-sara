@@ -13,11 +13,14 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
+// La monoespaciada solo se usa en etiquetas pequeñas, así que se queda fuera
+// del camino crítico: no se precarga y no compite con el titular al abrir.
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-mono",
   display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {

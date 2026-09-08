@@ -21,8 +21,8 @@ export default function TrabajosPage() {
           Lo que sale de <span className="text-lime">aquí</span>.
         </H1>
         <Lede>
-          Carteles, identidades, piezas para redes y webs. Haz clic en
-          cualquiera para verla en grande.
+          Cartelería y piezas para redes. Haz clic en cualquiera para verla
+          en grande.
         </Lede>
 
         <div className="mt-12">
