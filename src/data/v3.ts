@@ -79,9 +79,11 @@ export const WORKS: Work[] = [
     title: "Ser Annora",
     year: "2026",
     type: "Web",
-    // TODO (Sara): no hay logo de Ser Annora en public/img. Mientras no lo
-    // haya, la ficha sale con el nombre sobre fondo de marca. Si dejas un
-    // archivo ahí, se pone en logo y ya está.
+    // El símbolo de Annora, en su marrón de marca sobre su crema. Va solo el
+    // símbolo y no el logo entero porque el hueco es de 54 px: con la palabra
+    // al lado, "Centro Holístico" queda en una mancha ilegible.
+    logo: "/img/annora.webp",
+    logoBg: "#f2ece3",
     necesitaba:
       "Una landing para promocionar su curso online de terapia.",
     hice: "La diseñé y desarrollé en WordPress con Elementor: estructura, organización del contenido, diseño responsive y experiencia de usuario.",
