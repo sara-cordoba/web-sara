@@ -67,6 +67,22 @@ export const GALERIA: Pieza[] = [
     tipo: "Cartelería",
     destacada: true,
   },
+  // Las dos webs en vivo. Son un recorrido grabado de la web real, no un
+  // montaje: se graban con scripts/grabar-web.mjs y se vuelven a grabar
+  // cuando la web cambie. Van con el nombre del cliente por título porque la
+  // pieza ES su web: aquí el cliente no es un dato aparte.
+  {
+    archivo: "web-ser-annora.mp4",
+    titulo: "Ser Annora",
+    tipo: "Web",
+    alt: "Recorrido por la web de Ser Annora, de arriba abajo",
+  },
+  {
+    archivo: "web-cronos.mp4",
+    titulo: "Cronos AI Consulting",
+    tipo: "Web",
+    alt: "Recorrido por la web de Cronos AI Consulting, de arriba abajo",
+  },
   {
     archivo: "post-redes.webp",
     titulo: "Post para redes",
