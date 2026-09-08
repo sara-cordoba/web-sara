@@ -1,13 +1,17 @@
 // Datos de contacto y envío de formularios.
 
 // ESTE ES EL ÚNICO SITIO DONDE SE ESCRIBE EL CORREO QUE SE ENSEÑA EN LA WEB.
-// Cambiarlo aquí lo cambia en las 7 páginas donde aparece.
+// Cambiarlo aquí lo cambia en las 7 páginas donde aparece: pie, contacto,
+// páginas legales y el enlace de repuesto de los tres formularios.
 //
-// OJO: este buzón todavía no existe. Está contratado el dominio pero no el
-// correo, así que hoy nadie lee lo que se mande ahí. Los avisos de los
-// formularios NO pasan por esta dirección: van al Gmail de Sara, configurado
-// en el panel de Netlify. Ver la sección "Formularios" del README.
-export const CONTACT_EMAIL = "sara@saracordoba.com";
+// PROVISIONAL: aquí debería ir sara@saracordoba.com, pero ese buzón todavía
+// no existe (hay dominio, no hay correo) y se ha aplazado hasta lanzar la
+// campaña en frío. Mientras tanto va el Gmail, que sí lee alguien: enseñar
+// una dirección que nadie atiende es peor que enseñar una menos bonita.
+//
+// El día que exista el buzón del dominio hay que cambiarlo AQUÍ y, aparte,
+// en el aviso por correo del panel de Netlify. Ver "Formularios" en el README.
+export const CONTACT_EMAIL = "scordobalazaro@gmail.com";
 
 // ---------------------------------------------------------------------------
 // Formularios
