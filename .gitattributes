@@ -1,0 +1,17 @@
+# Archivos binarios: que Git NO les toque los saltos de línea.
+#
+# Esto no es paranoia: el PDF del CV no contiene bytes nulos, así que Git lo
+# toma por un archivo de texto. Con core.autocrlf=true (lo normal en Windows),
+# al clonar el repositorio le cambiaría los saltos de línea y el PDF quedaría
+# corrupto en la copia de trabajo, sin avisar de nada.
+
+*.pdf   binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.webp  binary
+*.mp4   binary
+*.webm  binary
+*.woff  binary
+*.woff2 binary
+*.ico   binary
