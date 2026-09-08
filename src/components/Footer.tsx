@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { GALERIA } from "@/data/galeria";
 
-export default function Footer() {
+export default function Footer({
+  // El perfil profesional se enlaza solo desde el pie de la home: es para
+  // quien viene del CV o de LinkedIn, no para quien busca un servicio.
+  mostrarPerfil = false,
+}: {
+  mostrarPerfil?: boolean;
+}) {
   return (
     <footer className="mt-[64px] md:mt-[100px] border-t border-border px-6 md:px-8 max-w-page mx-auto text-[13px] text-text-muted">
       <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr] gap-10 pt-10 pb-8">
@@ -38,6 +44,13 @@ export default function Footer() {
                 Contacto
               </Link>
             </li>
+            {mostrarPerfil && (
+              <li>
+                <Link href="/perfil" className="text-text-soft hover:text-lime">
+                  Perfil profesional
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
         <div>

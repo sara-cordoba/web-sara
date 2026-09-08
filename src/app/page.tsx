@@ -17,7 +17,7 @@ export default function HomePage() {
       <Works />
       <About />
       <Banner />
-      <Footer />
+      <Footer mostrarPerfil />
     </>
   );
 }
