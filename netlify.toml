@@ -1,0 +1,13 @@
+# Configuración de Netlify.
+#
+# AQUÍ NO HAY SECCIÓN [build] A PROPÓSITO. La orden de construcción y la
+# carpeta de publicación siguen estando en el panel de Netlify, que es donde
+# estaban. Si se añaden aquí, mandan estas y se pisa lo del panel.
+
+# El CV se puede descargar desde /perfil, pero no queremos que Google lo
+# indexe y acabe saliendo suelto en las búsquedas.
+[[headers]]
+  for = "/CV_Sara_Cordoba_ES.pdf"
+
+  [headers.values]
+    X-Robots-Tag = "noindex"
