@@ -78,6 +78,13 @@ export default function Footer({
           aria-label="Enlaces legales"
           className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-text-muted"
         >
+          {/* Discreto y en el pie, no en el menú. */}
+          <Link
+            href="/recomienda"
+            className="hover:text-lime transition-colors"
+          >
+            Recomiéndame
+          </Link>
           <Link
             href="/aviso-legal"
             className="hover:text-lime transition-colors"
