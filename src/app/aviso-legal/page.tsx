@@ -1,4 +1,5 @@
 import LegalPage from "@/components/LegalPage";
+import { CONTACT_EMAIL } from "@/data/site";
 
 export const metadata = {
   title: "Aviso Legal · Sara Córdoba",
@@ -20,7 +21,7 @@ export default function AvisoLegalPage() {
           <strong>Titular:</strong> Sara Córdoba Lázaro
         </li>
         <li>
-          <strong>Email de contacto:</strong> scordobalazaro@gmail.com
+          <strong>Email de contacto:</strong> {CONTACT_EMAIL}
         </li>
       </ul>
 

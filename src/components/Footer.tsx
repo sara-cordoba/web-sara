@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { GALERIA } from "@/data/galeria";
+import { CONTACT_EMAIL } from "@/data/site";
 
 export default function Footer({
   // El perfil profesional se enlaza solo desde el pie de la home: es para
@@ -58,7 +59,14 @@ export default function Footer({
             Contacto
           </h5>
           <ul className="p-0 m-0 list-none flex flex-col gap-2 text-text-soft">
-            <li>scordobalazaro@gmail.com</li>
+            <li>
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="hover:text-lime transition-colors"
+              >
+                {CONTACT_EMAIL}
+              </a>
+            </li>
             <li>España · Remoto</li>
           </ul>
         </div>

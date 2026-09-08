@@ -1,4 +1,5 @@
 import LegalPage from "@/components/LegalPage";
+import { CONTACT_EMAIL } from "@/data/site";
 
 export const metadata = {
   title: "Política de Privacidad · Sara Córdoba",
@@ -26,7 +27,7 @@ export default function PrivacidadPage() {
           <strong>Titular:</strong> Sara Córdoba Lázaro
         </li>
         <li>
-          <strong>Email:</strong> scordobalazaro@gmail.com
+          <strong>Email:</strong> {CONTACT_EMAIL}
         </li>
       </ul>
 
@@ -109,7 +110,7 @@ export default function PrivacidadPage() {
       </ul>
       <p>
         Para ejercer estos derechos, el usuario puede enviar un email a
-        scordobalazaro@gmail.com adjuntando una copia de su documento de
+        {CONTACT_EMAIL} adjuntando una copia de su documento de
         identidad.
       </p>
 

@@ -2,8 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-
-const SARA_EMAIL = "scordobalazaro@gmail.com";
+import { CONTACT_EMAIL, FORM_ENABLED, FORM_ENDPOINT } from "@/data/site";
 
 const NEEDS_OPTIONS = [
   "Diseño & producto",
@@ -34,6 +33,8 @@ const BUDGET_OPTIONS = [
   "Prefiero hablarlo",
 ];
 
+type Status = "idle" | "submitting" | "success" | "error";
+
 export default function ContactForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -45,6 +46,7 @@ export default function ContactForm() {
   const [budget, setBudget] = useState("");
   const [message, setMessage] = useState("");
   const [consent, setConsent] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
 
   const toggleNeed = (value: string) => {
     setNeeds((prev) =>
@@ -54,40 +56,64 @@ export default function ContactForm() {
     );
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (!consent || status === "submitting") return;
 
-    const body = `Hola Sara,
+    // Sin buzón configurado no se envía nada, y se dice.
+    if (!FORM_ENABLED) {
+      setStatus("error");
+      return;
+    }
 
-Te escribo desde tu web con los detalles de mi proyecto.
+    setStatus("submitting");
+    try {
+      const res = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          Nombre: name,
+          Email: email,
+          "Empresa o marca": company || "—",
+          "Web o Instagram": url || "—",
+          "Qué necesita": needs.length ? needs.join(", ") : "—",
+          "Punto de partida": stage || "—",
+          "Cuándo empezar": timing || "—",
+          "Presupuesto": budget || "Prefiero hablarlo",
+          Mensaje: message,
+          _subject: `Proyecto — ${name}${company ? ` (${company})` : ""}`,
+        }),
+      });
 
-· Nombre: ${name}
-· Email: ${email}
-· Empresa o marca: ${company || "—"}
-· Web o Instagram: ${url || "—"}
-
-¿Qué necesito?
-${needs.length ? needs.map((n) => `· ${n}`).join("\n") : "—"}
-
-¿En qué punto estoy?
-${stage || "—"}
-
-¿Cuándo me gustaría empezar?
-${timing || "—"}
-
-Presupuesto orientativo:
-${budget || "Prefiero hablarlo"}
-
-Sobre el proyecto:
-${message}
-
-—
-Enviado desde saracordoba.com`;
-
-    const subject = `Proyecto — ${name}${company ? ` (${company})` : ""}`;
-    const mailto = `mailto:${SARA_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
+      if (res.ok) {
+        setStatus("success");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   };
+
+  if (status === "success") {
+    return (
+      <div className="max-w-2xl mx-auto text-center py-16">
+        <div className="mx-auto mb-6 w-14 h-14 rounded-full grid place-items-center bg-lime/15 border border-lime/30 text-lime text-2xl">
+          ✓
+        </div>
+        <h3 className="text-text text-2xl font-semibold mb-3">
+          ¡Mensaje enviado!
+        </h3>
+        <p className="text-text-soft max-w-md mx-auto">
+          Gracias{name ? `, ${name}` : ""}. He recibido tu brief y te respondo
+          personalmente en menos de 48h.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 max-w-2xl mx-auto">
@@ -203,17 +229,31 @@ Enviado desde saracordoba.com`;
         </span>
       </label>
 
+      {status === "error" && (
+        <p className="text-danger text-sm">
+          Algo ha fallado al enviar. Inténtalo de nuevo o escríbeme a{" "}
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            className="underline underline-offset-2"
+          >
+            {CONTACT_EMAIL}
+          </a>
+          .
+        </p>
+      )}
+
       <button
         type="submit"
-        disabled={!consent}
+        disabled={!consent || status === "submitting"}
         className="self-start mt-2 px-7 py-3 bg-lime text-bg font-semibold rounded-full hover:bg-lime-bright transition-colors inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-lime"
       >
-        Enviar
-        <span aria-hidden>→</span>
+        {status === "submitting" ? "Enviando…" : "Enviar"}
+        {status !== "submitting" && <span aria-hidden>→</span>}
       </button>
 
       <p className="text-text-muted text-xs mt-1">
-        Al enviar se abre tu cliente de email con tu mensaje prellenado para mandarlo a {SARA_EMAIL}. Sara lee y responde cada mensaje personalmente.
+        Te respondo personalmente en menos de 48h. Tus datos solo se usan para
+        responder a tu consulta.
       </p>
     </form>
   );

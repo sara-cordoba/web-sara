@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Section, Eyebrow, H2, Lede } from "../ui";
+import { CONTACT_EMAIL } from "@/data/site";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
@@ -24,9 +25,12 @@ export default function Contact() {
             <span className="text-text-muted font-mono text-[11px] tracking-[0.08em] uppercase">
               Email
             </span>
-            <span className="text-text">
-              <span className="text-lime">scordobalazaro</span>@gmail.com
-            </span>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="text-text hover:text-lime transition-colors"
+            >
+              {CONTACT_EMAIL}
+            </a>
           </div>
           <div className="grid grid-cols-[120px_1fr] items-center py-[18px] border-t border-border text-[14px]">
             <span className="text-text-muted font-mono text-[11px] tracking-[0.08em] uppercase">

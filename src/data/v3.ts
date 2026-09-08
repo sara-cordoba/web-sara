@@ -2,9 +2,9 @@ export const SOLUTIONS = [
   {
     icon: "01",
     title: "Diseño & Producto",
-    sub: "Web · UI/UX · Branding",
+    sub: "Web · Diseño · Marca",
     items: [
-      "Webs en React, Angular u Odoo",
+      "Webs a medida — WordPress y Elementor, o desarrollo propio si el proyecto lo pide",
       "Diseño de interfaz y experiencia",
       "Sistemas de marca completos",
     ],
@@ -66,32 +66,63 @@ export type Work = {
   logo?: string;
   logoBg?: string;
   logoFill?: boolean;
-  placeholder?: boolean;
+  /** Las tres líneas de cada ficha. */
+  necesitaba: string;
+  hice: string;
+  resultado: string;
+  /** Enlace a la web en vivo, solo si existe y el cliente autoriza enseñarla. */
+  url?: string;
 };
 
 export const WORKS: Work[] = [
   {
+    title: "Ser Annora",
+    year: "2026",
+    type: "Web",
+    // TODO (Sara): no hay logo de Ser Annora en public/img. Mientras no lo
+    // haya, la ficha sale con el nombre sobre fondo de marca. Si dejas un
+    // archivo ahí, se pone en logo y ya está.
+    necesitaba:
+      "Una landing para promocionar su curso online de terapia.",
+    hice: "La diseñé y desarrollé en WordPress con Elementor: estructura, organización del contenido, diseño responsive y experiencia de usuario.",
+    resultado: "Entregada en junio de 2026 y en uso desde entonces.",
+    url: "https://annora.es/ser-annora-aprender-a-parar/",
+  },
+  {
     title: "Cronos AI Consulting",
     year: "2025 — ACTUAL",
-    type: "COO & CMO · Brand · Web · Contenido",
+    type: "Marca · Web · Contenido",
     logo: "/img/cronos.png",
     logoBg: "#000",
     logoFill: true,
+    necesitaba: "No tenía ni marca, ni web, ni redes.",
+    hice: "Identidad visual completa, web corporativa bilingüe, contenido y automatización de procesos con IA.",
+    resultado:
+      "El canal de YouTube pasó de 0 a 12.500 suscriptores en 17 meses, con 128 vídeos producidos y editados por mí.",
   },
   {
     title: "GPAthletes",
-    year: "2026 · ACTUAL",
+    year: "2026",
     type: "Identidad · Redes · Contenido",
     logo: "/img/gpathletes.jpg",
     logoBg: "#bfe0e5",
     logoFill: true,
+    necesitaba: "Presencia constante en redes y una identidad reconocible.",
+    hice: "Creación de contenido, edición de reels y apoyo en branding, traduciendo sus mensajes estratégicos a piezas visuales.",
+    resultado:
+      "7 meses de contenido continuado, de febrero a agosto de 2026.",
   },
   {
-    title: "Develand",
-    year: "2025 · 2026",
-    type: "Edición · Contenido",
-    logo: "/img/develand.png",
-    logoBg: "#0e1a2b",
+    title: "AJE Madrid",
+    year: "2026",
+    type: "Eventos · Gráfica · Contenido",
+    logo: "/img/aje-madrid.png",
+    logoBg: "#fff",
+    necesitaba:
+      "Materiales gráficos para sus eventos presenciales y acciones de comunicación.",
+    hice: "Cartelería, mailing, presentaciones y piezas para redes, con coherencia visual y adaptadas a cada canal.",
+    resultado:
+      "Materiales para varios eventos entre marzo y mayo de 2026.",
   },
   {
     title: "Ajedrez Sistémico",
@@ -99,18 +130,20 @@ export const WORKS: Work[] = [
     type: "Web",
     logo: "/img/guillermo-amor.png",
     logoBg: "#000",
+    necesitaba:
+      "Una web para un proyecto de terapia con enfoque formativo, clara de navegar y alineada con su método.",
+    hice: "La diseñé y desarrollé en WordPress: estructura de página, organización del contenido y adaptación visual de la marca.",
+    resultado: "Entregada en febrero de 2026.",
+    // Sin enlace a propósito: el cliente no autoriza publicar la web.
   },
   {
-    title: "AJE Madrid",
+    title: "Develand Academia",
     year: "2026",
-    type: "Eventos · Visuales · Contenido",
-    logo: "/img/aje-madrid.png",
-    logoBg: "#fff",
-  },
-  {
-    title: "October Hollow Studio",
-    year: "2024 · ACTUAL",
-    type: "Próximamente",
-    placeholder: true,
+    type: "Edición de vídeo",
+    logo: "/img/develand.png",
+    logoBg: "#0e1a2b",
+    necesitaba: "Montar las piezas de una campaña publicitaria.",
+    hice: "Edición de vídeo: ritmo, cortes, subtítulos y estructura narrativa, adaptada a formatos digitales y redes.",
+    resultado: "Campaña entregada en enero de 2026.",
   },
 ];
