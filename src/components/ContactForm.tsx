@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { CONTACT_EMAIL, FORM_ENABLED, FORM_ENDPOINT } from "@/data/site";
+import { CONTACT_EMAIL, enviarFormulario } from "@/data/site";
 
 const NEEDS_OPTIONS = [
   "Diseño & producto",
@@ -60,42 +60,20 @@ export default function ContactForm() {
     e.preventDefault();
     if (!consent || status === "submitting") return;
 
-    // Sin buzón configurado no se envía nada, y se dice.
-    if (!FORM_ENABLED) {
-      setStatus("error");
-      return;
-    }
-
     setStatus("submitting");
-    try {
-      const res = await fetch(FORM_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          Nombre: name,
-          Email: email,
-          "Empresa o marca": company || "—",
-          "Web o Instagram": url || "—",
-          "Qué necesita": needs.length ? needs.join(", ") : "—",
-          "Punto de partida": stage || "—",
-          "Cuándo empezar": timing || "—",
-          "Presupuesto": budget || "Prefiero hablarlo",
-          Mensaje: message,
-          _subject: `Proyecto — ${name}${company ? ` (${company})` : ""}`,
-        }),
-      });
-
-      if (res.ok) {
-        setStatus("success");
-      } else {
-        setStatus("error");
-      }
-    } catch {
-      setStatus("error");
-    }
+    // Los nombres de los campos tienen que coincidir con public/__forms.html
+    const enviado = await enviarFormulario("contacto", {
+      nombre: name,
+      email,
+      empresa: company || "—",
+      "web-o-instagram": url || "—",
+      "que-necesita": needs.length ? needs.join(", ") : "—",
+      "punto-de-partida": stage || "—",
+      "cuando-empezar": timing || "—",
+      presupuesto: budget || "Prefiero hablarlo",
+      mensaje: message,
+    });
+    setStatus(enviado ? "success" : "error");
   };
 
   if (status === "success") {

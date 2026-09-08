@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { CONTACT_EMAIL, FORM_ENABLED, FORM_ENDPOINT } from "@/data/site";
+import { CONTACT_EMAIL, enviarFormulario } from "@/data/site";
 
 type Status = "idle" | "submitting" | "success" | "error" | "unconfigured";
 
@@ -42,32 +42,15 @@ export default function RuralLeadForm() {
       return;
     }
 
-    if (!FORM_ENABLED) {
-      setStatus("unconfigured");
-      return;
-    }
-
     setStatus("submitting");
-    try {
-      const res = await fetch(FORM_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          Nombre: name,
-          Alojamiento: place,
-          "Teléfono": phone,
-          "Qué tienen ahora": current,
-          Origen: "Página casas rurales",
-          _subject: `Casa rural — ${place || name}`,
-        }),
-      });
-      setStatus(res.ok ? "success" : "error");
-    } catch {
-      setStatus("error");
-    }
+    // Los nombres de los campos tienen que coincidir con public/__forms.html
+    const enviado = await enviarFormulario("casas-rurales", {
+      nombre: name,
+      alojamiento: place,
+      telefono: phone,
+      "que-tienen-ahora": current,
+    });
+    setStatus(enviado ? "success" : "error");
   };
 
   if (status === "success") {

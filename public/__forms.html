@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Definición de los formularios</title>
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <!--
+      ESTE ARCHIVO NO LO VE NADIE. No es una página de la web.
+
+      Netlify detecta los formularios leyendo el HTML cuando construye el
+      sitio. Los formularios de esta web los pinta React en el navegador, así
+      que Netlify no los vería nunca. Este archivo se los enseña.
+
+      REGLA: cada campo que exista en el formulario de verdad tiene que estar
+      aquí con EL MISMO name. Si añades un campo en el componente y no lo
+      añades aquí, ese dato se pierde sin avisar.
+
+      Dónde está cada formulario de verdad:
+        contacto       -> src/components/ContactForm.tsx
+        casas-rurales  -> src/components/RuralLeadForm.tsx
+        recomienda     -> src/components/RecomiendaForm.tsx
+    -->
+
+    <form name="contacto" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="contacto" />
+      <input type="text" name="bot-field" />
+      <input type="text" name="nombre" />
+      <input type="email" name="email" />
+      <input type="text" name="empresa" />
+      <input type="text" name="web-o-instagram" />
+      <input type="text" name="que-necesita" />
+      <input type="text" name="punto-de-partida" />
+      <input type="text" name="cuando-empezar" />
+      <input type="text" name="presupuesto" />
+      <textarea name="mensaje"></textarea>
+    </form>
+
+    <form name="casas-rurales" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="casas-rurales" />
+      <input type="text" name="bot-field" />
+      <input type="text" name="nombre" />
+      <input type="text" name="alojamiento" />
+      <input type="tel" name="telefono" />
+      <textarea name="que-tienen-ahora"></textarea>
+    </form>
+
+    <form name="recomienda" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="recomienda" />
+      <input type="text" name="bot-field" />
+      <input type="text" name="nombre" />
+      <input type="text" name="contacto" />
+      <input type="text" name="recomendado" />
+      <input type="text" name="contacto-recomendado" />
+    </form>
+  </body>
+</html>

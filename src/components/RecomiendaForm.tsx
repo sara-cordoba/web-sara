@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { CONTACT_EMAIL, FORM_ENABLED, FORM_ENDPOINT } from "@/data/site";
+import { CONTACT_EMAIL, enviarFormulario } from "@/data/site";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -34,32 +34,15 @@ export default function RecomiendaForm() {
       setStatus("success");
       return;
     }
-    if (!FORM_ENABLED) {
-      setStatus("error");
-      return;
-    }
-
     setStatus("submitting");
-    try {
-      const res = await fetch(FORM_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          "Quién recomienda": nombre,
-          "Cómo llegar a quien recomienda": tuContacto,
-          "A quién recomienda": recomendado,
-          "Cómo llegar a esa persona": contacto,
-          Origen: "Página de recomendaciones",
-          _subject: `Recomendación de ${nombre}`,
-        }),
-      });
-      setStatus(res.ok ? "success" : "error");
-    } catch {
-      setStatus("error");
-    }
+    // Los nombres de los campos tienen que coincidir con public/__forms.html
+    const enviado = await enviarFormulario("recomienda", {
+      nombre,
+      contacto: tuContacto,
+      recomendado,
+      "contacto-recomendado": contacto,
+    });
+    setStatus(enviado ? "success" : "error");
   };
 
   if (status === "success") {
