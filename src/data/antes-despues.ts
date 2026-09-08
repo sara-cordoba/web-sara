@@ -1,5 +1,18 @@
 // Comparaciones antes / después: la web vieja frente a la nueva.
 //
+// ESTADO: montado y sin usar a propósito. No borrar.
+//
+// De los proyectos que hay, casi ninguno tiene un "antes":
+//   · Ser Annora y Ajedrez Sistémico eran webs nuevas, no rediseños.
+//     No existe una versión anterior que enseñar.
+//   · Cronos AI Consulting sí: hubo dos versiones anteriores hechas en
+//     Odoo v17 antes de la web actual. Es el único caso real, y solo se
+//     puede montar si aparecen capturas de aquellas.
+//
+// Donde esto vale de verdad es en la campaña de clientes: ahí el "antes" es
+// la web del propio cliente, y el "después" la que se le entrega. Por eso se
+// queda hecho y esperando, aunque hoy no se vea en ninguna página.
+//
 // CÓMO AÑADIR UN CASO:
 //
 //   1. Deja las dos capturas en  public/img/antes-despues/
@@ -25,5 +38,6 @@ export type Comparacion = {
 
 export const CARPETA_ANTES_DESPUES = "/img/antes-despues";
 
-// TODO (Sara): faltan las capturas. Preparado para tres casos.
+// Vacío a propósito: ver la nota de arriba. Mientras esté así, la sección
+// no se enseña en ninguna página.
 export const COMPARACIONES: Comparacion[] = [];

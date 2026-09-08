@@ -27,7 +27,7 @@ export const COMO_FUNCIONA = [
   {
     n: "01",
     titulo: "Me lo presentas",
-    body: "Rellenas el formulario de abajo con su nombre y cómo llegar a él. También vale que le pases mi correo directamente y me lo digas.",
+    body: "Rellenas el formulario de abajo: cómo llegar a esa persona y cómo llegar a ti, para poder abonarte lo tuyo después. También vale que le pases mi correo directamente y me lo digas.",
   },
   {
     n: "02",

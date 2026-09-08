@@ -8,6 +8,7 @@ type Status = "idle" | "submitting" | "success" | "error";
 
 export default function RecomiendaForm() {
   const [nombre, setNombre] = useState("");
+  const [tuContacto, setTuContacto] = useState("");
   const [recomendado, setRecomendado] = useState("");
   const [contacto, setContacto] = useState("");
   const [permiso, setPermiso] = useState(false);
@@ -20,6 +21,7 @@ export default function RecomiendaForm() {
     `&body=${encodeURIComponent(
       [
         `Mi nombre: ${nombre}`,
+        `Mi contacto: ${tuContacto}`,
         `Recomiendo a: ${recomendado}`,
         `Su contacto: ${contacto}`,
       ].join("\n"),
@@ -47,6 +49,7 @@ export default function RecomiendaForm() {
         },
         body: JSON.stringify({
           "Quién recomienda": nombre,
+          "Cómo llegar a quien recomienda": tuContacto,
           "A quién recomienda": recomendado,
           "Cómo llegar a esa persona": contacto,
           Origen: "Página de recomendaciones",
@@ -93,6 +96,17 @@ export default function RecomiendaForm() {
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
           placeholder="Cómo te llamas"
+          className="v3-input"
+        />
+      </Campo>
+
+      <Campo label="Tu correo o teléfono">
+        <input
+          type="text"
+          required
+          value={tuContacto}
+          onChange={(e) => setTuContacto(e.target.value)}
+          placeholder="Para poder abonarte lo tuyo"
           className="v3-input"
         />
       </Campo>

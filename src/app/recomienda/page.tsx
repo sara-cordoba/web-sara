@@ -103,7 +103,7 @@ export default function RecomiendaPage() {
               ¿A quién conoces?
             </H2>
             <Lede>
-              Tres datos y yo me encargo del resto. Te cuento cómo va, salga o
+              Cuatro datos y yo me encargo del resto. Te cuento cómo va, salga o
               no salga.
             </Lede>
           </div>
