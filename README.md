@@ -55,20 +55,35 @@ contratado el dominio pero no el buzón, y se ha aplazado hasta lanzar la
 campaña de correo en frío. Mientras tanto **esa dirección no lee nada**,
 aunque aparezca escrita en la web.
 
-### Cuando exista sara@saracordoba.com, hay que cambiarlo en DOS sitios
+### Puesta en marcha en el panel de Netlify (una sola vez)
 
-**1. El aviso por correo — en el panel de Netlify** (no está en el código):
+Netlify **no busca formularios hasta que se le dice**. Viene desactivado de
+fábrica, así que sin este paso los envíos devuelven 404 y no se guarda nada.
+
+**Paso 1 — activar la detección:**
 
 - Entrar en [app.netlify.com](https://app.netlify.com) y abrir el proyecto.
 - Menú lateral: **Forms**.
-- Pestaña **Settings and usage** (o **Usage and configuration**).
-- Bajar hasta **Form notifications** → botón **Add notification** →
-  **Email notification**.
-- En **Email to notify**, cambiar la dirección.
-- Guardar con **Save**.
+- Botón **Enable form detection**.
+- **Volver a desplegar**: la detección ocurre al construir el sitio, así que
+  no vale con activarla. Sirve cualquier push, o el botón **Trigger deploy**
+  en **Deploys**.
 
-Hay que hacerlo **una vez por formulario** si se quiere separar el aviso de
-cada uno: `contacto`, `casas-rurales` y `recomienda`.
+**Paso 2 — el aviso por correo:**
+
+- **Project configuration** → **Notifications** → **Emails and webhooks**.
+- Sección **Form submission notifications** → añadir una notificación.
+- Se puede elegir un formulario concreto (`contacto`, `casas-rurales`,
+  `recomienda`) o todos a la vez.
+- Poner la dirección de destino y guardar.
+
+Sin el paso 2 los envíos se siguen guardando en **Forms**, pero no llega
+ningún aviso.
+
+### Cuando exista sara@saracordoba.com, hay que cambiarlo en DOS sitios
+
+**1. El aviso por correo:** repetir el paso 2 de arriba con la dirección
+nueva.
 
 **2. La dirección que se enseña en la web — en el código:**
 
