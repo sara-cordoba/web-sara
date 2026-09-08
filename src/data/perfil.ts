@@ -76,8 +76,8 @@ export const EXPERIENCIA: Puesto[] = [
     empresa: "Aqua Connect",
     fechas: "jun. 2024 – mar. 2025",
     contexto: "Remoto",
-    // TODO (Sara): esta es la única entrada sin ficha de proyecto. Dime una o
-    // dos líneas de qué hiciste y las pongo. Mientras, sale solo el puesto.
+    descripcion:
+      "Desarrollo web sobre Odoo v17: integración de OpenStreetMap para mapas interactivos, vinculación automatizada de contactos y direcciones, y mejoras de interfaz. Única etapa en entorno de empresa.",
   },
 ];
 
@@ -111,9 +111,29 @@ export const HERRAMIENTAS: { grupo: string; items: string }[] = [
   },
 ];
 
-// TODO (Sara): faltan los estudios. Pásame títulos, centro y años y los pongo.
-// Mientras la lista esté vacía, el bloque de formación no se enseña.
-export const FORMACION: { titulo: string; centro: string; anios: string }[] = [];
+// No hay titulación universitaria: es formación en cursos y se enseña como tal,
+// con la plataforma y el año a la vista.
+export const FORMACION: { titulo: string; centro: string; anios: string }[] = [
+  { titulo: "Diseño UX/UI y Figma", centro: "Udemy", anios: "2026" },
+  { titulo: "Claude Code, curso completo", centro: "Udemy", anios: "2026" },
+  {
+    titulo: "Canva: diseño, redes sociales, branding e IA",
+    centro: "Udemy",
+    anios: "2026",
+  },
+  { titulo: "Marketing Digital", centro: "HubSpot Academy", anios: "2025" },
+  { titulo: "SEO, curso completo", centro: "Udemy", anios: "2025" },
+  {
+    titulo: "Máster en JavaScript (JavaScript, jQuery, Angular, Node)",
+    centro: "Udemy",
+    anios: "2024",
+  },
+  { titulo: "Angular desde cero", centro: "Sergie Code", anios: "2024" },
+];
+
+/** Va en letra pequeña debajo de la lista de cursos. */
+export const FORMACION_OTRA =
+  "Otra formación técnica: Node.js con Express, MongoDB, PostgreSQL y Docker · Desarrollo web (HTML5, CSS3, JavaScript, PHP, MySQL) · CSS3, Flexbox y CSS Grid · Git y GitHub · Lógica de programación (2023-2024)";
 
 export const IDIOMAS = [
   { idioma: "Castellano", nivel: "Nativo" },

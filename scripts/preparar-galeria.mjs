@@ -75,8 +75,9 @@ for (const archivo of fs.readdirSync(ORIGEN)) {
       "-crf", "30", "-preset", "slow", "-pix_fmt", "yuv420p",
       "-movflags", "+faststart", "-y", video]);
     // la portada se saca del segundo 2, que suele ser mas representativo que el 0
-    correr(["-ss", "2", "-i", entrada, "-frames:v", "1", "-vf", "scale=864:864",
-      "-quality", "80", "-y", portada]);
+    // la portada va a 640 px: en la rejilla se ve a 180, no hace falta más
+    correr(["-ss", "2", "-i", entrada, "-frames:v", "1", "-vf", "scale=640:640",
+      "-quality", "78", "-y", portada]);
     despues += kb(video) + kb(portada);
     console.log(`  vídeo   ${archivo}  ->  ${base}.mp4 + ${base}.webp  (${kb(video)} + ${kb(portada)} kB)`);
   } else {

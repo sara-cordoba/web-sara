@@ -9,6 +9,7 @@ import {
   CV_PDF,
   EXPERIENCIA,
   FORMACION,
+  FORMACION_OTRA,
   HERRAMIENTAS,
   IDIOMAS,
   PERFIL_PROFESIONAL,
@@ -136,19 +137,35 @@ export default function PerfilPage() {
       {/* ---------- Formación e idiomas ---------- */}
       <Bloque titulo={FORMACION.length ? "Formación e idiomas" : "Idiomas"}>
         {FORMACION.length > 0 && (
-          <ul className="list-none p-0 m-0 mb-8 flex flex-col gap-4">
-            {FORMACION.map((f) => (
-              <li key={f.titulo} className="flex flex-col gap-1">
-                <span className="text-text text-[15px] font-semibold">
-                  {f.titulo}
-                </span>
-                <span className="text-text-soft text-[14px]">
-                  {f.centro} · {f.anios}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <div className="mb-9">
+            {/* Son cursos y se dicen como tales: plataforma y año a la vista. */}
+            <h3 className="text-text text-[14px] font-semibold m-0 mb-4">
+              Cursos
+            </h3>
+            <ul className="list-none p-0 m-0 flex flex-col">
+              {FORMACION.map((f) => (
+                <li
+                  key={f.titulo}
+                  className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-0.5 sm:gap-6 py-2.5 border-t border-border first:border-t-0 first:pt-0"
+                >
+                  <span className="text-text-soft text-[14px] sm:text-[15px] leading-snug">
+                    {f.titulo}
+                  </span>
+                  <span className="font-mono text-[11px] tracking-[0.06em] uppercase text-text-muted whitespace-nowrap flex-shrink-0">
+                    {f.centro} · {f.anios}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="text-text-dim text-[12px] leading-relaxed mt-5 mb-0 max-w-[700px]">
+              {FORMACION_OTRA}
+            </p>
+          </div>
         )}
+
+        <h3 className="text-text text-[14px] font-semibold m-0 mb-4">
+          Idiomas
+        </h3>
         <ul className="list-none p-0 m-0 flex flex-wrap gap-x-8 gap-y-3">
           {IDIOMAS.map((i) => (
             <li key={i.idioma} className="text-[15px] text-text-soft">

@@ -74,7 +74,7 @@ export default function Galeria({ piezas }: { piezas: Pieza[] }) {
             >
               <div className="relative aspect-square w-full overflow-hidden rounded-[12px] border border-border bg-surface transition-all duration-[350ms] ease-smooth group-hover:border-border-strong group-hover:-translate-y-0.5 group-focus-visible:border-lime">
                 {esVideo(p.archivo) ? (
-                  <VideoEnRejilla pieza={p} />
+                  <VideoEnRejilla pieza={p} inmediata={i === 0} />
                 ) : (
                   <Image
                     src={ruta(p.archivo)}
@@ -192,28 +192,54 @@ export default function Galeria({ piezas }: { piezas: Pieza[] }) {
    se ven en pantalla: así no se descargan todos a la vez ni se calienta el
    móvil con los que están fuera de cuadro. Hasta que arrancan se ve la imagen
    de portada. */
-function VideoEnRejilla({ pieza }: { pieza: Pieza }) {
+function VideoEnRejilla({
+  pieza,
+  inmediata,
+}: {
+  pieza: Pieza;
+  inmediata: boolean;
+}) {
   const ref = useRef<HTMLVideoElement | null>(null);
+  /* La portada de un vídeo NO se carga sola de forma diferida: el navegador se
+     la descarga aunque el vídeo esté fuera de pantalla. Por eso solo se le pone
+     la portada a la primera pieza y a las que se acercan al borde de la
+     pantalla; si no, se descargan las cinco nada más entrar. */
+  const [cerca, setCerca] = useState(inmediata);
 
   useEffect(() => {
     const video = ref.current;
     if (!video) return;
 
-    // Quien pide menos animación no recibe vídeo en movimiento: se queda la portada.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Quien pide menos animación recibe la portada, pero quieta.
+    const sinMovimiento = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
-    const observador = new IntersectionObserver(
+    // Dos vigilantes distintos, porque no cuestan lo mismo:
+    // la portada pesa 35 kB y conviene tenerla lista antes de que la pieza
+    // asome; el vídeo pesa 250 kB y no se descarga hasta que se ve de verdad.
+    const vigilaPortada = new IntersectionObserver(
+      ([entrada]) => {
+        if (entrada.isIntersecting) setCerca(true);
+      },
+      { threshold: 0.01, rootMargin: "300px 0px" },
+    );
+    const vigilaReproduccion = new IntersectionObserver(
       ([entrada]) => {
         if (entrada.isIntersecting) {
-          video.play().catch(() => {});
+          if (!sinMovimiento) video.play().catch(() => {});
         } else {
           video.pause();
         }
       },
       { threshold: 0.25 },
     );
-    observador.observe(video);
-    return () => observador.disconnect();
+    vigilaPortada.observe(video);
+    vigilaReproduccion.observe(video);
+    return () => {
+      vigilaPortada.disconnect();
+      vigilaReproduccion.disconnect();
+    };
   }, []);
 
   return (
@@ -223,7 +249,7 @@ function VideoEnRejilla({ pieza }: { pieza: Pieza }) {
       loop
       playsInline
       preload="none"
-      poster={ruta(portadaDe(pieza.archivo))}
+      poster={cerca ? ruta(portadaDe(pieza.archivo)) : undefined}
       aria-label={pieza.alt || pieza.titulo}
       className={`absolute inset-0 w-full h-full ${encajeDe(pieza)} transition-transform duration-[600ms] ease-smooth group-hover:scale-[1.04]`}
     >
