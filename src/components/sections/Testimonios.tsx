@@ -112,7 +112,7 @@ export default function Testimonios() {
                 </p>
               </blockquote>
               <figcaption className="mt-5 pt-4 border-t border-border font-mono text-[10px] tracking-[0.12em] uppercase text-text-muted">
-                {t.negocio} · {t.zona}
+                {t.trabajo}
               </figcaption>
             </figure>
           </li>

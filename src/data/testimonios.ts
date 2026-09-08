@@ -1,48 +1,40 @@
-// Testimonios de clientes.
+// Testimonios de clientes reales.
 //
-// Para cambiar uno, se edita aquí y ya está: el carrusel se ajusta solo al
-// número que haya. Si la lista se queda vacía, la sección no se enseña.
+// CÓMO AÑADIR UNO: copia el bloque de abajo, pega la cita tal cual la dijo el
+// cliente y pon qué trabajo se le hizo. Nada más. El carrusel se ajusta solo
+// al número que haya, y si la lista se queda vacía la sección no se enseña.
 //
-// Se identifican por sector y comarca, no por nombre propio.
+//   {
+//     cita: "Lo que dijo el cliente, entre comillas y sin retocar.",
+//     trabajo: "Cliente de diseño web",
+//   },
+//
+// REGLA: ninguno de estos clientes quiere que salga su nombre. No se pone
+// nombre, ni empresa, ni localidad, ni nada que permita identificarlos.
+// La atribución es el tipo de trabajo y punto.
 
 export type Testimonio = {
-  /** Lo que dijo el cliente, tal cual. */
+  /** La cita, tal cual la dijo el cliente. Sin retocar. */
   cita: string;
-  /** Qué tipo de negocio es. */
-  negocio: string;
-  /** Dónde está. */
-  zona: string;
+  /** Qué trabajo se le hizo. Es la única atribución que se enseña. */
+  trabajo: string;
 };
 
 export const TESTIMONIOS: Testimonio[] = [
   {
-    cita: "No tenía web, solo el perfil de Booking. Ahora la mitad de las reservas entran directas.",
-    negocio: "Casa rural",
-    zona: "Berguedà",
+    cita: "Muy confiable y profesional. Teníamos muchas dudas en cómo transmitir en nuestra web el concepto de nuestro negocio y no sabíamos por dónde empezar. Sara nos ayudó mucho y, después de una reunión, entendió lo que queríamos hacer desde el principio. Muy recomendable.",
+    trabajo: "Cliente de diseño web",
   },
   {
-    cita: "La gente nos encontraba y llamaba para pedir cita. Ahora la piden solas desde la web.",
-    negocio: "Clínica dental",
-    zona: "Osona",
+    cita: "Sara me ayudó a reconstruir mi marca. Estaba muy perdida, deambulando entre varias ideas, y eso hacía que no terminase de arrancar mi proyecto. Gracias a ella creamos el branding completo para mis redes sociales, e incluso hizo un calendario de publicaciones con plantillas reutilizables: ya no tengo que crear mi contenido desde cero.",
+    trabajo: "Cliente de marca y contenido",
   },
   {
-    cita: "Llevábamos el Instagram a ratos y se notaba. Ahora hay calendario y no depende de que alguien se acuerde.",
-    negocio: "Academia de idiomas",
-    zona: "Bages",
+    cita: "Es mi persona de confianza total. Delego mis redes sociales en ella y sabe bien lo que quiero comunicar y expresar. Es puntual y muy responsable.",
+    trabajo: "Cliente de gestión de redes sociales",
   },
   {
-    cita: "Nuestra web tenía diez años. Para una asesoría eso es una carta de presentación mala.",
-    negocio: "Asesoría",
-    zona: "Girona",
-  },
-  {
-    cita: "Lo que más valoro es que los textos los escribió ella. Yo no sé venderme por escrito.",
-    negocio: "Obrador artesano",
-    zona: "Cerdanya",
-  },
-  {
-    cita: "Marca, web y redes con la misma persona. No he tenido que explicar lo mismo tres veces.",
-    negocio: "Centro de estética",
-    zona: "Vallès",
+    cita: "Nos ha editado todos los cursos de nuestra web y desde el inicio nos presentó la propuesta y los plazos. Me he sentido en confianza en todo momento porque nos ha estado informando de cada avance. Es una persona cercana y muy comprometida con su trabajo.",
+    trabajo: "Cliente de edición de vídeo",
   },
 ];
