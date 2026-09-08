@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Section, Eyebrow, H2 } from "../ui";
-import { TESTIMONIOS } from "@/data/testimonios";
+import { Section, Eyebrow, H2, Lede } from "../ui";
+import { ALCANCE, TESTIMONIOS } from "@/data/testimonios";
 
 export default function Testimonios() {
   const pista = useRef<HTMLUListElement | null>(null);
@@ -70,9 +70,10 @@ export default function Testimonios() {
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
         <div>
           <Eyebrow>Lo que dicen</Eyebrow>
-          <H2 className="!mb-0">
+          <H2 className="!mb-4">
             Clientes que ya lo <span className="text-lime">tienen hecho</span>.
           </H2>
+          <Lede className="!mb-0">{ALCANCE}</Lede>
         </div>
         <div className="hidden sm:flex gap-2 flex-shrink-0">
           <Flecha
@@ -96,7 +97,7 @@ export default function Testimonios() {
       >
         {TESTIMONIOS.map((t) => (
           <li
-            key={t.cita}
+            key={t.texto}
             className="snap-start flex-shrink-0 w-[86%] sm:w-[47%] lg:w-[31.5%]"
           >
             <figure className="h-full m-0 flex flex-col rounded-[16px] border border-lime/15 bg-[#0c0c0c] p-6 sm:p-7">
@@ -108,11 +109,16 @@ export default function Testimonios() {
               </span>
               <blockquote className="m-0 flex-1">
                 <p className="text-text text-[15px] sm:text-[16px] leading-relaxed m-0">
-                  {t.cita}
+                  {t.texto}
                 </p>
               </blockquote>
-              <figcaption className="mt-5 pt-4 border-t border-border font-mono text-[10px] tracking-[0.12em] uppercase text-text-muted">
-                {t.trabajo}
+              <figcaption
+                className="mt-5 pt-4 border-t border-border font-mono text-[10px] tracking-[0.12em] uppercase text-text-muted leading-relaxed"
+                /* Dos líneas reservadas siempre: la atribución más larga parte
+                   en dos y, sin esto, su raya quedaba más alta que las demás. */
+                style={{ minHeight: "calc(2 * 1.625em + 1rem)" }}
+              >
+                {t.trabajo} · {t.provincia}
               </figcaption>
             </figure>
           </li>
@@ -123,7 +129,7 @@ export default function Testimonios() {
         <div className="flex gap-1.5">
           {TESTIMONIOS.map((t, i) => (
             <button
-              key={t.cita}
+              key={t.texto}
               type="button"
               onClick={() => irA(i)}
               aria-label={`Ir al testimonio ${i + 1}`}
