@@ -133,13 +133,16 @@ export const GUION: Record<string, Nodo> = {
        sacaba al visitante de la conversación para enseñarle una rejilla de
        carteles; una web que se abre y se mira dice mucho más.
 
-       Se lee el dominio a secas y se enlaza a la www: el dominio sin www está
-       sin certificado y no conecta. Si algún día se cae la web de Cronos, hay
-       que cambiar esta burbuja: es un enlace a algo que no controlamos. */
+       El enlace bueno es el de webcronos, el que da Sara. Sirve exactamente
+       la misma web que www.cronosaiconsulting.com (mismo contenido, byte a
+       byte), pero es el nombre por el que la enseña ella. El dominio a secas,
+       sin www ni nada delante, está sin certificado y no conecta.
+       Si algún día se cae, hay que cambiar esta burbuja: es un enlace a algo
+       que no controlamos. */
     burbujas: [
       "Sara las hace a medida, no con plantillas.",
       "Y **la web es tuya**: sin cuotas y sin depender de nadie.",
-      "Su web más reciente es esta: [cronosaiconsulting.com](https://www.cronosaiconsulting.com/)",
+      "Su web más reciente es esta: [webcronos.cronosaiconsulting.com](https://webcronos.cronosaiconsulting.com/)",
     ],
     botones: [PRECIO, HABLAR],
   },
