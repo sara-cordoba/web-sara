@@ -7,9 +7,12 @@ const [, , URL_TO_TEST, OUT, NOMBRE] = process.argv;
 
 const LADO = 1280; // ventana cuadrada: la rejilla de la galería es cuadrada
 const FPS = 24;
-const SEGUNDOS = 6; // de ida; el bucle luego va y vuelve -> 12 s
-const VELOCIDAD = 700; // px por segundo: a más, no da tiempo a leer
-const FOTOGRAMAS = Math.round(FPS * SEGUNDOS);
+const SEGUNDOS = 7; // de ida; el bucle luego va y vuelve -> unos 14 s
+// Px por segundo. Es LO PRIMERO que hay que mirar si un recorrido no se lee.
+// Historial de intentos, para no repetirlos: 1100 y 700 eran un borrón, y a
+// 450 seguía pasando demasiado deprisa en una casilla pequeña de la rejilla.
+// A 250 se lee. Recorre menos página, y merece la pena.
+const VELOCIDAD = Number(process.env.VELOCIDAD || 250);
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const fs = await import("node:fs");
@@ -106,11 +109,19 @@ await sleep(3000);
 console.log("  antes de grabar:", await ev(CERRAR));
 await sleep(1500);
 
+/* El paso sale de la velocidad, no al revés: así VELOCIDAD se cumple siempre
+   y es de verdad el único mando que hay que tocar. Lo que se ajusta es cuánto
+   dura el recorrido, no lo deprisa que va. Una página corta se acaba antes y
+   el vídeo sale más corto; ninguna se recorre a trompicones para rellenar. */
 const recorrible = Math.max(0, altoTotal - LADO);
-const recorrido = Math.min(recorrible, VELOCIDAD * SEGUNDOS);
-const paso = recorrido / (FOTOGRAMAS - 1);
+const paso = VELOCIDAD / FPS;
+const FOTOGRAMAS = Math.min(
+  Math.round(FPS * SEGUNDOS),
+  Math.floor(recorrible / paso) + 1,
+);
+const recorrido = paso * (FOTOGRAMAS - 1);
 console.log(
-  `  página ${altoTotal}px | recorro ${Math.round(recorrido)}px de ${recorrible}px (${Math.round((recorrido / recorrible) * 100)}%) a ${Math.round(paso * FPS)} px/s`,
+  `  página ${altoTotal}px | recorro ${Math.round(recorrido)}px de ${recorrible}px (${Math.round((recorrido / recorrible) * 100)}%) a ${Math.round(paso * FPS)} px/s en ${(FOTOGRAMAS / FPS).toFixed(1)}s`,
 );
 
 const carpeta = `${OUT}/fotogramas-${NOMBRE}`;
