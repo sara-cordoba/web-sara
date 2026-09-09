@@ -33,8 +33,11 @@
 //     que no te funciona", un botón que dice "represento a una empresa" no
 //     contesta a eso: no es una avería, es quién eres.
 //  2. QUE LO QUE SEÑALA EXISTA Y ESTÉ DICHO. "Ver ESAS webs" solo vale si las
-//     burbujas de arriba han hablado de unas webs. Y "Ver trabajos" solo vale
-//     si en /trabajos hay de eso: de chatbots no hay ninguno.
+//     burbujas de arriba han hablado de unas webs.
+//     Y ojo con mandar a otra página de la web: un botón "Ver trabajos" saca
+//     al visitante de la conversación para dejarlo en una rejilla, y encima
+//     enseña lo que hay, no lo que ha pedido. Un enlace concreto a una web de
+//     cliente hace mejor ese trabajo y no rompe el hilo.
 //  3. QUE NO SEA UN CALLEJÓN. Todo nodo de servicio lleva al precio, el precio
 //     lleva a cómo se empieza, y de todos se puede escribir a Sara. La misma
 //     acción se llama SIEMPRE igual en todos los nodos.
@@ -101,11 +104,6 @@ export const INICIO = "inicio";
 // escribir a Sara se llame "Escribirle" en un sitio y "Que me escriba Sara"
 // en otro hace dudar de si hacen lo mismo.
 const HABLAR: Boton = { texto: "Que me escriba Sara", formulario: true };
-const VER_TRABAJOS: Boton = {
-  texto: "Ver trabajos",
-  ir: "/trabajos",
-  aviso: "Te abro los trabajos. Sigo aquí cuando quieras.",
-};
 const PRECIO: Boton = { texto: "¿Cuánto cuesta?", nodo: "precio" };
 
 export const GUION: Record<string, Nodo> = {
@@ -128,17 +126,22 @@ export const GUION: Record<string, Nodo> = {
   },
 
   web: {
-    // Fuera el "suele ser el móvil": Nika no ha visto esa web y no puede
-    // decirle a nadie qué le pasa. Aquí se cuenta lo que hace Sara y ya está.
+    /* Fuera el "suele ser el móvil": Nika no ha visto esa web y no puede
+       decirle a nadie qué le pasa. Aquí se cuenta lo que hace Sara y ya está.
+
+       Y la prueba es una web de verdad, no la galería. El botón a /trabajos
+       sacaba al visitante de la conversación para enseñarle una rejilla de
+       carteles; una web que se abre y se mira dice mucho más.
+
+       Se lee el dominio a secas y se enlaza a la www: el dominio sin www está
+       sin certificado y no conecta. Si algún día se cae la web de Cronos, hay
+       que cambiar esta burbuja: es un enlace a algo que no controlamos. */
     burbujas: [
       "Sara las hace a medida, no con plantillas.",
-      "Estructura, textos y móvil, pensados para lo que vendes tú.",
       "Y **la web es tuya**: sin cuotas y sin depender de nadie.",
+      "Su web más reciente es esta: [cronosaiconsulting.com](https://www.cronosaiconsulting.com/)",
     ],
-    // "Ver esas webs" no valía por dos motivos: ninguna burbuja hablaba de
-    // unas webs concretas, así que "esas" no señalaba a nada, y en /trabajos
-    // no hay solo webs. La burbuja de arriba ya dice que ha entregado varias.
-    botones: [VER_TRABAJOS, PRECIO, HABLAR],
+    botones: [PRECIO, HABLAR],
   },
 
   redes: {
@@ -148,7 +151,9 @@ export const GUION: Record<string, Nodo> = {
       "Tú no tienes que acordarte de nada.",
       "En YouTube: **de cero a 12.500 suscriptores en 17 meses**, y 128 vídeos.",
     ],
-    botones: [VER_TRABAJOS, PRECIO, HABLAR],
+    // Sin botón a la galería, por lo mismo que en web. Aquí la prueba es el
+    // canal, que ya va en la burbuja de arriba.
+    botones: [PRECIO, HABLAR],
   },
 
   chatbot: {

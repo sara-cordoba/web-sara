@@ -524,6 +524,40 @@ export default function Nika() {
 
 /* ---------- piezas ---------- */
 
+/* Pinta [esto](https://…) como enlace, y lo que quede alrededor con su
+   negrita. Los enlaces del guion salen SIEMPRE a una pestaña nueva: son webs
+   de clientes, y llevarse al visitante fuera del chat que está usando es
+   perderlo. Con rel="noopener" porque target="_blank" sin él le da a la
+   página de destino una manija sobre la nuestra. */
+const ENLACE = /\[([^\]]+)\]\(([^)]+)\)/;
+
+function ConFormato({ texto }: { texto: string }) {
+  const piezas: React.ReactNode[] = [];
+  let resto = texto;
+  let clave = 0;
+
+  for (let m = ENLACE.exec(resto); m; m = ENLACE.exec(resto)) {
+    if (m.index > 0) {
+      piezas.push(<ConNegrita key={clave++} texto={resto.slice(0, m.index)} />);
+    }
+    piezas.push(
+      <a
+        key={clave++}
+        href={m[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-lime underline underline-offset-2 break-words"
+      >
+        {m[1]}
+      </a>,
+    );
+    resto = resto.slice(m.index + m[0].length);
+  }
+  if (resto) piezas.push(<ConNegrita key={clave++} texto={resto} />);
+
+  return <>{piezas}</>;
+}
+
 /** Pinta **lo que va entre asteriscos** en negrita, sin meter HTML a pelo. */
 function ConNegrita({ texto }: { texto: string }) {
   const trozos = texto.split("**");
@@ -562,7 +596,7 @@ function Burbuja({
           : "self-end rounded-[14px] rounded-br-[4px] bg-lime text-green font-medium")
       }
     >
-      <ConNegrita texto={texto} />
+      <ConFormato texto={texto} />
     </div>
   );
 }
