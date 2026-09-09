@@ -21,7 +21,15 @@ import { avisarAlSalir, enviarFormulario } from "@/data/site";
    y como mucho UNO por sesión: su plan tiene 100 envíos al mes compartidos
    con los otros tres formularios de la web. */
 
-const ESPERA_BURBUJA = 450; // ms entre burbuja y burbuja
+/* La pausa antes de cada burbuja va con lo larga que sea: escribir una frase
+   de dos palabras no cuesta lo mismo que un párrafo. Sin esto, cuatro
+   burbujas caen en menos de dos segundos y parece un volcado de texto, no
+   una conversación. */
+const ESPERA_BASE = 500; // ms
+const ESPERA_POR_LETRA = 11; // ms
+const ESPERA_MAXIMA = 2200; // ms
+const pausaPara = (texto: string) =>
+  Math.min(ESPERA_MAXIMA, ESPERA_BASE + texto.length * ESPERA_POR_LETRA);
 const LLAVE_SESION = "nika-aviso-enviado";
 const BOTONES_MINIMOS = 2; // para avisar del recorrido sin datos personales
 
@@ -48,7 +56,11 @@ export default function Nika() {
   const [enviando, setEnviando] = useState(false);
   const [falloEnvio, setFalloEnvio] = useState(false);
 
+  /** Índice del mensaje por el que se coloca la vista al llegar una respuesta. */
+  const [ancla, setAncla] = useState<number | null>(null);
+
   const finRef = useRef<HTMLDivElement | null>(null);
+  const listaRef = useRef<HTMLDivElement | null>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const lanzadorRef = useRef<HTMLButtonElement | null>(null);
   const recorridoRef = useRef(recorrido);
@@ -91,22 +103,36 @@ export default function Nika() {
   // ---- las burbujas van saliendo de una en una ----
   useEffect(() => {
     if (cola.length === 0) return;
-    const t = setTimeout(
-      () => {
-        setMensajes((m) => [...m, { de: "nika", texto: cola[0] }]);
-        setCola((c) => c.slice(1));
-      },
-      sinMovimiento ? 0 : ESPERA_BURBUJA,
-    );
+    const t = setTimeout(() => {
+      setMensajes((m) => [...m, { de: "nika", texto: cola[0] }]);
+      setCola((c) => c.slice(1));
+    }, pausaPara(cola[0]));
     return () => clearTimeout(t);
-  }, [cola, sinMovimiento]);
+  }, [cola]);
 
+  /* Al llegar una respuesta, el chat se coloca en su PRINCIPIO, no al final.
+     Si no, con una respuesta larga el visitante empieza a leer por la mitad:
+     el navegador salta abajo del todo y las primeras líneas quedan fuera de
+     la pantalla. El ancla es el mensaje del propio visitante, así ve lo que
+     preguntó y debajo el principio de la respuesta. */
   useEffect(() => {
+    const lista = listaRef.current;
+    if (!lista) return;
+    if (ancla !== null) {
+      const destino = lista.querySelector<HTMLElement>("[data-ancla]");
+      if (destino) {
+        lista.scrollTo({
+          top: destino.offsetTop - lista.offsetTop - 8,
+          behavior: sinMovimiento ? "auto" : "smooth",
+        });
+        return;
+      }
+    }
     finRef.current?.scrollIntoView({
       behavior: sinMovimiento ? "auto" : "smooth",
       block: "end",
     });
-  }, [mensajes, botones, modo, sinMovimiento]);
+  }, [mensajes, botones, modo, ancla, sinMovimiento]);
 
   // los botones aparecen cuando Nika ha terminado de hablar
   const nodoPendiente = useRef<Boton[]>([]);
@@ -121,6 +147,7 @@ export default function Nika() {
     setAbierto(true);
     if (mensajes.length === 0 && cola.length === 0) {
       const nodo = GUION[INICIO];
+      setAncla(0);
       setCola(nodo.burbujas);
       nodoPendiente.current = nodo.botones ?? [];
     }
@@ -186,6 +213,7 @@ export default function Nika() {
   }, [abierto, cerrar]);
 
   const pulsarBoton = (b: Boton) => {
+    setAncla(mensajes.length); // el mensaje que va a entrar ahora
     setMensajes((m) => [...m, { de: "tu", texto: b.texto }]);
     setRecorrido((r) => [...r, b.texto]);
     setBotones([]);
@@ -224,6 +252,7 @@ export default function Nika() {
     e.preventDefault();
     const texto = entrada.trim();
     if (!texto) return;
+    setAncla(mensajes.length);
     setMensajes((m) => [...m, { de: "tu", texto }]);
     setMensaje(texto); // se arrastra al campo del formulario
     setEntrada("");
@@ -316,11 +345,17 @@ export default function Nika() {
 
           {/* conversación */}
           <div
+            ref={listaRef}
             className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-2.5"
             aria-live="polite"
           >
             {mensajes.map((m, i) => (
-              <Burbuja key={i} de={m.de} texto={m.texto} />
+              <Burbuja
+                key={i}
+                de={m.de}
+                texto={m.texto}
+                esAncla={i === ancla}
+              />
             ))}
 
             {cola.length > 0 && <Escribiendo />}
@@ -365,6 +400,7 @@ export default function Nika() {
                   setModo("chat");
                   setMensajes([]);
                   setRecorrido(["Inicio"]);
+                  setAncla(0);
                   const nodo = GUION[INICIO];
                   setCola(nodo.burbujas);
                   nodoPendiente.current = nodo.botones ?? [];
@@ -428,10 +464,19 @@ function ConNegrita({ texto }: { texto: string }) {
   );
 }
 
-function Burbuja({ de, texto }: { de: "nika" | "tu"; texto: string }) {
+function Burbuja({
+  de,
+  texto,
+  esAncla,
+}: {
+  de: "nika" | "tu";
+  texto: string;
+  esAncla?: boolean;
+}) {
   const esNika = de === "nika";
   return (
     <div
+      data-ancla={esAncla ? "1" : undefined}
       className={
         "max-w-[85%] px-4 py-2.5 text-[14px] leading-relaxed whitespace-pre-line " +
         (esNika

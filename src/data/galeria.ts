@@ -61,9 +61,16 @@ export function portadaDe(archivo: string) {
 }
 
 export const GALERIA: Pieza[] = [
+  // Las dos protagonistas van primero y al doble de tamaño.
   {
-    archivo: "diseno-evento.mp4",
-    titulo: "Diseño de evento",
+    archivo: "folleto-campana-publicidad.mp4",
+    titulo: "Folleto de campaña",
+    tipo: "Cartelería",
+    destacada: true,
+  },
+  {
+    archivo: "mockup-triptico.mp4",
+    titulo: "Tríptico",
     tipo: "Cartelería",
     destacada: true,
   },
@@ -84,6 +91,11 @@ export const GALERIA: Pieza[] = [
     alt: "Recorrido por la web de Cronos AI Consulting, de arriba abajo",
   },
   {
+    archivo: "diseno-evento.mp4",
+    titulo: "Diseño de evento",
+    tipo: "Cartelería",
+  },
+  {
     archivo: "post-redes.webp",
     titulo: "Post para redes",
     tipo: "Redes sociales",
@@ -96,16 +108,6 @@ export const GALERIA: Pieza[] = [
     encaje: "completa",
   },
   {
-    archivo: "mockup-triptico.mp4",
-    titulo: "Tríptico",
-    tipo: "Cartelería",
-  },
-  {
-    archivo: "folleto-campana-publicidad.mp4",
-    titulo: "Folleto de campaña",
-    tipo: "Cartelería",
-  },
-  {
     archivo: "diseno-curso.mp4",
     titulo: "Diseño de curso",
     tipo: "Redes sociales",
@@ -116,3 +118,4 @@ export const GALERIA: Pieza[] = [
     tipo: "Cartelería",
   },
 ];
+
