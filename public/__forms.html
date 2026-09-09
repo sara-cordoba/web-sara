@@ -21,6 +21,7 @@
         contacto       -> src/components/ContactForm.tsx
         casas-rurales  -> src/components/RuralLeadForm.tsx
         recomienda     -> src/components/RecomiendaForm.tsx
+        chatbot        -> src/components/Nika.tsx (el asistente Nika)
     -->
 
     <form name="contacto" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
@@ -53,6 +54,15 @@
       <input type="text" name="contacto" />
       <input type="text" name="recomendado" />
       <input type="text" name="contacto-recomendado" />
+    </form>
+    <form name="chatbot" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="chatbot" />
+      <input type="text" name="bot-field" />
+      <input type="text" name="nombre" />
+      <input type="email" name="correo" />
+      <textarea name="mensaje"></textarea>
+      <input type="text" name="recomendado" />
+      <input type="text" name="recorrido" />
     </form>
   </body>
 </html>

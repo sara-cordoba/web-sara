@@ -66,23 +66,11 @@ export const INCLUDES = [
   },
 ];
 
-export const PRICING = [
-  {
-    label: "La web",
-    price: "Desde 900 €",
-    body: "La web completa: hasta cinco páginas, los textos escritos, vuestras fotos colocadas y el formulario de reservas funcionando.",
-  },
-  {
-    label: "Web + marca + contenido",
-    price: "1.400 €",
-    body: "Todo lo anterior y además el logotipo, los colores y las fotos y textos listos para vuestras redes.",
-    highlight: true,
-  },
-];
+// Sin cifras: el precio se dice después de ver el proyecto, no antes.
+// Lo que sí se promete por escrito son las condiciones.
+export const CONDICIONES = "Precio cerrado y fecha de entrega por escrito antes de empezar. Sin cuotas mensuales: la web es vuestra.";
 
-export const PRICING_NOTE = [
-  "Precio cerrado antes de empezar. Lo que se dice es lo que se paga.",
-  "Sin cuota mensual: cuando está lista, la web es vuestra.",
+export const CONDICIONES_LETRA_PEQUENA = [
   "El dominio y el alojamiento van a vuestro nombre, no al mío.",
 ];
 

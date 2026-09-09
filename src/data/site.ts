@@ -40,6 +40,32 @@ export function formulariosActivos() {
   return host !== "localhost" && host !== "127.0.0.1" && host !== "";
 }
 
+/**
+ * Aviso "a la carrera", para cuando el visitante se va de la página.
+ * Ahí no da tiempo a un envío normal: el navegador corta la petición al
+ * cerrar. sendBeacon se lo queda el navegador y lo manda igual.
+ * No devuelve si ha llegado, porque para entonces ya no hay nadie escuchando.
+ */
+export function avisarAlSalir(
+  formulario: string,
+  datos: Record<string, string>,
+): boolean {
+  if (!formulariosActivos()) return false;
+  if (typeof navigator === "undefined" || !navigator.sendBeacon) return false;
+
+  const cuerpo = new URLSearchParams({ "form-name": formulario, ...datos });
+  try {
+    return navigator.sendBeacon(
+      RUTA_FORMULARIOS,
+      new Blob([cuerpo.toString()], {
+        type: "application/x-www-form-urlencoded",
+      }),
+    );
+  } catch {
+    return false;
+  }
+}
+
 /** Devuelve true solo si el envío ha llegado de verdad. */
 export async function enviarFormulario(
   formulario: string,

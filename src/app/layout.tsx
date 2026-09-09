@@ -4,6 +4,7 @@ import Background from "@/components/Background";
 import DotGrid from "@/components/DotGrid";
 import Navbar from "@/components/Navbar";
 import Cursor from "@/components/Cursor";
+import Nika from "@/components/Nika";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -50,6 +51,9 @@ export default function RootLayout({
         <div className="relative z-[5] pt-[90px] animate-page-fade">
           {children}
         </div>
+        {/* Fuera de la capa z-[5] a propósito: si no, el chat no puede
+            ponerse por encima de la barra superior. */}
+        <Nika />
       </body>
     </html>
   );

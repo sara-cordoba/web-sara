@@ -8,20 +8,20 @@ import {
   HERO,
   INCLUDES,
   PAINS,
-  PRICING,
-  PRICING_NOTE,
+  CONDICIONES,
+  CONDICIONES_LETRA_PEQUENA,
 } from "@/data/rural";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://saracordoba.com"),
   title: "Webs para casas rurales y alojamientos pequeños · Sara Córdoba",
   description:
-    "Web propia para vuestra casa rural en dos semanas y con precio cerrado desde 900 €. Reservas directas sin comisiones, se ve bien en el móvil y la web es vuestra: sin cuotas.",
+    "Web propia para vuestra casa rural en dos semanas, con precio cerrado y fecha por escrito antes de empezar. Reservas directas sin comisiones, se ve bien en el móvil y sin cuotas mensuales.",
   alternates: { canonical: "/webs-para-casas-rurales" },
   openGraph: {
     title: "Webs para casas rurales y alojamientos pequeños",
     description:
-      "Precio cerrado, dos semanas, y la web es vuestra. Sin cuotas. Desde 900 €.",
+      "Precio cerrado, dos semanas, y la web es vuestra. Sin cuotas.",
     url: "/webs-para-casas-rurales",
     siteName: "Sara Córdoba",
     locale: "es_ES",
@@ -120,45 +120,20 @@ export default function CasasRuralesPage() {
         </div>
       </section>
 
-      {/* ---------- Precio ---------- */}
+      {/* ---------- Cómo se paga ---------- */}
       <section className={`${WRAP} py-14 sm:py-20 border-t border-border`}>
         <H2 className="!mb-4 !text-[clamp(26px,3.2vw,40px)]">
-          El precio, por delante.
+          Sin sorpresas a media obra.
         </H2>
-        <Lede className="mb-10">
-          Lo normal es tener que pedir presupuesto para saber cuánto cuesta.
-          Aquí no.
+        <p className="text-text text-[17px] sm:text-[19px] leading-relaxed m-0 max-w-[640px] border-l-2 border-lime/40 pl-5">
+          {CONDICIONES}
+        </p>
+        <Lede className="mt-8">
+          Lo que cuesta depende de lo que necesitéis, así que os lo digo
+          después de verlo, no antes. Una llamada de veinte minutos basta.
         </Lede>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {PRICING.map((p) => (
-            <div
-              key={p.label}
-              className={
-                "rounded-[16px] p-6 sm:p-8 border " +
-                (p.highlight
-                  ? "border-lime/45 bg-[#0a0a0a] shadow-[0_0_50px_-15px_rgba(163,217,119,0.25)]"
-                  : "border-lime/15 bg-[#0c0c0c]")
-              }
-            >
-              <div className="font-mono text-[11px] tracking-[0.14em] uppercase text-text-muted mb-4">
-                {p.label}
-              </div>
-              <div
-                className="text-text font-semibold tracking-[-0.03em] mb-4"
-                style={{ fontSize: "clamp(30px, 4vw, 40px)", lineHeight: 1.05 }}
-              >
-                {p.price}
-              </div>
-              <p className="text-text-soft/75 text-[15px] leading-relaxed m-0">
-                {p.body}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <ul className="mt-8 flex flex-col gap-2.5 p-0 list-none">
-          {PRICING_NOTE.map((n) => (
+        <ul className="mt-6 flex flex-col gap-2.5 p-0 list-none">
+          {CONDICIONES_LETRA_PEQUENA.map((n) => (
             <li
               key={n}
               className="flex gap-3 text-text-soft text-[14px] leading-relaxed"
