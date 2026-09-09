@@ -9,10 +9,10 @@ const LADO = 1280; // ventana cuadrada: la rejilla de la galería es cuadrada
 const FPS = 24;
 const SEGUNDOS = 7; // de ida; el bucle luego va y vuelve -> unos 14 s
 // Px por segundo. Es LO PRIMERO que hay que mirar si un recorrido no se lee.
-// Historial de intentos, para no repetirlos: 1100 y 700 eran un borrón, y a
-// 450 seguía pasando demasiado deprisa en una casilla pequeña de la rejilla.
-// A 250 se lee. Recorre menos página, y merece la pena.
-const VELOCIDAD = Number(process.env.VELOCIDAD || 250);
+// Historial de intentos, para no repetirlos: 1100 y 700 eran un borrón. 250 se
+// lee muy cómodo, pero deja fuera dos tercios de cada página. 450 es el punto
+// elegido: se lee, y se ve el doble de web que a 250.
+const VELOCIDAD = Number(process.env.VELOCIDAD || 450);
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const fs = await import("node:fs");
