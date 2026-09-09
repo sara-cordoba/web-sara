@@ -8,7 +8,6 @@ import {
   FORMULARIO_NETLIFY,
   GUION,
   INICIO,
-  burbujasEscritas,
   PAGINAS_SIN_NIKA,
   temaDeTexto,
   TEXTOS,
@@ -331,11 +330,8 @@ export default function Nika() {
     setPila((pl) => [...pl, nodoActual]);
     /* Si se reconoce el tema, se contesta con lo que ya hay escrito. Si no,
        "libre": se le pasa el mensaje a Sara y no se fuerza una respuesta que
-       no viene a cuento.
-       Entrando por aquí, algunos nodos cambian su primera burbuja: la de
-       siempre contesta a lo que dice el botón, no a lo que se ha escrito. */
-    const tema = temaDeTexto(texto) ?? "libre";
-    contar(tema, burbujasEscritas(tema));
+       no viene a cuento. */
+    contar(temaDeTexto(texto) ?? "libre");
   };
 
   const enviarFicha = async (e: React.FormEvent) => {

@@ -8,11 +8,19 @@
 // ═══ REGLAS QUE NO SE SALTAN ═══
 //  · Nika no improvisa. Nunca. Si le preguntan algo que no está previsto,
 //    ofrece pasar el mensaje a Sara.
-//  · NO DA CIFRAS DE PRECIO. Sí da condiciones y descuentos.
+//  · NO DA PRECIOS. Ninguno, ni de catálogo ni "desde". No hay tarifa: cada
+//    proyecto se valora a partir de lo que pide el cliente y lo que necesita,
+//    y de ahí sale una propuesta. Eso es lo único que se cuenta aquí.
 //  · NO DA NÚMEROS PEQUEÑOS de nada: ni webs entregadas, ni clientes, ni años.
 //    Se dice "varias", o no se dice. Los números grandes sí van: los de
 //    YouTube, que son los que impresionan.
 //  · No se abre solo nunca.
+//  · NIKA NO DIAGNOSTICA. No ha visto la web del visitante, no sabe por qué
+//    no le funciona y no puede adivinarlo. Decir "suele ser el móvil" es
+//    inventarse una avería delante de alguien que sabe cuál es la suya.
+//    Nika cuenta lo que Sara HACE. El problema lo pone el visitante.
+//  · Y NO SUPONE. Ni que tienes web, ni que te va mal, ni que no tienes
+//    tiempo. Los botones dicen lo que alguien quiere, no lo que le pasa.
 //  · De cualquier paso se puede volver atrás y se puede empezar de nuevo.
 //    Nadie se queda encerrado por pulsar el botón que no era.
 //
@@ -30,6 +38,10 @@
 //  3. QUE NO SEA UN CALLEJÓN. Todo nodo de servicio lleva al precio, el precio
 //     lleva a cómo se empieza, y de todos se puede escribir a Sara. La misma
 //     acción se llama SIEMPRE igual en todos los nodos.
+//  4. QUE LA PRIMERA BURBUJA SE AGUANTE SOLA. A cada nodo se llega también
+//     escribiendo, y entonces no hay botón delante. Una primera burbuja que
+//     conteste al botón ("Normal." contesta a "no tengo tiempo") le suena a
+//     quien ha escrito otra cosa a que no le han leído.
 //
 // ═══ CÓMO SE ESCRIBEN LAS BURBUJAS ═══
 //  · DOS TOPES QUE NO SE PASAN, porque esto se lee en un móvil:
@@ -78,17 +90,6 @@ export type Boton = {
 
 export type Nodo = {
   burbujas: string[];
-  /**
-   * Primera burbuja de repuesto para cuando se llega ESCRIBIENDO, no pulsando.
-   *
-   * La primera burbuja de algunos nodos contesta a lo que dice su botón: el
-   * "Normal." de redes contesta a "no tengo tiempo para las redes". Quien
-   * escribe "¿haces vídeos?" no ha dicho eso, y recibir "Normal. Publicar bien
-   * no es un rato suelto" suena a que no le han leído.
-   * Solo la ponen los nodos cuya primera burbuja reacciona a algo; las demás
-   * se aguantan solas y no la necesitan.
-   */
-  entradaLibre?: string;
   botones?: Boton[];
   /** Si es true, tras las burbujas se abre el formulario directamente. */
   abreFormulario?: boolean;
@@ -111,30 +112,27 @@ export const GUION: Record<string, Nodo> = {
   inicio: {
     burbujas: [
       "¡Hola! Soy **Nika**, el asistente de Sara.",
-      "Dime qué necesitas y te cuento cómo lo haría ella.",
+      "Dime qué buscas y te cuento cómo lo hace ella.",
     ],
-    // "Qué necesitas" es lo único que abarca las cinco respuestas: dos son una
-    // avería, una es un encargo y otra es una oferta de trabajo. Preguntar
-    // "qué es lo que no te funciona" dejaba fuera a la mitad de los botones.
+    /* Cada botón dice lo que alguien QUIERE, no lo que le pasa.
+       "Mi web no me trae nada" daba por hecho que tienes web y que va mal, y
+       dejaba fuera a quien no tiene ninguna todavía. "No tengo tiempo para
+       las redes" ponía en tu boca una excusa que a lo mejor no es la tuya. */
     botones: [
-      { texto: "Mi web no me trae nada", nodo: "web" },
-      { texto: "No tengo tiempo para las redes", nodo: "redes" },
-      { texto: "Quiero un chatbot para mi negocio", nodo: "chatbot" },
-      // Antes ponía "Represento a una empresa", que es justo lo que pulsaría
-      // una empresa que busca quien le haga la web: se llevaba al cliente
-      // bueno a una rama donde se le ofrece el CV de Sara.
+      { texto: "Quiero una web", nodo: "web" },
+      { texto: "Quiero que me lleven las redes", nodo: "redes" },
+      { texto: "Quiero un chatbot", nodo: "chatbot" },
       { texto: "Busco a alguien para mi equipo", nodo: "empresa" },
       { texto: "Otra cosa", nodo: "otra" },
     ],
   },
 
   web: {
-    // "Suele ser" contesta a "mi web no me trae nada". Escrito a mano no hay
-    // avería que explicar, así que se dice lo mismo sin dar por hecha la queja.
-    entradaLibre: "Lo que suele fallar: el móvil, o que **no se entiende qué vendes**.",
+    // Fuera el "suele ser el móvil": Nika no ha visto esa web y no puede
+    // decirle a nadie qué le pasa. Aquí se cuenta lo que hace Sara y ya está.
     burbujas: [
-      "Suele ser el móvil, o que **no se entiende qué vendes** en tres segundos.",
-      "Las dos tienen arreglo. Sara las hace a medida, y **ha entregado varias**.",
+      "Sara las hace a medida, no con plantillas.",
+      "Estructura, textos y móvil, pensados para lo que vendes tú.",
       "Y **la web es tuya**: sin cuotas y sin depender de nadie.",
     ],
     // "Ver esas webs" no valía por dos motivos: ninguna burbuja hablaba de
@@ -144,12 +142,10 @@ export const GUION: Record<string, Nodo> = {
   },
 
   redes: {
-    // Igual que en web: fuera el "Normal.", que contesta a una queja que quien
-    // ha escrito no ha hecho. El resto de la burbuja vale igual.
-    entradaLibre: "Publicar bien **no es un rato suelto, es un trabajo**.",
+    // El "Normal." de antes contestaba a una queja que nadie ha hecho.
     burbujas: [
-      "Normal. Publicar bien **no es un rato suelto, es un trabajo**.",
-      "Sara lo lleva entero: estrategia, textos, diseño y vídeo. Tú, nada.",
+      "Sara lo lleva entero: estrategia, calendario, textos, diseño y vídeo.",
+      "Tú no tienes que acordarte de nada.",
       "En YouTube: **de cero a 12.500 suscriptores en 17 meses**, y 128 vídeos.",
     ],
     botones: [VER_TRABAJOS, PRECIO, HABLAR],
@@ -197,12 +193,15 @@ export const GUION: Record<string, Nodo> = {
   },
 
   precio: {
+    /* Aquí no sale ni una cifra, ni siquiera el tanto por ciento del descuento:
+       en cuanto aparece un número, lo que se lea después ya suena a tarifa.
+       Que el descuento existe sí se dice; cuánto es, está en /recomienda. */
     burbujas: [
-      "Depende del alcance, así que Sara te lo dice **después de ver qué necesitas**.",
-      "**El precio y la fecha, por escrito antes de empezar.** Sin sorpresas.",
-      // Sin "página extra gratis": ese premio es de webs, y aquí se llega
-      // también desde redes y desde chatbot. El 10 % sí vale para todo.
-      "Y se abarata: **vienes recomendado**, o **recomiendas tú** → 10 %.",
+      "No hay tarifa: se valora **lo que pides y lo que necesitas**.",
+      // Sin "de ahí sale una propuesta": esa frase es la del nodo de empezar, y
+      // encadenando precio -> empezar sonaba dos veces seguidas.
+      "Sara te pasa una propuesta con el precio y la fecha, **por escrito**.",
+      "Y hay descuento si **vienes recomendado**, o si **recomiendas tú**.",
     ],
     botones: [{ texto: "¿Cómo se empieza?", nodo: "empezar" }, HABLAR],
   },
@@ -288,16 +287,6 @@ const TEMAS: { nodo: string; palabras: string[] }[] = [
     palabras: ["como empiezo", "como se empieza", "como funciona", "por donde empiezo"],
   },
 ];
-
-/**
- * Las burbujas con las que se entra a un nodo ESCRIBIENDO. Devuelve undefined
- * si el nodo no necesita entrada aparte, y entonces valen las de siempre.
- */
-export function burbujasEscritas(clave: string): string[] | undefined {
-  const nodo = GUION[clave];
-  if (!nodo?.entradaLibre) return undefined;
-  return [nodo.entradaLibre, ...nodo.burbujas.slice(1)];
-}
 
 /**
  * A qué punto del guion lleva un mensaje escrito a mano.
