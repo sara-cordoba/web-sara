@@ -25,9 +25,9 @@ import { avisarAlSalir, enviarFormulario } from "@/data/site";
    de dos palabras no cuesta lo mismo que un párrafo. Sin esto, cuatro
    burbujas caen en menos de dos segundos y parece un volcado de texto, no
    una conversación. */
-const ESPERA_BASE = 500; // ms
-const ESPERA_POR_LETRA = 11; // ms
-const ESPERA_MAXIMA = 2200; // ms
+const ESPERA_BASE = 300; // ms
+const ESPERA_POR_LETRA = 7; // ms
+const ESPERA_MAXIMA = 1200; // ms
 const pausaPara = (texto: string) =>
   Math.min(ESPERA_MAXIMA, ESPERA_BASE + texto.length * ESPERA_POR_LETRA);
 const LLAVE_SESION = "nika-aviso-enviado";
