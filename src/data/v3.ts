@@ -158,4 +158,19 @@ export const WORKS: Work[] = [
     hice: "Edición de vídeo: ritmo, cortes, subtítulos y estructura narrativa, adaptada a formatos digitales y redes.",
     resultado: "Campaña entregada en enero de 2026.",
   },
+  {
+    title: "WakandIA",
+    year: "2025",
+    type: "Identidad · Web · Contenido",
+    // El símbolo venía en vertical y con mucho aire: está recortado a la caja
+    // de la W y centrado en un cuadrado, que si no en 54 px no se veía.
+    logo: "/img/wakandia.webp",
+    logoBg: "#0f0f0f",
+    logoFill: true,
+    necesitaba:
+      "Una marca educativa desde cero, vinculada a Cronos AI Consulting, para enseñar inteligencia artificial de forma accesible.",
+    hice: "Identidad visual y branding, tono de comunicación, estructura web, contenidos para redes y materiales gráficos.",
+    resultado:
+      "Marca construida entera en cinco meses, de abril a agosto de 2025.",
+  },
 ];
