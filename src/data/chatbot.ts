@@ -13,12 +13,23 @@
 //    Se dice "varias", o no se dice. Los números grandes sí van: los de
 //    YouTube, que son los que impresionan.
 //  · No se abre solo nunca.
+//  · De cualquier paso se puede volver atrás y se puede empezar de nuevo.
+//    Nadie se queda encerrado por pulsar el botón que no era.
 //
 // ═══ CÓMO SE ESCRIBEN LAS BURBUJAS ═══
+//  · DOS TOPES QUE NO SE PASAN, porque esto se lee en un móvil:
+//      - 3 burbujas por respuesta como mucho
+//      - 2 líneas por burbuja como mucho
+//    Dos líneas son unos 75 caracteres, y no siempre: depende de por dónde
+//    parta la última palabra. Está medido dentro del chat, no calculado a
+//    ojo: a 390 px la burbuja mide 302 px y le caben 268 px de texto de
+//    14 px. Al tocar una burbuja, compruébala; 75 es la guía, no la ley.
+//    Si algo no cabe, se quita lo que sobra: no se parte la frase en trozos
+//    ni se reparte en una burbuja más.
 //  · Frases cortas. Es una ventana de chat en un móvil, no un folleto.
-//  · Cada respuesta va partida en varias burbujas, no en un ladrillo.
 //  · Lo que va entre **asteriscos** sale en negrita.
-//  · Un salto de línea dentro de una burbuja se escribe con \n.
+//  · Un salto de línea dentro de una burbuja se escribe con \n, pero se come
+//    una de las dos líneas que hay: casi nunca compensa.
 
 export const NOMBRE = "Nika";
 
@@ -37,6 +48,13 @@ export type Boton = {
   nodo?: string;
   /** Ir a una página de la web. El chat se queda abierto. */
   ir?: string;
+  /**
+   * Lo que dice Nika ANTES de llevarte, y el motivo de que exista este campo:
+   * sin él pulsas, cambia la página por debajo y el chat se queda mudo. Parece
+   * que no ha pasado nada, o que lo que hay escrito no viene a cuento.
+   * Todo botón con `ir` lleva el suyo. Si falta, se usa TEXTOS.avisoAlIr.
+   */
+  aviso?: string;
   /** Para el CV: en vez de navegar, lo descarga. */
   descarga?: boolean;
   /** Abrir el formulario dentro del chat. */
@@ -56,7 +74,7 @@ export const GUION: Record<string, Nodo> = {
   inicio: {
     burbujas: [
       "¡Hola! Soy **Nika**, el asistente de Sara.",
-      "Si has llegado hasta aquí es porque algo de tu presencia digital no acaba de funcionar. Dime qué es y te cuento cómo lo resolvería ella.",
+      "Dime qué es lo que no te funciona y te cuento cómo lo arreglaría ella.",
     ],
     botones: [
       { texto: "Mi web no me trae nada", nodo: "web" },
@@ -69,13 +87,16 @@ export const GUION: Record<string, Nodo> = {
 
   web: {
     burbujas: [
-      "Suele ser una de tres: **no se entiende en tres segundos qué vendes**, **no se ve bien en el móvil**, o **no hay forma fácil de contactar**.",
-      "Las tres tienen arreglo.",
-      "Sara hace webs a medida, nada de plantillas. La estructura, los textos y el móvil, pensados para lo que vendes tú. Y algo que suele gustar: **la web es tuya**, sin cuotas y sin depender de nadie para cambiar una coma.",
-      "Ha entregado ya varias, y puedes ver algunas funcionando ahora mismo.",
+      "Suele ser el móvil, o que **no se entiende qué vendes** en tres segundos.",
+      "Las dos tienen arreglo. Sara las hace a medida, y ha entregado varias.",
+      "Y **la web es tuya**: sin cuotas y sin depender de nadie.",
     ],
     botones: [
-      { texto: "Ver esas webs", ir: "/trabajos" },
+      {
+        texto: "Ver esas webs",
+        ir: "/trabajos",
+        aviso: "Te abro los trabajos. Sigo aquí cuando quieras.",
+      },
       { texto: "¿Cuánto costaría la mía?", nodo: "precio" },
       { texto: "Que me escriba Sara", formulario: true },
     ],
@@ -84,12 +105,15 @@ export const GUION: Record<string, Nodo> = {
   redes: {
     burbujas: [
       "Normal. Publicar bien **no es un rato suelto, es un trabajo**.",
-      "Sara lleva la parte entera: estrategia, calendario, textos, diseño de las piezas y edición de vídeo. Tú no tienes que acordarte de nada.",
-      "Para que te hagas idea: llevó un canal de YouTube **de cero a 12.500 suscriptores en 17 meses**, con 128 vídeos editados por ella.",
-      "Y si hay que tocar la web para que el contenido funcione, **la toca ella misma**. Sin esperar a nadie.",
+      "Sara lo lleva entero: estrategia, textos, diseño y vídeo. Tú, nada.",
+      "En YouTube: **de cero a 12.500 suscriptores en 17 meses**, y 128 vídeos.",
     ],
     botones: [
-      { texto: "Ver trabajos", ir: "/trabajos" },
+      {
+        texto: "Ver trabajos",
+        ir: "/trabajos",
+        aviso: "Te abro los trabajos. Sigo aquí cuando quieras.",
+      },
       { texto: "¿Cómo se empieza?", nodo: "empezar" },
       { texto: "Que me escriba Sara", formulario: true },
     ],
@@ -98,42 +122,53 @@ export const GUION: Record<string, Nodo> = {
   chatbot: {
     burbujas: [
       "El que estás usando ahora es una **muestra sencilla**, para que veas la idea.",
-      "Los que montamos para clientes son otra liga: **llevan IA de verdad** y se conectan a tu información. Entienden lo que les preguntan aunque no esté previsto, y responden con criterio.",
-      "Atienden a cualquier hora, filtran lo que no interesa, y **te enteras de qué pregunta de verdad la gente** que entra en tu web.",
-      "Se monta sobre la web que ya tienes. No hay que rehacer nada.",
+      "Los de cliente son otra liga: **IA de verdad**, conectada a tu información.",
+      "Atienden siempre y **te dicen qué pregunta la gente** que entra.",
     ],
     botones: [
       { texto: "Que me escriba Sara", formulario: true },
-      { texto: "Ver trabajos", ir: "/trabajos" },
+      {
+        texto: "Ver trabajos",
+        ir: "/trabajos",
+        aviso: "Te abro los trabajos. Sigo aquí cuando quieras.",
+      },
     ],
   },
 
   empresa: {
     burbujas: [
-      "Sara está **abierta a incorporarse a un equipo**.",
-      "Su perfil es marca y contenido digital, con algo que no suele venir en el mismo pack: **viene del desarrollo web**. Cuando diseña una landing sabe lo que cuesta montarla, y en equipos pequeños la monta ella.",
-      "Ha llevado sola la presencia digital completa de una startup B2B desde cero: identidad de marca, web bilingüe, contenido y automatización con IA.",
-      "Remoto, o híbrido en Cataluña. Castellano y catalán nativos.",
+      "Sara está **abierta a incorporarse a un equipo**. Remoto o híbrido en Cataluña.",
+      "Marca y contenido, y **viene del desarrollo web**: monta lo que diseña.",
+      "Llevó sola la marca y la web de una startup B2B, desde cero.",
     ],
     botones: [
-      { texto: "Ver su perfil", ir: "/perfil" },
-      { texto: "Descargar su CV", ir: "/CV_Sara_Cordoba_ES.pdf", descarga: true },
+      {
+        texto: "Ver su perfil",
+        ir: "/perfil",
+        aviso: "Te abro su perfil. Sigo aquí cuando quieras.",
+      },
+      {
+        texto: "Descargar su CV",
+        ir: "/CV_Sara_Cordoba_ES.pdf",
+        descarga: true,
+        aviso: "Te descargo el CV. Sigo aquí cuando quieras.",
+      },
       { texto: "Escribirle", formulario: true },
     ],
   },
 
   otra: {
     burbujas: [
-      "Cuéntamelo y se lo paso a Sara. Te responde por correo, normalmente el mismo día.",
+      "Cuéntamelo y se lo paso. Te responde por correo, normalmente el mismo día.",
     ],
     abreFormulario: true,
   },
 
   precio: {
     burbujas: [
-      "Depende del alcance, y por eso Sara te lo dice **después de ver qué necesitas**. No cuesta lo mismo una web sencilla que una con reservas y en dos idiomas. Según el proyecto sale mejor a precio cerrado, y otras veces por horas.",
-      "Lo que sí es fijo: **el precio y la fecha, por escrito antes de empezar**. Mitad al empezar, mitad al entregar. Sin sorpresas a media obra.",
-      "Y hay dos formas de que te salga más barato:\n· **Vienes recomendado** → entras con una página extra gratis.\n· **Recomiendas tú a alguien** → te llevas el 10 % de su proyecto, con un mínimo de 75 €.",
+      "Depende del alcance, así que Sara te lo dice **después de ver qué necesitas**.",
+      "**El precio y la fecha, por escrito antes de empezar.** Sin sorpresas.",
+      "Se abarata: **vienes recomendado** → página extra. **Recomiendas tú** → 10 %.",
     ],
     botones: [
       { texto: "Que me escriba Sara", formulario: true },
@@ -149,7 +184,11 @@ export const GUION: Record<string, Nodo> = {
     ],
     botones: [
       { texto: "Que me escriba Sara", formulario: true },
-      { texto: "Ver trabajos", ir: "/trabajos" },
+      {
+        texto: "Ver trabajos",
+        ir: "/trabajos",
+        aviso: "Te abro los trabajos. Sigo aquí cuando quieras.",
+      },
     ],
   },
 
@@ -157,7 +196,7 @@ export const GUION: Record<string, Nodo> = {
   // reconoce que no es quien debe responder y ofrece pasar el mensaje.
   libre: {
     burbujas: [
-      "Eso mejor te lo cuenta Sara directamente, que te va a responder mejor que yo.",
+      "Eso mejor te lo cuenta Sara, que te va a responder mejor que yo.",
       "¿Te paso con ella?",
     ],
     abreFormulario: true,
@@ -197,7 +236,18 @@ export const TEXTOS = {
   subtitulo: "Asistente de Sara",
   marcadorEntrada: "Escribe lo que quieras…",
   enviarEntrada: "Enviar mensaje",
-  volver: "Volver al principio",
+
+  // ---- salidas de emergencia ----
+  // Van en todas las respuestas y también con el formulario abierto: son las
+  // dos formas de salir de donde estés sin cerrar el chat y perderlo todo.
+  /** Deshace el último botón. Sale en todo menos en el saludo. */
+  atras: "← Volver",
+  /** Borra la conversación y vuelve al saludo. */
+  reiniciar: "Empezar de nuevo",
+  /** Lo que dice Nika al volver atrás, antes de repetir las opciones. */
+  alVolver: "¿Por dónde seguimos?",
+  /** Aviso de repuesto para un botón con `ir` al que se le olvidó el suyo. */
+  avisoAlIr: "Te lo abro. Sigo aquí cuando quieras.",
 };
 
 /** El nombre del formulario de Netlify declarado en public/__forms.html */

@@ -33,6 +33,14 @@ const pausaPara = (texto: string) =>
 const LLAVE_SESION = "nika-aviso-enviado";
 const BOTONES_MINIMOS = 2; // para avisar del recorrido sin datos personales
 
+/* Volver y empezar de nuevo se apuntan en el recorrido, porque a Sara le dice
+   algo que alguien se arrepintiera ahí. Pero no cuentan como interés: si no,
+   dar dos veces atrás dispararía un aviso de un visitante que no ha mirado
+   nada, y los avisos son 100 al mes entre los cuatro formularios. */
+const pasosDeGuion = (recorrido: string[]) =>
+  recorrido.filter((x) => x !== TEXTOS.atras && x !== TEXTOS.reiniciar).length -
+  1;
+
 type Mensaje = { de: "nika" | "tu"; texto: string };
 
 export default function Nika() {
@@ -44,6 +52,11 @@ export default function Nika() {
   const [botones, setBotones] = useState<Boton[]>([]);
   const [modo, setModo] = useState<"chat" | "formulario" | "enviado">("chat");
   const [recorrido, setRecorrido] = useState<string[]>(["Inicio"]);
+  /* Dónde estamos y por dónde hemos venido. La pila es lo que hace que
+     "Volver" exista: sin ella, equivocarse de botón era quedarse encerrada,
+     porque la única salida era cerrar el chat y perder la conversación. */
+  const [nodoActual, setNodoActual] = useState(INICIO);
+  const [pila, setPila] = useState<string[]>([]);
   const [entrada, setEntrada] = useState("");
   const [sinMovimiento, setSinMovimiento] = useState(false);
 
@@ -158,7 +171,7 @@ export default function Nika() {
   const cerrar = useCallback(() => {
     setAbierto(false);
     lanzadorRef.current?.focus();
-    const pasos = recorridoRef.current.length - 1;
+    const pasos = pasosDeGuion(recorridoRef.current);
     if (!yaAvisado() && pasos >= BOTONES_MINIMOS) {
       marcarAvisado();
       void enviarFormulario(FORMULARIO_NETLIFY, {
@@ -179,7 +192,7 @@ export default function Nika() {
   useEffect(() => {
     const alSalir = () => {
       if (modoRef.current === "formulario") return;
-      const pasos = recorridoRef.current.length - 1;
+      const pasos = pasosDeGuion(recorridoRef.current);
       if (yaAvisado() || pasos < BOTONES_MINIMOS) return;
       marcarAvisado();
       avisarAlSalir(FORMULARIO_NETLIFY, {
@@ -212,54 +225,109 @@ export default function Nika() {
     return () => window.removeEventListener("keydown", alPulsar);
   }, [abierto, cerrar]);
 
-  const pulsarBoton = (b: Boton) => {
+  /* El viaje a otra página se hace con retraso, para que dé tiempo a leer el
+     aviso antes de que cambie el suelo. Si mientras tanto se pulsa Volver o
+     Empezar de nuevo, ese viaje se cancela: llevarte a una página que ya has
+     dicho que no querías es peor que no llevarte a ninguna. */
+  const viajeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cancelarViaje = () => {
+    if (viajeRef.current) clearTimeout(viajeRef.current);
+    viajeRef.current = null;
+  };
+  useEffect(() => cancelarViaje, []);
+
+  /** Coloca un nodo del guion: sus burbujas y, cuando calle, sus botones. */
+  const contar = (clave: string, burbujas?: string[]) => {
+    const nodo = GUION[clave];
+    if (!nodo) return;
+    setNodoActual(clave);
+    setCola(burbujas ?? nodo.burbujas);
+    if (nodo.abreFormulario && !burbujas) setModo("formulario");
+    else {
+      setModo("chat");
+      nodoPendiente.current = nodo.botones ?? [];
+    }
+  };
+
+  const anotar = (texto: string) => {
     setAncla(mensajes.length); // el mensaje que va a entrar ahora
-    setMensajes((m) => [...m, { de: "tu", texto: b.texto }]);
-    setRecorrido((r) => [...r, b.texto]);
+    setMensajes((m) => [...m, { de: "tu", texto }]);
+    setRecorrido((r) => [...r, texto]);
     setBotones([]);
+  };
+
+  const pulsarBoton = (b: Boton) => {
+    anotar(b.texto);
+    // De aquí se vuelve a este mismo paso, sea cual sea el botón: el formulario
+    // y las páginas no son un paso nuevo del guion, son una parada.
+    setPila((p) => [...p, nodoActual]);
 
     if (b.formulario) {
       setModo("formulario");
       return;
     }
+
     if (b.ir) {
-      if (b.descarga) {
-        const a = document.createElement("a");
-        a.href = b.ir;
-        a.download = "";
-        a.click();
-      } else {
-        router.push(b.ir); // el chat se queda abierto
-      }
-      // tras llevarle a la página, se le devuelven los botones
-      nodoPendiente.current = botones.filter((x) => x.texto !== b.texto);
-      setTimeout(() => {
-        setBotones(nodoPendiente.current);
-        nodoPendiente.current = [];
-      }, 400);
+      /* Nika lo acusa ANTES de llevarte. Y después no se le dejan los botones
+         sueltos del paso anterior, que ya no vienen a cuento: quedan las dos
+         salidas, que es lo único que hace falta al volver la vista al chat. */
+      const destino = b.ir;
+      const aviso = b.aviso ?? TEXTOS.avisoAlIr;
+      setCola([aviso]);
+      nodoPendiente.current = [];
+      cancelarViaje();
+      viajeRef.current = setTimeout(() => {
+        viajeRef.current = null;
+        if (b.descarga) {
+          const a = document.createElement("a");
+          a.href = destino;
+          a.download = "";
+          a.click();
+        } else {
+          router.push(destino); // el chat se queda abierto
+        }
+      }, pausaPara(aviso) + 450);
       return;
     }
-    if (b.nodo) {
-      const nodo = GUION[b.nodo];
-      if (!nodo) return;
-      setCola(nodo.burbujas);
-      if (nodo.abreFormulario) setModo("formulario");
-      else nodoPendiente.current = nodo.botones ?? [];
-    }
+
+    if (b.nodo) contar(b.nodo);
+  };
+
+  /** Deshace el último botón y devuelve las opciones del paso anterior. */
+  const volverAtras = () => {
+    if (pila.length === 0) return;
+    cancelarViaje();
+    anotar(TEXTOS.atras);
+    const destino = pila[pila.length - 1];
+    setPila((p) => p.slice(0, -1));
+    /* Se repiten las opciones, no el discurso: volver a soltar las burbujas
+       enteras cada vez que se da atrás llena el chat de lo mismo. */
+    contar(destino, [TEXTOS.alVolver]);
+  };
+
+  /** Borra la conversación y vuelve al saludo. Los datos ya escritos en la
+      ficha se quedan: reiniciar el guion no es tirar el nombre y el correo. */
+  const empezarDeNuevo = () => {
+    cancelarViaje();
+    setMensajes([]);
+    setRecorrido((r) => [...r, TEXTOS.reiniciar]);
+    setPila([]);
+    setAncla(0);
+    setBotones([]);
+    setModo("chat");
+    contar(INICIO);
   };
 
   const enviarEntrada = (e: React.FormEvent) => {
     e.preventDefault();
     const texto = entrada.trim();
     if (!texto) return;
-    setAncla(mensajes.length);
-    setMensajes((m) => [...m, { de: "tu", texto }]);
+    anotar(texto);
     setMensaje(texto); // se arrastra al campo del formulario
     setEntrada("");
-    setBotones([]);
-    const nodo = GUION.libre;
-    setCola(nodo.burbujas);
-    setModo("formulario");
+    // Escribir tambien es un paso: si no era esto lo que queria, se vuelve.
+    setPila((pl) => [...pl, nodoActual]);
+    contar("libre");
   };
 
   const enviarFicha = async (e: React.FormEvent) => {
@@ -286,6 +354,14 @@ export default function Nika() {
       setFalloEnvio(true);
     }
   };
+
+  const puedeVolver = pila.length > 0;
+  /* "Siempre" quiere decir: en cuanto la conversación se ha movido. Se mira lo
+     que hay en pantalla, no el recorrido, porque el recorrido no se borra al
+     reiniciar (Sara quiere ver que alguien volvió a empezar). Sin esto, tras
+     reiniciar quedaba un botón que ya no hacía nada. */
+  const puedeReiniciar =
+    pila.length > 0 || mensajes.length > GUION[INICIO].burbujas.length;
 
   // En las legales no sale. Va aquí abajo y no arriba porque los hooks de
   // React tienen que ejecutarse siempre, en todas las páginas.
@@ -393,22 +469,20 @@ export default function Nika() {
               />
             )}
 
-            {modo === "enviado" && (
-              <button
-                type="button"
-                onClick={() => {
-                  setModo("chat");
-                  setMensajes([]);
-                  setRecorrido(["Inicio"]);
-                  setAncla(0);
-                  const nodo = GUION[INICIO];
-                  setCola(nodo.burbujas);
-                  nodoPendiente.current = nodo.botones ?? [];
-                }}
-                className="self-start text-[13px] text-text-muted hover:text-lime underline underline-offset-2 mt-2 bg-transparent border-0 cursor-pointer p-0"
-              >
-                {TEXTOS.volver}
-              </button>
+            {/* Las salidas. Van en todo menos en el saludo (de donde no hay
+                de dónde volver) y también con la ficha abierta, que es justo
+                donde más fácil es sentirse metida en un callejón. */}
+            {cola.length === 0 && (puedeVolver || puedeReiniciar) && (
+              <div className="flex flex-wrap gap-2 mt-1">
+                {puedeVolver && (
+                  <BotonSalida onClick={volverAtras}>{TEXTOS.atras}</BotonSalida>
+                )}
+                {puedeReiniciar && (
+                  <BotonSalida onClick={empezarDeNuevo}>
+                    {TEXTOS.reiniciar}
+                  </BotonSalida>
+                )}
+              </div>
             )}
 
             <div ref={finRef} />
@@ -486,6 +560,27 @@ function Burbuja({
     >
       <ConNegrita texto={texto} />
     </div>
+  );
+}
+
+/* Las salidas van en gris y en pastilla, no en verde como las opciones del
+   guion: son para deshacer, no para avanzar, y no deben competir con lo que
+   Nika está ofreciendo. */
+function BotonSalida({
+  onClick,
+  children,
+}: {
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="text-[13px] px-3 py-1.5 rounded-full border border-border text-text-muted hover:text-lime hover:border-lime/40 hover:bg-lime/[0.06] transition-colors cursor-pointer bg-transparent"
+    >
+      {children}
+    </button>
   );
 }
 
