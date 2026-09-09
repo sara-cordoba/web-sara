@@ -72,6 +72,14 @@ export const EXPERIENCIA: Puesto[] = [
       "Montaje de las piezas de una campaña publicitaria: ritmo, cortes, subtítulos y estructura narrativa, adaptados a formatos digitales y redes. Campaña entregada en enero.",
   },
   {
+    puesto: "Brand Manager y creación de marca educativa",
+    empresa: "WakandIA",
+    fechas: "abr. 2025 – ago. 2025",
+    contexto: "Remoto · Cliente propio",
+    descripcion:
+      "Creación integral de una marca educativa vinculada a Cronos AI Consulting: identidad visual y branding, tono de comunicación, estructura web, contenidos para redes y materiales gráficos. El objetivo, comunicar formación en inteligencia artificial de forma cercana y accesible.",
+  },
+  {
     puesto: "Desarrolladora front-end junior (prácticas)",
     empresa: "Aqua Connect",
     fechas: "jun. 2024 – mar. 2025",
