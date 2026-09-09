@@ -74,7 +74,40 @@ export type Work = {
   url?: string;
 };
 
+
+// ORDEN: de más reciente a más antiguo por fecha de fin, con una excepción
+// fija: Cronos AI Consulting va SIEMPRE primero. Es el único proyecto en
+// curso y el más importante, así que no entra en el orden por fecha.
+// Al añadir una ficha nueva, colócala por su fecha de fin y no delante de
+// Cronos.
 export const WORKS: Work[] = [
+  {
+    title: "Cronos AI Consulting",
+    year: "2025 — ACTUAL",
+    type: "Marca · Web · Contenido",
+    logo: "/img/cronos.png",
+    logoBg: "#000",
+    logoFill: true,
+    necesitaba: "No tenía ni marca, ni web, ni redes.",
+    hice: "Identidad visual completa, web corporativa bilingüe, contenido y automatización de procesos con IA.",
+    resultado:
+      "El canal de YouTube pasó de 0 a 12.500 suscriptores en 17 meses, con 128 vídeos producidos y editados por mí.",
+    // Se enlaza a la www a propósito: el dominio sin www está sin certificado
+    // y no conecta. Mismo motivo que en la burbuja de Nika (src/data/chatbot.ts).
+    url: "https://www.cronosaiconsulting.com/",
+  },
+  {
+    title: "GPAthletes",
+    year: "2026",
+    type: "Identidad · Redes · Contenido",
+    logo: "/img/gpathletes.jpg",
+    logoBg: "#bfe0e5",
+    logoFill: true,
+    necesitaba: "Presencia constante en redes y una identidad reconocible.",
+    hice: "Creación de contenido, edición de reels y apoyo en branding, traduciendo sus mensajes estratégicos a piezas visuales.",
+    resultado:
+      "7 meses de contenido continuado, de febrero a agosto de 2026.",
+  },
   {
     title: "Ser Annora",
     year: "2026",
@@ -89,30 +122,6 @@ export const WORKS: Work[] = [
     hice: "La diseñé y desarrollé en WordPress con Elementor: estructura, organización del contenido, diseño responsive y experiencia de usuario.",
     resultado: "Entregada en junio de 2026 y en uso desde entonces.",
     url: "https://annora.es/ser-annora-aprender-a-parar/",
-  },
-  {
-    title: "Cronos AI Consulting",
-    year: "2025 — ACTUAL",
-    type: "Marca · Web · Contenido",
-    logo: "/img/cronos.png",
-    logoBg: "#000",
-    logoFill: true,
-    necesitaba: "No tenía ni marca, ni web, ni redes.",
-    hice: "Identidad visual completa, web corporativa bilingüe, contenido y automatización de procesos con IA.",
-    resultado:
-      "El canal de YouTube pasó de 0 a 12.500 suscriptores en 17 meses, con 128 vídeos producidos y editados por mí.",
-  },
-  {
-    title: "GPAthletes",
-    year: "2026",
-    type: "Identidad · Redes · Contenido",
-    logo: "/img/gpathletes.jpg",
-    logoBg: "#bfe0e5",
-    logoFill: true,
-    necesitaba: "Presencia constante en redes y una identidad reconocible.",
-    hice: "Creación de contenido, edición de reels y apoyo en branding, traduciendo sus mensajes estratégicos a piezas visuales.",
-    resultado:
-      "7 meses de contenido continuado, de febrero a agosto de 2026.",
   },
   {
     title: "AJE Madrid",
@@ -136,7 +145,8 @@ export const WORKS: Work[] = [
       "Una web para un proyecto de terapia con enfoque formativo, clara de navegar y alineada con su método.",
     hice: "La diseñé y desarrollé en WordPress: estructura de página, organización del contenido y adaptación visual de la marca.",
     resultado: "Entregada en febrero de 2026.",
-    // Sin enlace a propósito: el cliente no autoriza publicar la web.
+    // SIN ENLACE, y no es un olvido: el cliente NO autoriza publicar la URL.
+    // No se enlaza ni se busca. Si alguien la pide, la respuesta es que no.
   },
   {
     title: "Develand Academia",
