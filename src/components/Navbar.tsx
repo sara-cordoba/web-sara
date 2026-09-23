@@ -113,11 +113,15 @@ export default function Navbar({ idioma }: { idioma: Idioma }) {
         })}
       </nav>
 
-      <div className="flex items-center gap-2">
-        {/* En la barra solo desde tablet: en móvil no cabe y se va al
-            desplegable, justo aquí abajo. */}
-        <SelectorIdioma idioma={idioma} className="hidden md:flex" />
+      {/* Hijo suelto de la barra, y NO dentro del grupo del botón: así el
+          reparto de la barra le deja el mismo aire a los dos lados. Metido en
+          el grupo se quedaba a 8 px del botón y a 362 px de los enlaces, y
+          parecía parte del botón.
+          En la barra solo desde tablet: en móvil no cabe y se va al
+          desplegable, más abajo. */}
+      <SelectorIdioma idioma={idioma} className="hidden md:flex" />
 
+      <div className="flex items-center gap-2">
         <Link
           href={contacto}
           className="group inline-flex items-center gap-2 bg-lime text-green font-semibold text-[13px] px-[18px] py-[10px] rounded-[10px] shadow-cta transition-all duration-200 hover:bg-lime-bright hover:-translate-y-px"
