@@ -3,12 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { Eyebrow, H1, CtaButton } from "@/components/ui";
-
-const TYPED_TEXT = "No es solo contenido.";
-const STRIKE_START = 6;
-const STRIKE_END = 10;
+import { textos } from "@/i18n";
+import type { Idioma } from "@/i18n/config";
 
 interface TypewriterTitleProps {
+  texto: string;
+  /** Dónde empieza y acaba el trozo tachado, en letras. */
+  inicioTachado: number;
+  finTachado: number;
   trigger: boolean;
   onComplete?: () => void;
   speed?: number;
@@ -16,6 +18,9 @@ interface TypewriterTitleProps {
 }
 
 function TypewriterTitle({
+  texto,
+  inicioTachado,
+  finTachado,
   trigger,
   onComplete,
   speed = 55,
@@ -32,24 +37,23 @@ function TypewriterTitle({
 
   useEffect(() => {
     if (!started) return;
-    if (progress < TYPED_TEXT.length) {
+    if (progress < texto.length) {
       const t = setTimeout(() => setProgress((p) => p + 1), speed);
       return () => clearTimeout(t);
     }
-    if (progress === TYPED_TEXT.length) {
+    if (progress === texto.length) {
       onComplete?.();
     }
-  }, [started, progress, speed, onComplete]);
+  }, [started, progress, speed, onComplete, texto.length]);
 
-  const before = TYPED_TEXT.slice(0, Math.min(progress, STRIKE_START));
+  const before = texto.slice(0, Math.min(progress, inicioTachado));
   const inStrike =
-    progress > STRIKE_START
-      ? TYPED_TEXT.slice(STRIKE_START, Math.min(progress, STRIKE_END))
+    progress > inicioTachado
+      ? texto.slice(inicioTachado, Math.min(progress, finTachado))
       : "";
-  const after =
-    progress > STRIKE_END ? TYPED_TEXT.slice(STRIKE_END, progress) : "";
+  const after = progress > finTachado ? texto.slice(finTachado, progress) : "";
 
-  const isComplete = progress >= TYPED_TEXT.length;
+  const isComplete = progress >= texto.length;
 
   return (
     <>
@@ -65,11 +69,21 @@ function TypewriterTitle({
   );
 }
 
-export default function Statement() {
+export default function Statement({ idioma = "es" }: { idioma?: Idioma }) {
   const ref = useRef<HTMLElement | null>(null);
   const inView = useInView(ref, { once: true, margin: "-100px 0px" });
   const [line1Done, setLine1Done] = useState(false);
   const [restVisible, setRestVisible] = useState(false);
+
+  const t = textos(idioma);
+
+  /* La frase que se escribe sola y su trozo tachado salen del diccionario:
+     el tachado se mide sobre el texto de cada idioma, no con un número de
+     letra fijo, que al traducir la frase tachaba lo que no era. */
+  const { antes, tachado, despues } = t.statement.linea1;
+  const frase = `${antes}${tachado}${despues}`;
+  const inicioTachado = antes.length;
+  const finTachado = inicioTachado + tachado.length;
 
   useEffect(() => {
     if (!line1Done) return;
@@ -80,7 +94,7 @@ export default function Statement() {
   return (
     <section
       ref={ref}
-      aria-label="Manifiesto"
+      aria-label={t.statement.aria}
       className="relative w-full overflow-hidden"
     >
       <div className="relative max-w-page mx-auto px-6 sm:px-10 lg:px-16 py-[80px] lg:py-[120px] z-10">
@@ -90,15 +104,15 @@ export default function Statement() {
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            <Eyebrow>España · Remoto</Eyebrow>
+            <Eyebrow>{t.statement.eyebrow}</Eyebrow>
           </motion.div>
 
           <H1>
-            <span
-              className="block min-h-[1.15em]"
-              aria-label="No es solo contenido."
-            >
+            <span className="block min-h-[1.15em]" aria-label={frase}>
               <TypewriterTitle
+                texto={frase}
+                inicioTachado={inicioTachado}
+                finTachado={finTachado}
                 trigger={inView}
                 delay={400}
                 onComplete={() => setLine1Done(true)}
@@ -112,13 +126,13 @@ export default function Statement() {
               }
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
-              Es contenido que{" "}
+              {t.statement.linea2.antes}
               <span
                 className={`text-lime ${line1Done ? "animate-pulse-lime" : ""}`}
               >
-                conecta
+                {t.statement.linea2.destacado}
               </span>
-              .
+              {t.statement.linea2.despues}
             </motion.span>
           </H1>
 
@@ -131,11 +145,9 @@ export default function Statement() {
             }
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            Si estás aquí es porque algo en tu marca no termina de encajar. La
-            web no convence, el contenido no conecta, o simplemente no sabes
-            por dónde empezar.{" "}
+            {t.statement.parrafo.antes}{" "}
             <strong className="text-text font-semibold">
-              Yo me encargo de eso.
+              {t.statement.parrafo.fuerte}
             </strong>
           </motion.p>
 
@@ -151,7 +163,9 @@ export default function Statement() {
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            <CtaButton href="/contacto">¡Hablemos!</CtaButton>
+            <CtaButton href={idioma === "en" ? "/en/contact" : "/contacto"}>
+              {t.statement.cta}
+            </CtaButton>
           </motion.div>
         </div>
       </div>

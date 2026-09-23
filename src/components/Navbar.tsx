@@ -4,20 +4,48 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import SelectorIdioma from "@/components/SelectorIdioma";
+import SugerenciaIdioma from "@/components/SugerenciaIdioma";
 import { GALERIA } from "@/data/galeria";
+import { textos } from "@/i18n";
+import type { Idioma } from "@/i18n/config";
 
-const PAGES = [
-  { href: "/", label: "Inicio" },
-  // El enlace a la galería solo aparece cuando hay piezas que enseñar.
-  ...(GALERIA.length > 0 ? [{ href: "/trabajos", label: "Trabajos" }] : []),
-  // A /perfil se llegaba solo con el enlace directo: quien entra por su
-  // cuenta a ver quién es Sara no lo encontraba por ningún sitio.
-  { href: "/perfil", label: "CV" },
-  { href: "/contacto", label: "Contacto" },
-];
+/* Los enlaces del menú, por idioma.
+   En inglés no sale el CV: /perfil solo existe en español, con el PDF en
+   español, y un enlace del menú inglés que lleva a una página española es
+   un callejón sin salida. */
+function paginas(idioma: Idioma) {
+  const t = textos(idioma);
 
-export default function Navbar() {
+  if (idioma === "en") {
+    return [
+      { href: "/en", label: t.navbar.inicio },
+      ...(GALERIA.length > 0
+        ? [{ href: "/en/work", label: t.navbar.trabajos }]
+        : []),
+      { href: "/en/contact", label: t.navbar.contacto },
+    ];
+  }
+
+  return [
+    { href: "/", label: t.navbar.inicio },
+    // El enlace a la galería solo aparece cuando hay piezas que enseñar.
+    ...(GALERIA.length > 0
+      ? [{ href: "/trabajos", label: t.navbar.trabajos }]
+      : []),
+    // A /perfil se llegaba solo con el enlace directo: quien entra por su
+    // cuenta a ver quién es Sara no lo encontraba por ningún sitio.
+    { href: "/perfil", label: t.navbar.cv },
+    { href: "/contacto", label: t.navbar.contacto },
+  ];
+}
+
+export default function Navbar({ idioma }: { idioma: Idioma }) {
   const pathname = usePathname();
+  const t = textos(idioma);
+  const PAGES = paginas(idioma);
+  const inicio = idioma === "en" ? "/en" : "/";
+  const contacto = idioma === "en" ? "/en/contact" : "/contacto";
 
   /* En móvil los cuatro enlaces no caben en la barra al lado del logo y del
      botón, así que van detrás de un desplegable. La barra no cambia de alto:
@@ -46,7 +74,7 @@ export default function Navbar() {
         background: "rgba(6, 6, 7, 0.72)",
       }}
     >
-      <Link href="/" className="flex items-center gap-3 cursor-pointer">
+      <Link href={inicio} className="flex items-center gap-3 cursor-pointer">
         <div
           className="w-9 h-9 rounded-[10px] grid place-items-center text-green font-bold text-[14px] tracking-[-0.02em] shadow-glow-lime"
           style={{
@@ -60,7 +88,7 @@ export default function Navbar() {
             Sara Córdoba
           </b>
           <span className="text-[11px] text-text-muted tracking-[0.02em] mt-[2px] hidden md:inline">
-            Webs, marca y contenido
+            {t.navbar.subtitulo}
           </span>
         </div>
       </Link>
@@ -86,13 +114,17 @@ export default function Navbar() {
       </nav>
 
       <div className="flex items-center gap-2">
+        {/* En la barra solo desde tablet: en móvil no cabe y se va al
+            desplegable, justo aquí abajo. */}
+        <SelectorIdioma idioma={idioma} className="hidden md:flex" />
+
         <Link
-          href="/contacto"
+          href={contacto}
           className="group inline-flex items-center gap-2 bg-lime text-green font-semibold text-[13px] px-[18px] py-[10px] rounded-[10px] shadow-cta transition-all duration-200 hover:bg-lime-bright hover:-translate-y-px"
         >
           {/* En el perfil profesional lo lee quien contrata, no quien compra:
               ahí el botón no puede decir "¡Hablemos!". */}
-          {pathname === "/perfil" ? "Contacto" : "¡Hablemos!"}
+          {pathname === "/perfil" ? t.navbar.ctaPerfil : t.navbar.cta}
           <span className="inline-block transition-transform duration-[250ms] ease-smooth group-hover:translate-x-[3px]">
             →
           </span>
@@ -101,7 +133,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setMenuAbierto((v) => !v)}
-          aria-label={menuAbierto ? "Cerrar el menú" : "Abrir el menú"}
+          aria-label={menuAbierto ? t.navbar.cerrarMenu : t.navbar.abrirMenu}
           aria-expanded={menuAbierto}
           aria-controls="menu-movil"
           className="md:hidden w-10 h-10 -mr-1 grid place-items-center rounded-[10px] text-text-soft hover:text-lime hover:bg-[rgba(163,217,119,0.08)] transition-colors cursor-pointer bg-transparent border-0"
@@ -138,7 +170,7 @@ export default function Navbar() {
           header, que es fijo, así que se coloca solo justo debajo. */}
       <nav
         id="menu-movil"
-        aria-label="Menú principal"
+        aria-label={t.navbar.menuPrincipal}
         /* Se abre y se cierra con la clase, NO con el atributo hidden: el
            display:flex de la clase le gana al display:none que el navegador
            le da a [hidden], y el menú se quedaba desplegado siempre tapando
@@ -173,7 +205,21 @@ export default function Navbar() {
             </Link>
           );
         })}
+
+        {/* El selector, para móvil. Va al final y separado por una raya:
+            es un ajuste de la página, no un sitio al que ir. */}
+        <div className="flex items-center gap-3 mt-1 px-3 py-3 border-t border-border">
+          <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-muted">
+            {t.idioma.etiqueta}
+          </span>
+          <SelectorIdioma idioma={idioma} />
+        </div>
       </nav>
+
+      {/* Se cuelga del header, que es fijo, para caer justo debajo de la barra
+          sin tener que saber cuánto mide. Si el menú de móvil está abierto no
+          sale: los dos ocupan el mismo sitio. */}
+      {!menuAbierto && <SugerenciaIdioma idioma={idioma} />}
     </header>
   );
 }

@@ -1,6 +1,10 @@
 import { Section, CtaButton } from "../ui";
+import { textos } from "@/i18n";
+import type { Idioma } from "@/i18n/config";
 
-export default function Banner() {
+export default function Banner({ idioma = "es" }: { idioma?: Idioma }) {
+  const t = textos(idioma);
+
   return (
     <Section>
       <div className="relative bg-[#0a0a0a] border-2 border-lime/40 rounded-3xl px-6 lg:px-16 py-12 lg:py-20 overflow-hidden mt-12 text-center animate-banner-pulse">
@@ -17,22 +21,25 @@ export default function Banner() {
               lineHeight: 1.08,
             }}
           >
-            ¿Listo para que tu marca
+            {t.banner.h2.antes}
             <br />
-            <span className="text-lime">cuente lo que vale</span>?
+            <span className="text-lime">{t.banner.h2.destacado}</span>
+            {t.banner.h2.despues}
           </h2>
           <p className="text-text-soft text-[15px] mx-auto mb-7 max-w-[520px]">
-            Cuéntame qué tienes y qué necesitas. Te respondo con una{" "}
+            {t.banner.parrafo.antes}{" "}
             <strong className="text-text font-semibold">
-              propuesta personalizada
+              {t.banner.parrafo.fuerte}
             </strong>
-            .
+            {t.banner.parrafo.despues}
           </p>
           <div className="inline-flex">
-            <CtaButton href="/contacto">¡Hablemos!</CtaButton>
+            <CtaButton href={idioma === "en" ? "/en/contact" : "/contacto"}>
+              {t.banner.cta}
+            </CtaButton>
           </div>
           <div className="mt-6 font-mono text-[12px] text-text-muted">
-            Sin compromiso · Cada mensaje lo respondo personalmente
+            {t.banner.nota}
           </div>
         </div>
       </div>

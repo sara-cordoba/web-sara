@@ -1,36 +1,44 @@
 import Image from "next/image";
 import { Section, Eyebrow, H2 } from "../ui";
 import { WORKS, type Work } from "@/data/v3";
+import { textos, type Diccionario } from "@/i18n";
+import type { Idioma } from "@/i18n/config";
+import { trabajoEn } from "@/i18n/contenido-en";
 
 type Props = {
+  idioma?: Idioma;
   eyebrow?: string;
   heading?: React.ReactNode;
 };
 
-export default function Works({
-  eyebrow = "Trabajos seleccionados",
-  heading,
-}: Props) {
+export default function Works({ idioma = "es", eyebrow, heading }: Props) {
+  const t = textos(idioma);
+  // Siempre por la lista española: una ficha sin traducir sale en español,
+  // que es mejor que no salir.
+  const trabajos = idioma === "en" ? WORKS.map(trabajoEn) : WORKS;
+
   return (
     <Section>
-      <Eyebrow>{eyebrow}</Eyebrow>
+      <Eyebrow>{eyebrow ?? t.works.eyebrow}</Eyebrow>
       <H2 className="whitespace-nowrap !max-w-none">
         {heading ?? (
           <>
-            Proyectos <span className="text-lime">recientes</span>.
+            {t.works.h2.antes}
+            <span className="text-lime">{t.works.h2.destacado}</span>
+            {t.works.h2.despues}
           </>
         )}
       </H2>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-[60px]">
-        {WORKS.map((w) => (
-          <Ficha key={w.title} work={w} />
+        {trabajos.map((w) => (
+          <Ficha key={w.title} work={w} t={t} />
         ))}
       </div>
     </Section>
   );
 }
 
-function Ficha({ work: w }: { work: Work }) {
+function Ficha({ work: w, t }: { work: Work; t: Diccionario }) {
   return (
     <article className="flex flex-col rounded-[16px] border border-border bg-[#0c0c0c] p-5 sm:p-6 transition-all duration-[350ms] ease-smooth hover:border-border-strong hover:-translate-y-0.5 shadow-[0_0_50px_-15px_rgba(163,217,119,0.10)]">
       <header className="flex items-center gap-4">
@@ -46,9 +54,9 @@ function Ficha({ work: w }: { work: Work }) {
       </header>
 
       <dl className="m-0 mt-5 flex flex-col gap-3 flex-1">
-        <Linea etiqueta="Necesitaba">{w.necesitaba}</Linea>
-        <Linea etiqueta="Hice">{w.hice}</Linea>
-        <Linea etiqueta="Resultado">{w.resultado}</Linea>
+        <Linea etiqueta={t.works.necesitaba}>{w.necesitaba}</Linea>
+        <Linea etiqueta={t.works.hice}>{w.hice}</Linea>
+        <Linea etiqueta={t.works.resultado}>{w.resultado}</Linea>
       </dl>
 
       {w.url && (
@@ -58,7 +66,7 @@ function Ficha({ work: w }: { work: Work }) {
           rel="noopener noreferrer"
           className="group mt-5 self-start inline-flex items-center gap-2 text-lime font-medium text-[14px] border-b border-lime/30 pb-0.5 hover:border-lime transition-colors"
         >
-          Ver la web
+          {t.works.verWeb}
           <span className="inline-block transition-transform duration-[250ms] ease-smooth group-hover:translate-x-[3px]">
             →
           </span>

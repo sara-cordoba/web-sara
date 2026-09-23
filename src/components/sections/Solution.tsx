@@ -1,24 +1,34 @@
 import { Section, Eyebrow, H2, Lede } from "../ui";
 import { SOLUTIONS } from "@/data/v3";
+import { textos } from "@/i18n";
+import type { Idioma } from "@/i18n/config";
+import { servicioEn } from "@/i18n/contenido-en";
 
 type Props = {
+  idioma?: Idioma;
   eyebrow?: string;
   heading?: React.ReactNode;
   lede?: string;
 };
 
 export default function Solution({
-  eyebrow = "Servicios",
+  idioma = "es",
+  eyebrow,
   heading,
-  lede = "Marca, web, contenido, vídeo y dirección.",
+  lede,
 }: Props) {
+  const t = textos(idioma);
+  // Se recorre siempre la lista española: si un servicio no está traducido,
+  // sale en español en vez de desaparecer de la página.
+  const servicios = idioma === "en" ? SOLUTIONS.map(servicioEn) : SOLUTIONS;
+
   return (
     <Section>
-      <Eyebrow>{eyebrow}</Eyebrow>
-      <H2>{heading ?? "Lo que hago."}</H2>
-      <Lede>{lede}</Lede>
+      <Eyebrow>{eyebrow ?? t.solution.eyebrow}</Eyebrow>
+      <H2>{heading ?? t.solution.h2}</H2>
+      <Lede>{lede ?? t.solution.lede}</Lede>
       <div className="bg-[#0c0c0c] border border-lime/15 rounded-2xl p-2 lg:p-4 mt-12">
-        {SOLUTIONS.map((s, i) => (
+        {servicios.map((s, i) => (
           <div
             key={i}
             className="group flex items-center gap-5 lg:gap-6 px-4 lg:px-6 py-4 lg:py-5 border-b border-lime/10 last:border-b-0 border-dashed transition-all duration-300 hover:bg-lime/[0.04] hover:px-5 lg:hover:px-7 cursor-default"

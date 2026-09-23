@@ -9,6 +9,7 @@ import {
   GUION,
   INICIO,
   PAGINAS_SIN_NIKA,
+  PREFIJOS_SIN_NIKA,
   temaDeTexto,
   TEXTOS,
   type Boton,
@@ -370,6 +371,8 @@ export default function Nika() {
   // En las legales no sale. Va aquí abajo y no arriba porque los hooks de
   // React tienen que ejecutarse siempre, en todas las páginas.
   if (PAGINAS_SIN_NIKA.includes(ruta)) return null;
+  if (PREFIJOS_SIN_NIKA.some((p) => ruta === p || ruta.startsWith(`${p}/`)))
+    return null;
 
   return (
     <>

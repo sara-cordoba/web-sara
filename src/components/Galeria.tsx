@@ -9,6 +9,8 @@ import {
   portadaDe,
   type Pieza,
 } from "@/data/galeria";
+import { textos } from "@/i18n";
+import type { Idioma } from "@/i18n/config";
 
 /* Las cuatro primeras se cargan enseguida porque son las que se ven al entrar.
    El resto se carga sola según se baja, para no penalizar la velocidad. */
@@ -21,7 +23,14 @@ const ruta = (archivo: string) => `${CARPETA_GALERIA}/${archivo}`;
 const encajeDe = (p: Pieza) =>
   p.encaje === "completa" ? "object-contain" : "object-cover";
 
-export default function Galeria({ piezas }: { piezas: Pieza[] }) {
+export default function Galeria({
+  piezas,
+  idioma = "es",
+}: {
+  piezas: Pieza[];
+  idioma?: Idioma;
+}) {
+  const t = textos(idioma);
   const [abierta, setAbierta] = useState<number | null>(null);
   const [montado, setMontado] = useState(false);
 
@@ -69,7 +78,7 @@ export default function Galeria({ piezas }: { piezas: Pieza[] }) {
             <button
               type="button"
               onClick={() => setAbierta(i)}
-              aria-label={`Ampliar: ${p.titulo}`}
+              aria-label={`${t.galeria.ampliar}: ${p.titulo}`}
               className="group block w-full text-left cursor-pointer bg-transparent border-0 p-0"
             >
               <div className="relative aspect-square w-full overflow-hidden rounded-[12px] border border-border bg-surface transition-all duration-[350ms] ease-smooth group-hover:border-border-strong group-hover:-translate-y-0.5 group-focus-visible:border-lime">
@@ -91,7 +100,7 @@ export default function Galeria({ piezas }: { piezas: Pieza[] }) {
                   aria-hidden
                 >
                   <span className="font-mono text-[11px] tracking-[0.14em] uppercase text-lime border border-lime/40 rounded-full px-3 py-1.5 bg-black/60">
-                    Ampliar
+                    {t.galeria.ampliar}
                   </span>
                 </span>
               </div>
@@ -122,7 +131,7 @@ export default function Galeria({ piezas }: { piezas: Pieza[] }) {
             <button
               type="button"
               onClick={cerrar}
-              aria-label="Cerrar"
+              aria-label={t.galeria.cerrar}
               className="absolute top-4 right-4 sm:top-6 sm:right-6 w-11 h-11 grid place-items-center rounded-full border border-border-strong text-text text-xl bg-black/60 hover:border-lime hover:text-lime transition-colors cursor-pointer z-10"
             >
               ✕
@@ -131,6 +140,7 @@ export default function Galeria({ piezas }: { piezas: Pieza[] }) {
             {piezas.length > 1 && (
               <>
                 <FlechaAmpliada
+                  etiquetas={t.galeria}
                   lado="izquierda"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -138,6 +148,7 @@ export default function Galeria({ piezas }: { piezas: Pieza[] }) {
                   }}
                 />
                 <FlechaAmpliada
+                  etiquetas={t.galeria}
                   lado="derecha"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -292,16 +303,18 @@ function VideoAmpliado({ pieza }: { pieza: Pieza }) {
 function FlechaAmpliada({
   lado,
   onClick,
+  etiquetas,
 }: {
   lado: "izquierda" | "derecha";
   onClick: (e: React.MouseEvent) => void;
+  etiquetas: { anterior: string; siguiente: string };
 }) {
   const esIzquierda = lado === "izquierda";
   return (
     <button
       type="button"
       onClick={onClick}
-      aria-label={esIzquierda ? "Anterior" : "Siguiente"}
+      aria-label={esIzquierda ? etiquetas.anterior : etiquetas.siguiente}
       className={
         "absolute top-1/2 -translate-y-1/2 w-11 h-11 grid place-items-center rounded-full border border-border-strong text-text text-lg bg-black/60 hover:border-lime hover:text-lime transition-colors cursor-pointer z-10 " +
         (esIzquierda ? "left-3 sm:left-6" : "right-3 sm:right-6")

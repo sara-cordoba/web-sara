@@ -3,10 +3,20 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Section, Eyebrow, H2, Lede } from "../ui";
 import { ALCANCE, TESTIMONIOS } from "@/data/testimonios";
+import { textos } from "@/i18n";
+import type { Idioma } from "@/i18n/config";
+import { ALCANCE_EN, testimonioEn } from "@/i18n/contenido-en";
 
-export default function Testimonios() {
+export default function Testimonios({ idioma = "es" }: { idioma?: Idioma }) {
   const pista = useRef<HTMLUListElement | null>(null);
   const [indice, setIndice] = useState(0);
+
+  const txt = textos(idioma);
+  const enIngles = idioma === "en";
+  // Siempre sobre la lista española: un testimonio sin traducir sale en
+  // español en vez de desaparecer del carrusel.
+  const lista = enIngles ? TESTIMONIOS.map(testimonioEn) : TESTIMONIOS;
+  const alcance = enIngles ? ALCANCE_EN : ALCANCE;
 
   /* El carrusel es una lista que se desplaza de verdad: se puede arrastrar con
      el dedo, con la rueda o con el teclado. Las flechas solo mueven esa misma
@@ -24,11 +34,11 @@ export default function Testimonios() {
     (paso: number) => {
       const siguiente = Math.min(
         Math.max(indice + paso, 0),
-        TESTIMONIOS.length - 1,
+        lista.length - 1,
       );
       irA(siguiente);
     },
-    [indice, irA],
+    [indice, irA, lista.length],
   );
 
   // Al desplazar, se marca cuál está delante para los puntos de abajo.
@@ -60,42 +70,46 @@ export default function Testimonios() {
     };
   }, []);
 
-  if (TESTIMONIOS.length === 0) return null;
+  if (lista.length === 0) return null;
 
   const alPrincipio = indice === 0;
-  const alFinal = indice >= TESTIMONIOS.length - 1;
+  const alFinal = indice >= lista.length - 1;
 
   return (
     <Section>
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
         <div>
-          <Eyebrow>Lo que dicen</Eyebrow>
+          <Eyebrow>{txt.testimonios.eyebrow}</Eyebrow>
           <H2 className="!mb-4">
-            Clientes que ya lo <span className="text-lime">tienen hecho</span>.
+            {txt.testimonios.h2.antes}
+            <span className="text-lime">{txt.testimonios.h2.destacado}</span>
+            {txt.testimonios.h2.despues}
           </H2>
-          <Lede className="!mb-0">{ALCANCE}</Lede>
+          <Lede className="!mb-0">{alcance}</Lede>
         </div>
         <div className="hidden sm:flex gap-2 flex-shrink-0">
           <Flecha
             direccion="anterior"
             onClick={() => mover(-1)}
             desactivada={alPrincipio}
+            etiquetas={txt.testimonios}
           />
           <Flecha
             direccion="siguiente"
             onClick={() => mover(1)}
             desactivada={alFinal}
+            etiquetas={txt.testimonios}
           />
         </div>
       </div>
 
       <ul
         ref={pista}
-        aria-label="Testimonios de clientes"
+        aria-label={txt.testimonios.aria}
         tabIndex={0}
         className="mt-10 flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth list-none p-0 m-0 pb-4 -mx-1 px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline focus-visible:outline-1 focus-visible:outline-lime/40 rounded-[16px]"
       >
-        {TESTIMONIOS.map((t) => (
+        {lista.map((t) => (
           <li
             key={t.texto}
             className="snap-start flex-shrink-0 w-[86%] sm:w-[47%] lg:w-[31.5%]"
@@ -127,12 +141,12 @@ export default function Testimonios() {
 
       <div className="flex items-center justify-between gap-4 mt-2">
         <div className="flex gap-1.5">
-          {TESTIMONIOS.map((t, i) => (
+          {lista.map((t, i) => (
             <button
               key={t.texto}
               type="button"
               onClick={() => irA(i)}
-              aria-label={`Ir al testimonio ${i + 1}`}
+              aria-label={`${txt.testimonios.irAl} ${i + 1}`}
               aria-current={i === indice}
               className={
                 "h-1.5 rounded-full transition-all duration-300 cursor-pointer border-0 " +
@@ -148,11 +162,13 @@ export default function Testimonios() {
             direccion="anterior"
             onClick={() => mover(-1)}
             desactivada={alPrincipio}
+            etiquetas={txt.testimonios}
           />
           <Flecha
             direccion="siguiente"
             onClick={() => mover(1)}
             desactivada={alFinal}
+            etiquetas={txt.testimonios}
           />
         </div>
       </div>
@@ -164,10 +180,12 @@ function Flecha({
   direccion,
   onClick,
   desactivada,
+  etiquetas,
 }: {
   direccion: "anterior" | "siguiente";
   onClick: () => void;
   desactivada: boolean;
+  etiquetas: { anterior: string; siguiente: string };
 }) {
   const esAnterior = direccion === "anterior";
   return (
@@ -175,7 +193,7 @@ function Flecha({
       type="button"
       onClick={onClick}
       disabled={desactivada}
-      aria-label={esAnterior ? "Testimonio anterior" : "Testimonio siguiente"}
+      aria-label={esAnterior ? etiquetas.anterior : etiquetas.siguiente}
       className="w-10 h-10 grid place-items-center rounded-full border border-border-strong text-text transition-colors hover:border-lime hover:text-lime disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:border-border-strong disabled:hover:text-text cursor-pointer bg-transparent"
     >
       {esAnterior ? "←" : "→"}

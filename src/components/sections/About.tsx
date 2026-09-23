@@ -1,32 +1,23 @@
 import Image from "next/image";
-import type { ReactNode } from "react";
 import { Section, Eyebrow, H2 } from "../ui";
 import WaveBg from "@/components/WaveBg";
-
-type Bullet = {
-  title: string;
-  body: ReactNode;
-};
-
-const BULLETS: Bullet[] = [
-  {
-    title: "Soluciones a medida",
-    body: "Cada proyecto se diseña a partir de tu operativa real, no de una plantilla.",
-  },
-  {
-    title: "Conversación honesta",
-    body: "Si algo no encaja te lo digo. Si no soy la persona indicada, también.",
-  },
-];
+import { textos } from "@/i18n";
+import type { Idioma } from "@/i18n/config";
 
 const WAVE_MASK =
   "linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)";
 
-export default function About() {
+export default function About({ idioma = "es" }: { idioma?: Idioma }) {
+  const t = textos(idioma);
+
   return (
     <Section>
-      <Eyebrow>Quién hay detrás</Eyebrow>
-      <H2>¡Hola! Soy <span className="text-lime">Sara</span>.</H2>
+      <Eyebrow>{t.about.eyebrow}</Eyebrow>
+      <H2>
+        {t.about.h2.antes}
+        <span className="text-lime">{t.about.h2.destacado}</span>
+        {t.about.h2.despues}
+      </H2>
       <div className="relative mt-[60px]">
         <div
           className="absolute top-0 left-1/2 -translate-x-1/2 w-screen h-[240px] overflow-hidden pointer-events-none"
@@ -58,25 +49,23 @@ export default function About() {
               style={{ fontSize: "clamp(16px, 1.3vw, 19px)", lineHeight: 1.6 }}
             >
               <p className="m-0">
-                Llevo un año dentro de una startup de IA viendo cómo se
-                construye una marca desde cero mientras todo cambia a tu
-                alrededor, eso te da una{" "}
+                {t.about.p1.antes}{" "}
                 <strong className="font-semibold text-text">
-                  visión que no se aprende en ningún curso
+                  {t.about.p1.fuerte}
                 </strong>
-                .
+                {t.about.p1.despues}
               </p>
               <p className="m-0">
-                No trabajo con todo el mundo. Me interesa{" "}
+                {t.about.p2.antes}{" "}
                 <strong className="font-semibold text-text">
-                  entender tu proyecto de verdad
+                  {t.about.p2.fuerte}
                 </strong>{" "}
-                antes de meterme en él.
+                {t.about.p2.despues}
               </p>
-              <p className="m-0">Si crees que encajamos, ¡escríbeme!</p>
+              <p className="m-0">{t.about.p3}</p>
             </div>
             <div className="mt-8 flex flex-col gap-4">
-              {BULLETS.map((b, i) => (
+              {t.about.bullets.map((b, i) => (
                 <div
                   key={i}
                   className="grid grid-cols-[28px_1fr] gap-[14px] items-start py-[14px] border-t border-border"
@@ -91,10 +80,10 @@ export default function About() {
                   </div>
                   <div>
                     <b className="block font-semibold text-[15px] text-text mb-1">
-                      {b.title}
+                      {b.titulo}
                     </b>
                     <span className="text-text-soft text-[13px] leading-[1.55]">
-                      {b.body}
+                      {b.texto}
                     </span>
                   </div>
                 </div>

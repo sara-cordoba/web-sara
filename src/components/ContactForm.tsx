@@ -3,39 +3,21 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { CONTACT_EMAIL, enviarFormulario } from "@/data/site";
+import { textos } from "@/i18n";
+import type { Idioma } from "@/i18n/config";
 
-const NEEDS_OPTIONS = [
-  "Diseño & producto",
-  "Contenido & comunicación",
-  "Vídeo & motion",
-  "Dirección creativa",
-];
-
-const STAGE_OPTIONS = [
-  "Marca nueva, parto de cero",
-  "Tengo marca pero necesita un refresh",
-  "Marca consolidada, busco acompañamiento",
-  "Solo exploro opciones",
-];
-
-const TIMING_OPTIONS = [
-  "Ya, urgente",
-  "Próximos 1-2 meses",
-  "Próximos 3-6 meses",
-  "Aún explorando",
-];
-
-const BUDGET_OPTIONS = [
-  "Menos de 3.000 €",
-  "3.000 € — 8.000 €",
-  "8.000 € — 20.000 €",
-  "Más de 20.000 €",
-  "Prefiero hablarlo",
-];
+/* Las opciones de los desplegables están en src/i18n: lo que se envía a
+   Netlify va en el idioma en el que ha rellenado el formulario el visitante,
+   que es la única forma de que se entienda lo que ha contestado. */
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-export default function ContactForm() {
+export default function ContactForm({
+  idioma = "es",
+}: {
+  idioma?: Idioma;
+}) {
+  const t = textos(idioma).formulario;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
@@ -70,7 +52,7 @@ export default function ContactForm() {
       "que-necesita": needs.length ? needs.join(", ") : "—",
       "punto-de-partida": stage || "—",
       "cuando-empezar": timing || "—",
-      presupuesto: budget || "Prefiero hablarlo",
+      presupuesto: budget || t.prefieroHablarlo,
       mensaje: message,
     });
     setStatus(enviado ? "success" : "error");
@@ -83,11 +65,12 @@ export default function ContactForm() {
           ✓
         </div>
         <h3 className="text-text text-2xl font-semibold mb-3">
-          ¡Mensaje enviado!
+          {t.exitoTitulo}
         </h3>
         <p className="text-text-soft max-w-md mx-auto">
-          Gracias{name ? `, ${name}` : ""}. He recibido tu brief y te respondo
-          personalmente en menos de 48h.
+          {t.exitoGracias}
+          {name ? `, ${name}` : ""}
+          {t.exitoResto}
         </p>
       </div>
     );
@@ -97,41 +80,41 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 max-w-2xl mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FieldText
-          label="Nombre"
+          label={t.nombre}
           required
           value={name}
           onChange={setName}
-          placeholder="Tu nombre"
+          placeholder={t.nombrePlaceholder}
         />
         <FieldText
-          label="Email"
+          label={t.email}
           type="email"
           required
           value={email}
           onChange={setEmail}
-          placeholder="tu@email.com"
+          placeholder={t.emailPlaceholder}
         />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FieldText
-          label="Empresa o marca"
+          label={t.empresa}
           value={company}
           onChange={setCompany}
-          placeholder="Opcional"
+          placeholder={t.opcional}
         />
         <FieldText
-          label="Web o Instagram"
+          label={t.webInstagram}
           value={url}
           onChange={setUrl}
-          placeholder="Opcional"
+          placeholder={t.opcional}
         />
       </div>
 
       <div>
-        <FieldLabel>¿Qué necesitas? <Required /></FieldLabel>
+        <FieldLabel>{t.queNecesitas} <Required /></FieldLabel>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
-          {NEEDS_OPTIONS.map((opt) => (
+          {t.necesidades.map((opt) => (
             <label
               key={opt}
               className="flex items-center gap-3 px-4 py-3 bg-[#0a0a0a] border border-lime/15 rounded-lg cursor-pointer hover:border-lime/40 transition-colors"
@@ -149,39 +132,39 @@ export default function ContactForm() {
       </div>
 
       <FieldSelect
-        label={<>¿En qué punto estás? <Required /></>}
+        label={<>{t.enQuePunto} <Required /></>}
         required
         value={stage}
         onChange={setStage}
-        options={STAGE_OPTIONS}
-        placeholder="Selecciona una opción"
+        options={t.puntos}
+        placeholder={t.selecciona}
       />
 
       <FieldSelect
-        label={<>¿Cuándo te gustaría empezar? <Required /></>}
+        label={<>{t.cuandoEmpezar} <Required /></>}
         required
         value={timing}
         onChange={setTiming}
-        options={TIMING_OPTIONS}
-        placeholder="Selecciona una opción"
+        options={t.cuando}
+        placeholder={t.selecciona}
       />
 
       <FieldSelect
-        label="Presupuesto orientativo"
+        label={t.presupuesto}
         value={budget}
         onChange={setBudget}
-        options={BUDGET_OPTIONS}
-        placeholder="Opcional · puedes elegir 'Prefiero hablarlo'"
+        options={t.presupuestos}
+        placeholder={t.presupuestoPlaceholder}
       />
 
       <div>
-        <FieldLabel>Cuéntame más sobre tu proyecto <Required /></FieldLabel>
+        <FieldLabel>{t.cuentame} <Required /></FieldLabel>
         <textarea
           required
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           rows={5}
-          placeholder="Contexto, objetivos, lo que ya has intentado, lo que esperas conseguir…"
+          placeholder={t.cuentamePlaceholder}
           className="mt-2 w-full px-4 py-3 bg-[#0a0a0a] border border-lime/15 rounded-lg text-text placeholder:text-text-muted focus:border-lime/40 focus:outline-none focus:ring-2 focus:ring-lime/20 transition-all resize-y"
         />
       </div>
@@ -195,28 +178,28 @@ export default function ContactForm() {
           className="mt-1 w-4 h-4 accent-lime cursor-pointer flex-shrink-0"
         />
         <span>
-          He leído y acepto la{" "}
+          {t.consentimientoAntes}{" "}
           <Link
             href="/privacidad"
             className="text-lime hover:underline underline-offset-2"
             target="_blank"
           >
-            Política de Privacidad
+            {t.consentimientoEnlace}
           </Link>
-          .
+          {t.consentimientoDespues}
         </span>
       </label>
 
       {status === "error" && (
         <p className="text-danger text-sm">
-          Algo ha fallado al enviar. Inténtalo de nuevo o escríbeme a{" "}
+          {t.errorAntes}{" "}
           <a
             href={`mailto:${CONTACT_EMAIL}`}
             className="underline underline-offset-2"
           >
             {CONTACT_EMAIL}
           </a>
-          .
+          {t.errorDespues}
         </p>
       )}
 
@@ -225,13 +208,12 @@ export default function ContactForm() {
         disabled={!consent || status === "submitting"}
         className="self-start mt-2 px-7 py-3 bg-lime text-bg font-semibold rounded-full hover:bg-lime-bright transition-colors inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-lime"
       >
-        {status === "submitting" ? "Enviando…" : "Enviar"}
+        {status === "submitting" ? t.enviando : t.enviar}
         {status !== "submitting" && <span aria-hidden>→</span>}
       </button>
 
       <p className="text-text-muted text-xs mt-1">
-        Te respondo personalmente en menos de 48h. Tus datos solo se usan para
-        responder a tu consulta.
+        {t.aviso}
       </p>
     </form>
   );
@@ -295,7 +277,8 @@ function FieldSelect({
   onChange: (v: string) => void;
   options: string[];
   required?: boolean;
-  placeholder?: string;
+  /** Obligatorio: es lo que se lee en la opción vacía del desplegable. */
+  placeholder: string;
 }) {
   return (
     <div>
@@ -307,7 +290,7 @@ function FieldSelect({
         className="mt-2 w-full px-4 py-3 bg-[#0a0a0a] border border-lime/15 rounded-lg text-text focus:border-lime/40 focus:outline-none focus:ring-2 focus:ring-lime/20 transition-all"
       >
         <option value="" style={{ color: "#8a9189", backgroundColor: "#0a0a0a" }}>
-          {placeholder || "Selecciona…"}
+          {placeholder}
         </option>
         {options.map((opt) => (
           <option key={opt} value={opt} style={{ color: "#f5f0e6", backgroundColor: "#0a0a0a" }}>

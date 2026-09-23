@@ -20,6 +20,7 @@ npm run lint    # revisar el código
 | `/recomienda` | Programa de recomendaciones. Enlazada solo desde el pie |
 | `/webs-para-casas-rurales` | Página de la campaña en frío |
 | `/contacto`, `/aviso-legal`, `/privacidad`, `/cookies` | |
+| `/en`, `/en/work`, `/en/contact` | Las mismas home, galería y contacto, en inglés |
 
 ## Dónde están los textos
 
@@ -35,6 +36,45 @@ Casi todo el contenido está separado del diseño, en `src/data/`:
 | `rural.ts` | Todo `/webs-para-casas-rurales` |
 | `recomienda.ts` | Todo `/recomienda` |
 | `antes-despues.ts` | El comparador de web vieja y nueva (montado, sin usar todavía) |
+
+Lo que antes estaba escrito dentro del marcado (titulares, botones, etiquetas
+de formulario) ahora está en `src/i18n/`:
+
+| Archivo | Qué contiene |
+|---|---|
+| `i18n/es.ts` | Todos esos textos, en español |
+| `i18n/en.ts` | Los mismos, en inglés. Tiene que tener la misma forma que `es.ts`: si falta una clave, **la construcción falla** |
+| `i18n/contenido-en.ts` | La traducción de lo que vive en `src/data/`: fichas de proyecto, servicios, testimonios y galería |
+| `i18n/config.ts` | Los dos idiomas y el mapa de rutas equivalentes |
+
+---
+
+## Dos idiomas
+
+El español es el idioma por defecto y vive en las rutas de siempre, sin
+prefijo. El inglés cuelga de `/en`.
+
+Cada idioma tiene su propio layout raíz, con su `<html lang>`:
+`src/app/(es)/` y `src/app/(en)/`. Por eso no hay `src/app/layout.tsx`.
+
+**Al añadir una página que exista en los dos idiomas**, basta con una línea en
+`EQUIVALENTES`, en [`src/i18n/config.ts`](src/i18n/config.ts). Con eso ya
+funcionan el selector de la cabecera y las etiquetas `hreflang` de esa página.
+
+**Al añadir un proyecto, un testimonio o una pieza de galería**, se añade en
+`src/data/` como siempre, y su traducción en `src/i18n/contenido-en.ts` con la
+misma clave (el título del proyecto, el nombre del archivo…). Si no se traduce,
+ese elemento sale **en español dentro de la web inglesa**: nunca desaparece ni
+rompe nada.
+
+**Qué NO está en inglés, a propósito:** `/perfil` (el CV, con su PDF en
+español), `/recomienda`, `/webs-para-casas-rurales` y las tres páginas legales.
+Y Nika, que tiene su guion entero en español: no sale en `/en`. Para cambiarlo,
+`PREFIJOS_SIN_NIKA` en [`src/data/chatbot.ts`](src/data/chatbot.ts).
+
+El idioma elegido se recuerda en `localStorage`, no en una cookie. **Nunca se
+redirige a nadie**: a quien llega con el navegador en inglés se le ofrece la
+versión inglesa en una barra que se puede cerrar.
 
 ---
 

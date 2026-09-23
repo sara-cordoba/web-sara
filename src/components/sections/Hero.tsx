@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import MarqueeClients from "@/components/MarqueeClients";
+import { textos } from "@/i18n";
+import type { Idioma } from "@/i18n/config";
 
 // Ajuste visual de cada vídeo dentro de su tile.
 // scale = zoom (1 = sin zoom). translateX positivo mueve el contenido visible hacia la IZQUIERDA del vídeo
@@ -77,6 +79,7 @@ function VideoTile({
 }
 
 export interface HeroProps {
+  idioma?: Idioma;
   video1WebmSrc?: string;
   video1Mp4Src?: string;
   video1MobileMp4Src?: string;
@@ -88,6 +91,7 @@ export interface HeroProps {
 }
 
 export default function Hero({
+  idioma = "es",
   video1WebmSrc = "/img/reel-titulos.webm",
   video1Mp4Src = "/img/reel-titulos-720.mp4",
   video1MobileMp4Src = "/img/reel-titulos-mobile.mp4",
@@ -99,6 +103,7 @@ export default function Hero({
 }: HeroProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const t = textos(idioma);
 
   useEffect(() => {
     const mqMobile = window.matchMedia("(max-width: 768px)");
@@ -120,7 +125,7 @@ export default function Hero({
   }, []);
 
   return (
-    <section aria-label="Inicio" className="relative w-full bg-black -mt-[90px] pt-[90px]">
+    <section aria-label={t.hero.aria} className="relative w-full bg-black -mt-[90px] pt-[90px]">
       {/* 1. Bloque vídeo — dos tiles 16:9 flotantes lado a lado */}
       <div className="relative w-full bg-black overflow-hidden">
         <div
@@ -137,7 +142,7 @@ export default function Hero({
             posterSrc={video1PosterSrc}
             isMobile={isMobile}
             reducedMotion={reducedMotion}
-            ariaLabel="Reel — capa de títulos"
+            ariaLabel={t.hero.reelTitulos}
             className="md:h-full md:aspect-auto md:flex-[2]"
             videoTransform={VIDEO_1_TRANSFORM}
           />
@@ -148,7 +153,7 @@ export default function Hero({
             posterSrc={video2PosterSrc}
             isMobile={isMobile}
             reducedMotion={reducedMotion}
-            ariaLabel="Reel — capa de diseños"
+            ariaLabel={t.hero.reelDisenos}
             className="md:h-full md:aspect-auto md:flex-[3]"
             videoTransform={VIDEO_2_TRANSFORM}
           />
@@ -173,14 +178,14 @@ export default function Hero({
           <div className="absolute bottom-4 right-4 lg:bottom-6 lg:right-6 font-mono text-[10px] tracking-wider text-right text-text-soft/60 leading-relaxed z-10 pointer-events-none">
             <div>SC</div>
             <div className="text-lime/60 mt-0.5">
-              DISEÑO · CONTENIDO · DESARROLLO
+              {t.hero.disciplinas}
             </div>
           </div>
         </motion.div>
       </div>
 
       {/* 2. MarqueeClients */}
-      <MarqueeClients />
+      <MarqueeClients idioma={idioma} />
     </section>
   );
 }
