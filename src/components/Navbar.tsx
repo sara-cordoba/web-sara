@@ -93,7 +93,11 @@ export default function Navbar({ idioma }: { idioma: Idioma }) {
         </div>
       </Link>
 
-      <nav className="hidden md:flex gap-1">
+      {/* Centrado respecto a la BARRA ENTERA, no respecto al hueco que sobra.
+          Sale del reparto del flex y se ancla al 50 % de la barra, así su
+          punto medio coincide con el de la cabecera y no se mueve aunque
+          cambien de ancho el logo o los botones de los lados. */}
+      <nav className="hidden md:flex gap-1 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         {PAGES.map((p) => {
           const active = pathname === p.href;
           return (
@@ -113,15 +117,15 @@ export default function Navbar({ idioma }: { idioma: Idioma }) {
         })}
       </nav>
 
-      {/* Hijo suelto de la barra, y NO dentro del grupo del botón: así el
-          reparto de la barra le deja el mismo aire a los dos lados. Metido en
-          el grupo se quedaba a 8 px del botón y a 362 px de los enlaces, y
-          parecía parte del botón.
-          En la barra solo desde tablet: en móvil no cabe y se va al
-          desplegable, más abajo. */}
-      <SelectorIdioma idioma={idioma} className="hidden md:flex" />
-
       <div className="flex items-center gap-2">
+        {/* El md:mr-3 se suma al gap-2 del grupo: 20 px hasta el botón, para
+            que se lean como dos cosas distintas y no como un apéndice del
+            botón. Entre el botón y las tres rayas se quedan los 8 px de
+            siempre, que eso en móvil no se toca.
+            En la barra solo desde tablet: en móvil no cabe y se va al
+            desplegable, más abajo. */}
+        <SelectorIdioma idioma={idioma} className="hidden md:flex md:mr-3" />
+
         <Link
           href={contacto}
           className="group inline-flex items-center gap-2 bg-lime text-green font-semibold text-[13px] px-[18px] py-[10px] rounded-[10px] shadow-cta transition-all duration-200 hover:bg-lime-bright hover:-translate-y-px"
