@@ -2,16 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import MarqueeClients from "@/components/MarqueeClients";
 import { textos } from "@/i18n";
 import type { Idioma } from "@/i18n/config";
 
-// Ajuste visual de cada vídeo dentro de su tile.
+// Ajuste visual del vídeo dentro de su tile.
 // scale = zoom (1 = sin zoom). translateX positivo mueve el contenido visible hacia la IZQUIERDA del vídeo
 // (porque desplaza el frame del vídeo hacia la derecha dentro del tile).
-// Modificar estos valores para encuadrar mejor el contenido sin re-editar el reel.
-const VIDEO_1_TRANSFORM = "scale(2) translateX(0%)";  // capa de títulos — zoom + encuadre izquierdo
-const VIDEO_2_TRANSFORM = "scale(1)";                 // capa de diseños — zoom centrado
+// Modificar este valor para encuadrar mejor el contenido sin re-editar el reel.
+const VIDEO_TRANSFORM = "scale(1)";
 
 type VideoTileProps = {
   webmSrc?: string;
@@ -36,7 +34,7 @@ function VideoTile({
   className = "",
   videoTransform,
 }: VideoTileProps) {
-  const tileClasses = `relative aspect-square w-full max-h-[40vh] md:max-h-none md:w-auto overflow-hidden rounded-[10px] bg-black ${className}`;
+  const tileClasses = `relative aspect-video w-full overflow-hidden rounded-[10px] bg-black ${className}`;
   const activeMp4 = isMobile && mobileMp4Src ? mobileMp4Src : mp4Src;
 
   if (reducedMotion && posterSrc) {
@@ -80,26 +78,19 @@ function VideoTile({
 
 export interface HeroProps {
   idioma?: Idioma;
-  video1WebmSrc?: string;
-  video1Mp4Src?: string;
-  video1MobileMp4Src?: string;
-  video1PosterSrc?: string;
-  video2WebmSrc?: string;
-  video2Mp4Src?: string;
-  video2MobileMp4Src?: string;
-  video2PosterSrc?: string;
+  videoWebmSrc?: string;
+  videoMp4Src?: string;
+  videoMobileMp4Src?: string;
+  videoPosterSrc?: string;
 }
 
 export default function Hero({
   idioma = "es",
-  video1WebmSrc = "/img/reel-titulos.webm",
-  video1Mp4Src = "/img/reel-titulos-720.mp4",
-  video1MobileMp4Src = "/img/reel-titulos-mobile.mp4",
-  video1PosterSrc = "/img/reel-titulos-poster.jpg",
-  video2WebmSrc = "/img/reel-disenos.webm",
-  video2Mp4Src = "/img/reel-disenos-720.mp4",
-  video2MobileMp4Src = "/img/reel-disenos-mobile.mp4",
-  video2PosterSrc = "/img/reel-disenos-poster.jpg",
+  // Un solo reel 16:9 con los títulos ya montados encima de los diseños
+  videoWebmSrc = "/img/reel-disenos.webm",
+  videoMp4Src = "/img/reel-disenos-720.mp4",
+  videoMobileMp4Src = "/img/reel-disenos-mobile.mp4",
+  videoPosterSrc = "/img/reel-disenos-poster.jpg",
 }: HeroProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -139,7 +130,7 @@ export default function Hero({
 
   return (
     <section ref={seccionRef} aria-label={t.hero.aria} className="relative w-full bg-black -mt-[90px] pt-[90px]">
-      {/* 1. Bloque vídeo — dos tiles 16:9 flotantes lado a lado */}
+      {/* 1. Bloque vídeo — un tile 16:9 centrado */}
       <div className="relative w-full bg-black overflow-hidden">
         <div
           className="
@@ -149,31 +140,21 @@ export default function Hero({
           "
         >
           <VideoTile
-            webmSrc={video1WebmSrc}
-            mp4Src={video1Mp4Src}
-            mobileMp4Src={video1MobileMp4Src}
-            posterSrc={video1PosterSrc}
-            isMobile={isMobile}
-            reducedMotion={reducedMotion}
-            ariaLabel={t.hero.reelTitulos}
-            className="md:h-full md:aspect-auto md:flex-[2]"
-            videoTransform={VIDEO_1_TRANSFORM}
-          />
-          <VideoTile
-            webmSrc={video2WebmSrc}
-            mp4Src={video2Mp4Src}
-            mobileMp4Src={video2MobileMp4Src}
-            posterSrc={video2PosterSrc}
+            webmSrc={videoWebmSrc}
+            mp4Src={videoMp4Src}
+            mobileMp4Src={videoMobileMp4Src}
+            posterSrc={videoPosterSrc}
             isMobile={isMobile}
             reducedMotion={reducedMotion}
             ariaLabel={t.hero.reelDisenos}
-            className="md:h-full md:aspect-auto md:flex-[3]"
-            videoTransform={VIDEO_2_TRANSFORM}
+            className="md:h-full md:w-auto md:max-w-full"
+            videoTransform={VIDEO_TRANSFORM}
           />
         </div>
 
-        {/* Flecha para invitar a bajar: rebota suave, salvo con movimiento reducido */}
-        <div className="relative z-20 flex justify-center pb-4 md:pb-5">
+        {/* Flecha para invitar a bajar: rebota suave, salvo con movimiento reducido.
+            En móvil lleva aire debajo para no pisar el rótulo de disciplinas. */}
+        <div className="relative z-20 flex justify-center pb-12 md:pb-5">
           <button
             type="button"
             onClick={bajar}
@@ -217,7 +198,7 @@ export default function Hero({
             <span>REC</span>
           </div>
           <div className="absolute top-4 right-4 lg:top-6 lg:right-6 font-mono text-[10px] tracking-wider text-lime/85 z-10 pointer-events-none">
-            LOOP · 01:10
+            LOOP · 00:24
           </div>
           <div className="absolute bottom-4 right-4 lg:bottom-6 lg:right-6 font-mono text-[10px] tracking-wider text-right text-text-soft/60 leading-relaxed z-10 pointer-events-none">
             <div>SC</div>
@@ -227,9 +208,6 @@ export default function Hero({
           </div>
         </motion.div>
       </div>
-
-      {/* 2. MarqueeClients */}
-      <MarqueeClients idioma={idioma} />
     </section>
   );
 }
