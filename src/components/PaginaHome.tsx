@@ -1,7 +1,6 @@
 import Hero from "@/components/sections/Hero";
 import Statement from "@/components/sections/Statement";
 import Solution from "@/components/sections/Solution";
-import Process from "@/components/sections/Process";
 import About from "@/components/sections/About";
 import Works from "@/components/sections/Works";
 import AntesDespuesSeccion from "@/components/sections/AntesDespuesSeccion";
@@ -23,7 +22,6 @@ export default function PaginaHome({ idioma = "es" }: { idioma?: Idioma }) {
       <MarqueeClients idioma={idioma} />
       <Statement idioma={idioma} />
       <Solution idioma={idioma} />
-      <Process idioma={idioma} />
       <Works idioma={idioma} />
       <AntesDespuesSeccion idioma={idioma} />
       <Testimonios idioma={idioma} />
