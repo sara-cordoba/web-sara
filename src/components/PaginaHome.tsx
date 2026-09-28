@@ -16,13 +16,13 @@ export default function PaginaHome({ idioma = "es" }: { idioma?: Idioma }) {
   return (
     <>
       <Hero idioma={idioma} />
+      <About idioma={idioma} />
       <Statement idioma={idioma} />
       <Solution idioma={idioma} />
       <Process idioma={idioma} />
       <Works idioma={idioma} />
       <AntesDespuesSeccion idioma={idioma} />
       <Testimonios idioma={idioma} />
-      <About idioma={idioma} />
       <Banner idioma={idioma} />
       <Footer mostrarPerfil idioma={idioma} />
     </>

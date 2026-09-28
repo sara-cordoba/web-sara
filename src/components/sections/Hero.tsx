@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import MarqueeClients from "@/components/MarqueeClients";
 import { textos } from "@/i18n";
@@ -103,6 +103,7 @@ export default function Hero({
 }: HeroProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const seccionRef = useRef<HTMLElement | null>(null);
   const t = textos(idioma);
 
   useEffect(() => {
@@ -124,8 +125,20 @@ export default function Hero({
     };
   }, []);
 
+  // Baja a la sección que va justo después de la portada, dejando sitio a la
+  // cabecera fija para que no la tape.
+  const bajar = () => {
+    const siguiente = seccionRef.current?.nextElementSibling;
+    if (!siguiente) return;
+    const cabecera = document.querySelector("header")?.offsetHeight ?? 0;
+    window.scrollTo({
+      top: siguiente.getBoundingClientRect().top + window.scrollY - cabecera,
+      behavior: reducedMotion ? "auto" : "smooth",
+    });
+  };
+
   return (
-    <section aria-label={t.hero.aria} className="relative w-full bg-black -mt-[90px] pt-[90px]">
+    <section ref={seccionRef} aria-label={t.hero.aria} className="relative w-full bg-black -mt-[90px] pt-[90px]">
       {/* 1. Bloque vídeo — dos tiles 16:9 flotantes lado a lado */}
       <div className="relative w-full bg-black overflow-hidden">
         <div
@@ -157,6 +170,37 @@ export default function Hero({
             className="md:h-full md:aspect-auto md:flex-[3]"
             videoTransform={VIDEO_2_TRANSFORM}
           />
+        </div>
+
+        {/* Flecha para invitar a bajar: rebota suave, salvo con movimiento reducido */}
+        <div className="relative z-20 flex justify-center pb-4 md:pb-5">
+          <button
+            type="button"
+            onClick={bajar}
+            aria-label={t.hero.verMas}
+            className="grid place-items-center w-11 h-11 rounded-full text-lime transition-colors hover:text-lime-bright focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime"
+          >
+            <motion.svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+              animate={reducedMotion ? { y: 0 } : { y: [0, 6, 0] }}
+              transition={
+                reducedMotion
+                  ? { duration: 0 }
+                  : { duration: 1.8, ease: "easeInOut", repeat: Infinity }
+              }
+            >
+              <path d="M12 5v14" />
+              <path d="m6 13 6 6 6-6" />
+            </motion.svg>
+          </button>
         </div>
 
         {/* Overlays editoriales — sobre el contenedor exterior, no sobre los tiles */}
