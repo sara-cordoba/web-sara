@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Section, Eyebrow, H2 } from "../ui";
+import { Section, Eyebrow, H2, CtaButton } from "../ui";
 import WaveBg from "@/components/WaveBg";
 import { textos } from "@/i18n";
 import type { Idioma } from "@/i18n/config";
@@ -12,8 +12,13 @@ export default function About({ idioma = "es" }: { idioma?: Idioma }) {
 
   return (
     <Section>
-      <Eyebrow>{t.about.eyebrow}</Eyebrow>
-      <H2>
+      {/* Dos etiquetas en fila; en móvil bajan a otra línea si no caben */}
+      <div className="flex flex-wrap gap-2 mb-6 [&>div]:mb-0">
+        <Eyebrow>{t.about.eyebrow}</Eyebrow>
+        <Eyebrow>{t.statement.eyebrow}</Eyebrow>
+      </div>
+      {/* En la portada es el primer título: va como h1 con aspecto de sección */}
+      <H2 as="h1">
         {t.about.h2.antes}
         <span className="text-lime">{t.about.h2.destacado}</span>
         {t.about.h2.despues}
@@ -63,6 +68,11 @@ export default function About({ idioma = "es" }: { idioma?: Idioma }) {
                 {t.about.p2.despues}
               </p>
               <p className="m-0">{t.about.p3}</p>
+            </div>
+            <div className="mt-6">
+              <CtaButton href={idioma === "en" ? "/en/contact" : "/contacto"}>
+                {t.statement.cta}
+              </CtaButton>
             </div>
             <div className="mt-8 flex flex-col gap-4">
               {t.about.bullets.map((b, i) => (

@@ -51,7 +51,7 @@ export const es = {
     reelDisenos: "Reel — capa de diseños",
     disciplinas: "DISEÑO · CONTENIDO · DESARROLLO",
     clientes: "Clientes destacados",
-    verMas: "Ver más",
+    conoceme: "Conóceme",
   },
 
   statement: {

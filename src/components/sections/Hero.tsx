@@ -152,15 +152,18 @@ export default function Hero({
           />
         </div>
 
-        {/* Flecha para invitar a bajar: rebota suave, salvo con movimiento reducido.
-            En móvil lleva aire debajo para no pisar el rótulo de disciplinas. */}
+        {/* «Conóceme» y una flecha que baja a la presentación de Sara. La flecha
+            rebota suave, salvo con movimiento reducido. En móvil lleva aire
+            debajo para no pisar el rótulo de disciplinas. */}
         <div className="relative z-20 flex justify-center pb-12 md:pb-5">
           <button
             type="button"
             onClick={bajar}
-            aria-label={t.hero.verMas}
-            className="grid place-items-center w-11 h-11 rounded-full text-lime transition-colors hover:text-lime-bright focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime"
+            className="flex flex-col items-center gap-1 px-3 py-1 rounded-lg text-lime transition-colors hover:text-lime-bright focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime"
           >
+            <span className="font-mono text-[11px] tracking-wider">
+              {t.hero.conoceme}
+            </span>
             <motion.svg
               width="28"
               height="28"

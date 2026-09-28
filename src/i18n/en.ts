@@ -49,7 +49,7 @@ export const en: Diccionario = {
     reelDisenos: "Reel — designs layer",
     disciplinas: "DESIGN · CONTENT · DEVELOPMENT",
     clientes: "Featured clients",
-    verMas: "See more",
+    conoceme: "Meet me",
   },
 
   statement: {

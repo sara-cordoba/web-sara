@@ -1,5 +1,4 @@
 import Hero from "@/components/sections/Hero";
-import Statement from "@/components/sections/Statement";
 import Solution from "@/components/sections/Solution";
 import About from "@/components/sections/About";
 import Works from "@/components/sections/Works";
@@ -20,7 +19,6 @@ export default function PaginaHome({ idioma = "es" }: { idioma?: Idioma }) {
       <Hero idioma={idioma} />
       <About idioma={idioma} />
       <MarqueeClients idioma={idioma} />
-      <Statement idioma={idioma} />
       <Solution idioma={idioma} />
       <Works idioma={idioma} />
       <AntesDespuesSeccion idioma={idioma} />

@@ -57,15 +57,19 @@ export function H1({
   );
 }
 
+// `as` cambia solo la etiqueta, no el aspecto: sirve para que el título
+// principal de una página tenga el estilo de sección y siga siendo su h1.
 export function H2({
   children,
   className,
+  as: Etiqueta = "h2",
 }: {
   children: ReactNode;
   className?: string;
+  as?: "h1" | "h2";
 }) {
   return (
-    <h2
+    <Etiqueta
       className={clsx(
         "font-display font-semibold text-text m-0 mb-5 max-w-[900px]",
         className
@@ -77,7 +81,7 @@ export function H2({
       }}
     >
       {children}
-    </h2>
+    </Etiqueta>
   );
 }
 
