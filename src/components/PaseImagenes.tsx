@@ -15,6 +15,14 @@ export type Diapositiva = {
  *  duration-[900ms] de abajo). */
 const VISIBLE_MS = 3000;
 
+/** Lo que espera de más la columna de la derecha, para que las dos fichas de
+ *  una fila no cambien a la vez. */
+const RETRASO_COLUMNA_MS = 700;
+
+/** La rejilla de fichas pasa a dos columnas en `lg`. Si se cambia el
+ *  `lg:grid-cols-2` de Works.tsx, hay que cambiar esto con ello. */
+const DOS_COLUMNAS = "(min-width: 1024px)";
+
 /* El pase de imágenes de la portada de cada ficha de proyecto.
 
    - Fundido de opacidad y nada más: sin deslizar ni ampliar.
@@ -25,14 +33,17 @@ const VISIBLE_MS = 3000;
      cuando la pestaña no está activa.
    - Solo pasa a una imagen que ya ha cargado: nunca funde a un hueco negro.
    - Con "reducir movimiento" activado no hay pase: se queda la primera.
-   - `retraso` escalona las fichas para que no cambien todas a la vez. */
+   - `columna` es la columna que ocupa la ficha en la rejilla. El desfase
+     depende SOLO de eso, no de la posición en la lista: con una columna
+     (móvil) no espera ninguna, y con dos, la de la derecha espera 0,7 s. Así
+     la séptima ficha arranca igual de rápido que la primera. */
 export default function PaseImagenes({
   fotos,
-  retraso = 0,
+  columna = 0,
   sizes,
 }: {
   fotos: Diapositiva[];
-  retraso?: number;
+  columna?: number;
   sizes: string;
 }) {
   const [actual, setActual] = useState(0);
@@ -40,6 +51,8 @@ export default function PaseImagenes({
   // HTML del servidor y el primer pintado nunca arrancan el pase.
   const [reducido, setReducido] = useState(true);
   const [vista, setVista] = useState(false); // ha entrado en pantalla alguna vez
+  // Empieza en false a propósito: mientras no se sepa el ancho, nadie espera.
+  const [dosColumnas, setDosColumnas] = useState(false);
   const [enPantalla, setEnPantalla] = useState(false);
   const [pestanaActiva, setPestanaActiva] = useState(true);
   // La primera cuenta como cargada: es la que ya se está viendo, y así el
@@ -52,6 +65,16 @@ export default function PaseImagenes({
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const alCambiar = () => setReducido(mq.matches);
+    alCambiar();
+    mq.addEventListener("change", alCambiar);
+    return () => mq.removeEventListener("change", alCambiar);
+  }, []);
+
+  // Cuántas columnas hay de verdad ahora mismo. En una sola columna no tiene
+  // sentido desfasar nada: no hay ninguna ficha al lado con la que chocar.
+  useEffect(() => {
+    const mq = window.matchMedia(DOS_COLUMNAS);
+    const alCambiar = () => setDosColumnas(mq.matches);
     alCambiar();
     mq.addEventListener("change", alCambiar);
     return () => mq.removeEventListener("change", alCambiar);
@@ -87,6 +110,8 @@ export default function PaseImagenes({
       visible.disconnect();
     };
   }, [hayPase]);
+
+  const retraso = dosColumnas ? columna * RETRASO_COLUMNA_MS : 0;
 
   useEffect(() => {
     if (!hayPase || !enPantalla || !pestanaActiva) return;

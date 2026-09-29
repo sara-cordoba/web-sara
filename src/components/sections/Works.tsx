@@ -35,8 +35,11 @@ export default function Works({ idioma = "es", eyebrow, heading }: Props) {
           de su fila, y dentro de la ficha "Ver la web" se pega abajo. */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-[60px]">
         {trabajos.map((w, i) => (
-          // 0,7 s más de retraso por ficha: así no cambian todas a la vez.
-          <Ficha key={w.title} work={w} t={t} retraso={i * 700} />
+          // Lo que se pasa es la COLUMNA, no un retraso: el escalonado no se
+          // acumula por posición (con siete fichas, la última esperaba 7,2 s).
+          // Solo se desfasan las dos columnas entre sí, y de eso se encarga
+          // PaseImagenes, que es quien sabe si la rejilla tiene una o dos.
+          <Ficha key={w.title} work={w} t={t} columna={i % 2} />
         ))}
       </div>
     </Section>
@@ -54,15 +57,15 @@ export default function Works({ idioma = "es", eyebrow, heading }: Props) {
 function Ficha({
   work: w,
   t,
-  retraso,
+  columna,
 }: {
   work: Work;
   t: Diccionario;
-  retraso: number;
+  columna: number;
 }) {
   return (
     <article className="flex flex-col rounded-[16px] border border-border bg-[#0c0c0c] p-5 sm:p-6 transition-all duration-[350ms] ease-smooth shadow-[0_0_50px_-15px_rgba(163,217,119,0.10)] [@media(hover:hover)]:hover:-translate-y-1.5 [@media(hover:hover)]:hover:border-lime/40 [@media(hover:hover)]:hover:shadow-[0_0_60px_-12px_rgba(163,217,119,0.25)]">
-      {w.imagen && <Captura work={w} retraso={retraso} />}
+      {w.imagen && <Captura work={w} columna={columna} />}
 
       <header className={`flex items-center gap-4 ${w.imagen ? "mt-5" : ""}`}>
         <Logo work={w} />
@@ -107,7 +110,7 @@ function Ficha({
    nombre del proyecto: no se publica la dirección de ningún cliente que no
    la haya autorizado. Ajedrez Sistémico no tiene url a propósito y así debe
    seguir: en su barra solo sale "Ajedrez Sistémico". */
-function Captura({ work: w, retraso }: { work: Work; retraso: number }) {
+function Captura({ work: w, columna }: { work: Work; columna: number }) {
   const barra = w.url
     ? new URL(w.url).hostname.replace(/^www\./, "")
     : w.title;
@@ -139,7 +142,7 @@ function Captura({ work: w, retraso }: { work: Work; retraso: number }) {
       <div className="relative aspect-video overflow-hidden">
         <PaseImagenes
           fotos={fotos}
-          retraso={retraso}
+          columna={columna}
           sizes="(max-width: 1024px) 100vw, 560px"
         />
       </div>
