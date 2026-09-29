@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { preload } from "react-dom";
 import { motion } from "framer-motion";
 import { textos } from "@/i18n";
 import type { Idioma } from "@/i18n/config";
@@ -11,12 +12,14 @@ import type { Idioma } from "@/i18n/config";
 // Modificar este valor para encuadrar mejor el contenido sin re-editar el reel.
 const VIDEO_TRANSFORM = "scale(1)";
 
+// Hasta este ancho se sirve el vídeo ligero de móvil.
+const MOVIL = "(max-width: 768px)";
+
 type VideoTileProps = {
   webmSrc?: string;
   mp4Src: string;
   mobileMp4Src?: string;
   posterSrc?: string;
-  isMobile: boolean;
   reducedMotion: boolean;
   ariaLabel: string;
   className?: string;
@@ -28,14 +31,12 @@ function VideoTile({
   mp4Src,
   mobileMp4Src,
   posterSrc,
-  isMobile,
   reducedMotion,
   ariaLabel,
   className = "",
   videoTransform,
 }: VideoTileProps) {
   const tileClasses = `relative aspect-video w-full overflow-hidden rounded-[10px] bg-black ${className}`;
-  const activeMp4 = isMobile && mobileMp4Src ? mobileMp4Src : mp4Src;
 
   if (reducedMotion && posterSrc) {
     return (
@@ -54,9 +55,14 @@ function VideoTile({
     );
   }
 
+  // Sin fundido de entrada: un vídeo que empieza invisible no cuenta para
+  // Google como contenido pintado y la carga (LCP) sale peor de lo que es.
+  // El navegador elige la fuente por el ancho de pantalla con `media`, sin
+  // esperar al JavaScript: el móvil se baja el mp4 ligero y nunca el webm de
+  // escritorio. Un navegador que no entienda `media` coge el primero que
+  // pueda reproducir, que es el móvil: se ve algo peor, pero se ve.
   return (
-    <motion.video
-      key={isMobile ? `${ariaLabel}-mobile` : `${ariaLabel}-desktop`}
+    <video
       autoPlay
       loop
       muted
@@ -66,13 +72,13 @@ function VideoTile({
       aria-label={ariaLabel}
       className={`${tileClasses} object-cover`}
       style={{ transform: videoTransform }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1.2, ease: "easeOut" }}
     >
+      {mobileMp4Src && (
+        <source src={mobileMp4Src} type="video/mp4" media={MOVIL} />
+      )}
       {webmSrc && <source src={webmSrc} type="video/webm" />}
-      <source src={activeMp4} type="video/mp4" />
-    </motion.video>
+      <source src={mp4Src} type="video/mp4" />
+    </video>
   );
 }
 
@@ -92,28 +98,23 @@ export default function Hero({
   videoMobileMp4Src = "/img/reel-disenos-mobile.mp4",
   videoPosterSrc = "/img/reel-disenos-poster.jpg",
 }: HeroProps) {
-  const [isMobile, setIsMobile] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const seccionRef = useRef<HTMLElement | null>(null);
   const t = textos(idioma);
 
-  useEffect(() => {
-    const mqMobile = window.matchMedia("(max-width: 768px)");
-    const mqReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  // La imagen de espera del vídeo es lo más grande que se ve al abrir la
+  // portada (lo que Google mide como LCP). El navegador no la busca hasta
+  // leer el <video>, así que se le pide desde el <head> y con prioridad.
+  preload(videoPosterSrc, { as: "image", fetchPriority: "high" });
 
-    const updateMobile = () => setIsMobile(mqMobile.matches);
+  useEffect(() => {
+    const mqReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const updateReduced = () => setReducedMotion(mqReduced.matches);
 
-    updateMobile();
     updateReduced();
-
-    mqMobile.addEventListener("change", updateMobile);
     mqReduced.addEventListener("change", updateReduced);
 
-    return () => {
-      mqMobile.removeEventListener("change", updateMobile);
-      mqReduced.removeEventListener("change", updateReduced);
-    };
+    return () => mqReduced.removeEventListener("change", updateReduced);
   }, []);
 
   // Baja a la sección que va justo después de la portada, dejando sitio a la
@@ -144,7 +145,6 @@ export default function Hero({
             mp4Src={videoMp4Src}
             mobileMp4Src={videoMobileMp4Src}
             posterSrc={videoPosterSrc}
-            isMobile={isMobile}
             reducedMotion={reducedMotion}
             ariaLabel={t.hero.reelDisenos}
             className="md:h-full md:w-auto md:max-w-full"

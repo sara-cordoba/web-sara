@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Section, Eyebrow, H2, CtaButton } from "../ui";
+import { Section, Eyebrow, H2, Lede, CtaButton } from "../ui";
 import WaveBg from "@/components/WaveBg";
 import { textos } from "@/i18n";
 import type { Idioma } from "@/i18n/config";
@@ -23,6 +23,7 @@ export default function About({ idioma = "es" }: { idioma?: Idioma }) {
         <span className="text-lime">{t.about.h2.destacado}</span>
         {t.about.h2.despues}
       </H2>
+      <Lede>{t.about.lede}</Lede>
       <div className="relative mt-[60px]">
         <div
           className="absolute top-0 left-1/2 -translate-x-1/2 w-screen h-[240px] overflow-hidden pointer-events-none"

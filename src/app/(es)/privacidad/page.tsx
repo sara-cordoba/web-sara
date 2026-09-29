@@ -1,10 +1,14 @@
+import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
 import { CONTACT_EMAIL } from "@/data/site";
+import { metaPagina } from "@/i18n/seo";
 
-export const metadata = {
-  title: "Política de Privacidad · Sara Córdoba",
-  description: "Política de privacidad y tratamiento de datos personales.",
-};
+export const metadata: Metadata = metaPagina({
+  idioma: "es",
+  ruta: "/privacidad",
+  titulo: "Política de Privacidad · Sara Córdoba",
+  descripcion: "Política de privacidad y tratamiento de datos personales.",
+});
 
 export default function PrivacidadPage() {
   return (

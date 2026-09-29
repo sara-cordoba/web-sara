@@ -12,9 +12,9 @@ import type { Diccionario } from "./es";
 
 export const en: Diccionario = {
   meta: {
-    titulo: "Sara Córdoba · Web development and branding",
+    titulo: "Sara Córdoba · Web development, WordPress and branding",
     descripcion:
-      "Remote web development and branding from Spain. Design, creative direction and visual systems for brands with something real to say.",
+      "Freelance web designer and developer working remotely from Spain: WordPress and custom websites, branding, graphic design, social media content and AI chatbots.",
   },
 
   navbar: {
@@ -148,6 +148,7 @@ export const en: Diccionario = {
       despues: ".",
     },
     p3: "If you think we're a fit, get in touch.",
+    lede: "Web design and development in WordPress or custom-built, branding, graphic design, social media content and AI chatbots. Working remotely from Spain.",
     bullets: [
       {
         titulo: "Tailored solutions",
@@ -199,7 +200,7 @@ export const en: Diccionario = {
 
   trabajosPagina: {
     meta: {
-      titulo: "Work · Sara Córdoba",
+      titulo: "Graphic design, branding and web work · Sara Córdoba",
       descripcion:
         "Design gallery: posters, brand identities, social media pieces and websites. Work made for clients and for my own projects.",
     },

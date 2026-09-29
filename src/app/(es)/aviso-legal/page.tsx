@@ -1,10 +1,14 @@
+import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
 import { CONTACT_EMAIL } from "@/data/site";
+import { metaPagina } from "@/i18n/seo";
 
-export const metadata = {
-  title: "Aviso Legal · Sara Córdoba",
-  description: "Aviso legal del sitio web de Sara Córdoba.",
-};
+export const metadata: Metadata = metaPagina({
+  idioma: "es",
+  ruta: "/aviso-legal",
+  titulo: "Aviso Legal · Sara Córdoba",
+  descripcion: "Aviso legal del sitio web de Sara Córdoba.",
+});
 
 export default function AvisoLegalPage() {
   return (

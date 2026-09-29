@@ -7,6 +7,7 @@ import Testimonios from "@/components/sections/Testimonios";
 import Banner from "@/components/sections/Banner";
 import Footer from "@/components/Footer";
 import MarqueeClients from "@/components/MarqueeClients";
+import DatosEstructurados from "@/components/DatosEstructurados";
 import type { Idioma } from "@/i18n/config";
 
 /* Las secciones de la home, en el orden en el que se leen. Es el mismo en
@@ -16,6 +17,7 @@ import type { Idioma } from "@/i18n/config";
 export default function PaginaHome({ idioma = "es" }: { idioma?: Idioma }) {
   return (
     <>
+      <DatosEstructurados idioma={idioma} />
       <Hero idioma={idioma} />
       <About idioma={idioma} />
       <MarqueeClients idioma={idioma} />

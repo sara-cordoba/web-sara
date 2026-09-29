@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import PaginaHome from "@/components/PaginaHome";
-import { alternativas } from "@/i18n/config";
+import { metaPagina } from "@/i18n/seo";
+import { es } from "@/i18n/es";
 
-// El título y la descripción los pone el layout. Aquí solo van las etiquetas
-// hreflang que emparejan esta página con su versión inglesa.
-export const metadata: Metadata = {
-  alternates: alternativas("/", "es"),
-};
+export const metadata: Metadata = metaPagina({
+  idioma: "es",
+  ruta: "/",
+  titulo: es.meta.titulo,
+  descripcion: es.meta.descripcion,
+});
 
 export default function HomePage() {
   return <PaginaHome idioma="es" />;

@@ -55,9 +55,11 @@ const config: Config = {
         "smooth-out": "cubic-bezier(0.16, 1, 0.3, 1)",
       },
       keyframes: {
+        // Solo desliza, sin partir de invisible: una página que arranca con
+        // opacidad 0 no cuenta como pintada y Google mide peor su carga (LCP).
         "page-fade": {
-          from: { opacity: "0", transform: "translateY(12px)" },
-          to: { opacity: "1", transform: "translateY(0)" },
+          from: { transform: "translateY(12px)" },
+          to: { transform: "translateY(0)" },
         },
         "pulse-dot": {
           "0%,100%": {

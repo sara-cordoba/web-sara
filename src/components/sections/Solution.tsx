@@ -98,7 +98,7 @@ export default function Solution({
               <h3 className="text-text text-lg lg:text-xl font-medium mb-1.5 leading-tight">
                 {s.title}
               </h3>
-              <div className="font-mono text-[10px] text-text-soft/50 tracking-[0.15em] uppercase mb-3">
+              <div className="font-mono text-[10px] text-text-soft/70 tracking-[0.15em] uppercase mb-3">
                 {s.sub}
               </div>
               <p className="text-text-soft/65 text-sm leading-relaxed">

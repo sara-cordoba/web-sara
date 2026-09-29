@@ -8,12 +8,15 @@ import {
   LETRA_PEQUENA,
   PARTES,
 } from "@/data/recomienda";
+import { metaPagina } from "@/i18n/seo";
 
-export const metadata: Metadata = {
-  title: "Recomiéndame · Sara Córdoba",
-  description:
+export const metadata: Metadata = metaPagina({
+  idioma: "es",
+  ruta: "/recomienda",
+  titulo: "Recomiéndame · Sara Córdoba",
+  descripcion:
     "Si me recomiendas a alguien y acaba trabajando conmigo, te llevas el 10 % del proyecto con un mínimo de 75 €. Y esa persona, una página extra gratis.",
-};
+});
 
 const WRAP = "max-w-[900px] mx-auto px-5 sm:px-8 lg:px-12";
 

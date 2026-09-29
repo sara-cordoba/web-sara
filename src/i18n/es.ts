@@ -10,10 +10,12 @@
 // así el diseño se queda en el componente y aquí solo hay palabras.
 
 export const es = {
+  // Lo que sale en Google. Título de 60 letras como mucho y descripción de
+  // unas 155: si no, Google los corta. Las palabras que importan, delante.
   meta: {
-    titulo: "Sara Córdoba · Desarrollo web y branding",
+    titulo: "Sara Córdoba · Desarrollo web, WordPress y branding",
     descripcion:
-      "Desarrollo web y branding en remoto desde España. Diseño, dirección creativa y sistemas visuales para marcas con algo verdadero que decir.",
+      "Diseñadora y desarrolladora web freelance en remoto desde España: webs en WordPress o a medida, branding, diseño gráfico, contenido para redes y chatbots con IA.",
   },
 
   navbar: {
@@ -145,6 +147,9 @@ export const es = {
       despues: ".",
     },
     p3: "Si crees que encajamos, ¡escríbeme!",
+    // Debajo del título: lo que hago, dicho con las palabras con las que me
+    // buscan en Google.
+    lede: "Diseño y desarrollo web en WordPress o a medida, branding, diseño gráfico, contenido para redes sociales y chatbots con IA. En remoto desde España.",
     bullets: [
       {
         titulo: "Soluciones a medida",
@@ -193,7 +198,7 @@ export const es = {
 
   trabajosPagina: {
     meta: {
-      titulo: "Trabajos · Sara Córdoba",
+      titulo: "Trabajos de diseño gráfico, branding y webs · Sara Córdoba",
       descripcion:
         "Galería de diseños: carteles, identidades, piezas para redes y webs. Trabajo hecho para clientes y proyectos propios.",
     },

@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import PaginaTrabajos from "@/components/PaginaTrabajos";
 import { es } from "@/i18n/es";
-import { alternativas } from "@/i18n/config";
+import { metaPagina } from "@/i18n/seo";
 
-export const metadata: Metadata = {
-  title: es.trabajosPagina.meta.titulo,
-  description: es.trabajosPagina.meta.descripcion,
-  alternates: alternativas("/trabajos", "es"),
-};
+export const metadata: Metadata = metaPagina({
+  idioma: "es",
+  ruta: "/trabajos",
+  titulo: es.trabajosPagina.meta.titulo,
+  descripcion: es.trabajosPagina.meta.descripcion,
+});
 
 export default function TrabajosPage() {
   return <PaginaTrabajos idioma="es" />;

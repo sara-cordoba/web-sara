@@ -11,23 +11,18 @@ import {
   CONDICIONES,
   CONDICIONES_LETRA_PEQUENA,
 } from "@/data/rural";
+import { metaPagina } from "@/i18n/seo";
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://saracordoba.com"),
-  title: "Webs para casas rurales y alojamientos pequeños · Sara Córdoba",
-  description:
+export const metadata: Metadata = metaPagina({
+  idioma: "es",
+  ruta: "/webs-para-casas-rurales",
+  titulo: "Webs para casas rurales y alojamientos pequeños · Sara Córdoba",
+  descripcion:
     "Web propia para vuestra casa rural en dos semanas, con precio cerrado y fecha por escrito antes de empezar. Reservas directas sin comisiones, se ve bien en el móvil y sin cuotas mensuales.",
-  alternates: { canonical: "/webs-para-casas-rurales" },
-  openGraph: {
-    title: "Webs para casas rurales y alojamientos pequeños",
-    description:
-      "Precio cerrado, dos semanas, y la web es vuestra. Sin cuotas.",
-    url: "/webs-para-casas-rurales",
-    siteName: "Sara Córdoba",
-    locale: "es_ES",
-    type: "website",
-  },
-};
+  tituloCompartir: "Webs para casas rurales y alojamientos pequeños",
+  descripcionCompartir:
+    "Precio cerrado, dos semanas, y la web es vuestra. Sin cuotas.",
+});
 
 /* Ancho propio, más estrecho que el resto de la web:
    una página de venta se lee mejor en una sola columna. */

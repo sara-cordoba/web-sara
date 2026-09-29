@@ -103,11 +103,15 @@ export default function Testimonios({ idioma = "es" }: { idioma?: Idioma }) {
         </div>
       </div>
 
+      {/* Sin scroll-smooth en la lista a propósito: con él, Chrome anima el
+          encaje inicial del carrusel al cargar, lo toma por un desplazamiento
+          y deja de medir la carga de la portada (LCP) para Google. Las
+          flechas ya piden el desplazamiento suave por su cuenta. */}
       <ul
         ref={pista}
         aria-label={txt.testimonios.aria}
         tabIndex={0}
-        className="mt-10 flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth list-none p-0 m-0 pb-4 -mx-1 px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline focus-visible:outline-1 focus-visible:outline-lime/40 rounded-[16px]"
+        className="mt-10 flex gap-4 overflow-x-auto snap-x snap-mandatory list-none p-0 m-0 pb-4 -mx-1 px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline focus-visible:outline-1 focus-visible:outline-lime/40 rounded-[16px]"
       >
         {lista.map((t) => (
           <li
@@ -140,7 +144,9 @@ export default function Testimonios({ idioma = "es" }: { idioma?: Idioma }) {
       </ul>
 
       <div className="flex items-center justify-between gap-4 mt-2">
-        <div className="flex gap-1.5">
+        {/* Cada punto va dentro de un botón de 24 px de alto y ancho mínimo:
+            el punto se ve igual, pero en el móvil se acierta con el dedo. */}
+        <div className="flex">
           {lista.map((t, i) => (
             <button
               key={t.texto}
@@ -148,13 +154,17 @@ export default function Testimonios({ idioma = "es" }: { idioma?: Idioma }) {
               onClick={() => irA(i)}
               aria-label={`${txt.testimonios.irAl} ${i + 1}`}
               aria-current={i === indice}
-              className={
-                "h-1.5 rounded-full transition-all duration-300 cursor-pointer border-0 " +
-                (i === indice
-                  ? "w-6 bg-lime"
-                  : "w-1.5 bg-text-dim hover:bg-text-muted")
-              }
-            />
+              className="group grid place-items-center min-w-6 h-6 px-[3px] cursor-pointer border-0 bg-transparent"
+            >
+              <span
+                className={
+                  "block h-1.5 rounded-full transition-all duration-300 " +
+                  (i === indice
+                    ? "w-6 bg-lime"
+                    : "w-1.5 bg-text-dim group-hover:bg-text-muted")
+                }
+              />
+            </button>
           ))}
         </div>
         <div className="flex sm:hidden gap-2">

@@ -1,9 +1,13 @@
+import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
+import { metaPagina } from "@/i18n/seo";
 
-export const metadata = {
-  title: "Política de Cookies · Sara Córdoba",
-  description: "Información sobre el uso de cookies en el sitio.",
-};
+export const metadata: Metadata = metaPagina({
+  idioma: "es",
+  ruta: "/cookies",
+  titulo: "Política de Cookies · Sara Córdoba",
+  descripcion: "Información sobre el uso de cookies en el sitio.",
+});
 
 export default function CookiesPage() {
   return (

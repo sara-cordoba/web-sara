@@ -14,19 +14,18 @@ import {
   IDIOMAS,
   PERFIL_PROFESIONAL,
 } from "@/data/perfil";
+import { metaPagina } from "@/i18n/seo";
 
-export const metadata: Metadata = {
-  title: "Sara Córdoba · Perfil profesional",
-  description:
+export const metadata: Metadata = metaPagina({
+  idioma: "es",
+  ruta: "/perfil",
+  titulo: "Sara Córdoba · Perfil profesional",
+  descripcion:
     "Responsable de marketing y contenido digital: estrategia y calendario de contenido, redes, diseño y desarrollo web. Experiencia, herramientas y CV.",
-  openGraph: {
-    title: "Sara Córdoba · Perfil profesional",
-    description:
-      "Marketing digital, contenido, redes y desarrollo web. Experiencia, herramientas y CV en PDF.",
-    type: "profile",
-    locale: "es_ES",
-  },
-};
+  descripcionCompartir:
+    "Marketing digital, contenido, redes y desarrollo web. Experiencia, herramientas y CV en PDF.",
+  tipo: "profile",
+});
 
 /* El botón de descarga solo aparece si el PDF está de verdad en public/.
    Un enlace roto es lo último que quieres enseñarle a quien te va a contratar. */

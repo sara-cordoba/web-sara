@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import PaginaContacto from "@/components/PaginaContacto";
-import { alternativas } from "@/i18n/config";
+import { metaPagina } from "@/i18n/seo";
+import { es } from "@/i18n/es";
 
-// Sin título propio: hereda el del layout, como hasta ahora.
-export const metadata: Metadata = {
-  alternates: alternativas("/contacto", "es"),
-};
+export const metadata: Metadata = metaPagina({
+  idioma: "es",
+  ruta: "/contacto",
+  titulo: es.contactoPagina.meta.titulo,
+  descripcion: es.contactoPagina.meta.descripcion,
+});
 
 export default function ContactoPage() {
   return <PaginaContacto idioma="es" />;
