@@ -187,7 +187,7 @@ export const ca: Diccionario = {
     recomienda: "Recomana'm",
     avisoLegal: "Avís legal",
     privacidad: "Privacitat",
-    cookies: "Galetes",
+    cookies: "Cookies",
   },
 
   trabajosPagina: {
