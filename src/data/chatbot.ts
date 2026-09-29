@@ -12,8 +12,9 @@
 //    proyecto se valora a partir de lo que pide el cliente y lo que necesita,
 //    y de ahí sale una propuesta. Eso es lo único que se cuenta aquí.
 //  · NO DA NÚMEROS PEQUEÑOS de nada: ni webs entregadas, ni clientes, ni años.
-//    Se dice "varias", o no se dice. Los números grandes sí van: los de
-//    YouTube, que son los que impresionan.
+//    Se dice "varias", o no se dice.
+//  · NO DA LA CIFRA DE SUSCRIPTORES de YouTube: parte vino de publicidad de
+//    pago. Lo que sí cuenta son los 128 vídeos, que son trabajo de Sara.
 //  · No se abre solo nunca.
 //  · NIKA NO DIAGNOSTICA. No ha visto la web del visitante, no sabe por qué
 //    no le funciona y no puede adivinarlo. Decir "suele ser el móvil" es
@@ -161,7 +162,7 @@ export const GUION: Record<string, Nodo> = {
     burbujas: [
       "Sara lo lleva entero: estrategia, calendario, textos, diseño y vídeo.",
       "Tú no tienes que acordarte de nada.",
-      "En YouTube: **de cero a 12.500 suscriptores en 17 meses**, y 128 vídeos.",
+      "En YouTube: 128 vídeos producidos y editados.",
     ],
     // Sin botón a la galería, por lo mismo que en web. Aquí la prueba es el
     // canal, que ya va en la burbuja de arriba.

@@ -31,9 +31,8 @@ export const TRABAJOS_EN: Record<string, TrabajoEn> = {
     type: "Brand · Web · Content",
     necesitaba: "No brand, no website, no social media.",
     hice: "Full visual identity, bilingual corporate website, content, and process automation with AI.",
-    // 12.500 en español es 12,500 en inglés. El número es el mismo.
     resultado:
-      "The YouTube channel went from 0 to 12,500 subscribers in 17 months, with 128 videos produced and edited by me.",
+      "128 videos produced and edited by me for the YouTube channel.",
   },
   GPAthletes: {
     type: "Brand identity · Social media · Content",

@@ -90,8 +90,11 @@ export const WORKS: Work[] = [
     logoFill: true,
     necesitaba: "No tenía ni marca, ni web, ni redes.",
     hice: "Identidad visual completa, web corporativa bilingüe, contenido y automatización de procesos con IA.",
+    // La cifra de suscriptores no va aquí: parte vino de publicidad de pago y
+    // esta ficha sale en la portada. Solo se menciona una vez en toda la web,
+    // en la experiencia de Cronos de /perfil (src/data/perfil.ts).
     resultado:
-      "El canal de YouTube pasó de 0 a 12.500 suscriptores en 17 meses, con 128 vídeos producidos y editados por mí.",
+      "128 vídeos producidos y editados por mí para el canal de YouTube.",
     // Se enlaza a la www a propósito: el dominio sin www está sin certificado
     // y no conecta. Mismo motivo que en la burbuja de Nika (src/data/chatbot.ts).
     url: "https://www.cronosaiconsulting.com/",

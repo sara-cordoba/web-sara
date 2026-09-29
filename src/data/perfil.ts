@@ -11,7 +11,7 @@ export const CABECERA = {
 };
 
 export const PERFIL_PROFESIONAL =
-  "Responsable de marketing y contenido digital con dos años de experiencia, trabajando como autónoma desde 2025 para cartera propia de clientes. He llevado sola toda la presencia digital de una startup B2B desde cero: identidad de marca, estrategia y calendario de contenido, redes sociales, web corporativa bilingüe y automatización de procesos con IA. El canal de YouTube que gestioné pasó de 0 a 12.500 suscriptores en 17 meses con 128 vídeos producidos por mí. Vengo del desarrollo web, así que además de diseñar la web la construyo.";
+  "Responsable de marketing y contenido digital con dos años de experiencia, trabajando como autónoma desde 2025 para cartera propia de clientes. He llevado sola toda la presencia digital de una startup B2B desde cero: identidad de marca, estrategia y calendario de contenido, redes sociales, web corporativa bilingüe y automatización de procesos con IA. Para su canal de YouTube he producido y editado 128 vídeos. Vengo del desarrollo web, así que además de diseñar la web la construyo.";
 
 export type Puesto = {
   puesto: string;
@@ -28,8 +28,11 @@ export const EXPERIENCIA: Puesto[] = [
     empresa: "Cronos AI Consulting",
     fechas: "abr. 2025 – actualidad",
     contexto: "Remoto",
+    // La ÚNICA mención de los suscriptores en toda la web, y a propósito en
+    // texto normal y detrás de los vídeos: parte del crecimiento vino de
+    // publicidad de pago. No la pongas en titulares, negritas ni portada.
     descripcion:
-      "Entré cuando no había ni marca, ni web, ni redes: identidad visual completa, web corporativa bilingüe, contenido y automatización de procesos con IA. El canal de YouTube pasó de 0 a 12.500 suscriptores en 17 meses, con 128 vídeos producidos y editados por mí.",
+      "Entré cuando no había ni marca, ni web, ni redes: identidad visual completa, web corporativa bilingüe, contenido y automatización de procesos con IA. Produje y edité 128 vídeos para el canal de YouTube, que pasó de 0 a 12.500 suscriptores en 17 meses.",
   },
   {
     puesto: "Social Media Manager y diseño de marca",
