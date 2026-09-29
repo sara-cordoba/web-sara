@@ -5,6 +5,7 @@ import { textos, type Diccionario } from "@/i18n";
 import type { Idioma } from "@/i18n/config";
 import { trabajoEn } from "@/i18n/contenido-en";
 import CasoDesplegable from "@/components/CasoDesplegable";
+import { galeriaDe, medidas } from "@/data/imagenes";
 
 type Props = {
   idioma?: Idioma;
@@ -30,7 +31,7 @@ export default function Works({ idioma = "es", eyebrow, heading }: Props) {
           </>
         )}
       </H2>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-[60px]">
+      <div className="grid grid-cols-1 lg:grid-cols-2 items-start gap-4 mt-[60px]">
         {trabajos.map((w) => (
           <Ficha key={w.title} work={w} t={t} />
         ))}
@@ -46,6 +47,10 @@ export default function Works({ idioma = "es", eyebrow, heading }: Props) {
 
 function Ficha({ work: w, t }: { work: Work; t: Diccionario }) {
   const etiquetas = w.type.split(" · ");
+  // La galería del caso vive en public/img/proyectos/<carpeta>/galeria, y la
+  // carpeta se llama como la imagen de la tarjeta: cronos.webp -> cronos/.
+  const carpeta = w.imagen?.split("/").pop()?.replace(/\.[^.]+$/, "");
+  const galeria = carpeta ? galeriaDe(carpeta) : [];
 
   return (
     <article
@@ -69,7 +74,12 @@ function Ficha({ work: w, t }: { work: Work; t: Diccionario }) {
         {w.resultado}
       </p>
 
-      <CasoDesplegable etiqueta={t.works.verCaso}>
+      <CasoDesplegable
+        etiqueta={t.works.verCaso}
+        galeria={galeria}
+        titulo={w.title}
+        textosGaleria={{ ampliar: t.galeria.ampliar, cerrar: t.galeria.cerrar }}
+      >
         <dl className="m-0 mt-3 flex flex-col gap-3">
           <Linea etiqueta={t.works.necesitaba}>{w.necesitaba}</Linea>
           <Linea etiqueta={t.works.hice}>{w.hice}</Linea>
@@ -97,14 +107,21 @@ function Ficha({ work: w, t }: { work: Work; t: Diccionario }) {
 /* La imagen grande de la ficha, dentro de un marco de navegador.
    En la barra va el dominio SOLO si la ficha tiene url aprobada; si no, el
    nombre del proyecto: no se publica la dirección de ningún cliente que no
-   la haya autorizado (Ajedrez Sistémico, por ejemplo). */
+   la haya autorizado. Ajedrez Sistémico no tiene url a propósito y así debe
+   seguir: en su barra solo sale "Ajedrez Sistémico".
+
+   Las capturas de web se ven enteras, con su proporción real: el marco se
+   adapta a la imagen, no al revés. Las piezas cuadradas o verticales van en
+   un hueco 16:10, enteras, sobre ellas mismas difuminadas. */
 function Captura({ work: w, etiquetas }: { work: Work; etiquetas: string[] }) {
   const barra = w.url
     ? new URL(w.url).hostname.replace(/^www\./, "")
     : w.title;
   const sizes = "(max-width: 1024px) 100vw, 560px";
+  const tam = medidas(w.imagen!);
+  // Al pasar el ratón, solo sube un poco; sin ampliar.
   const mover =
-    "transition-transform duration-500 ease-smooth [@media(hover:hover)]:group-hover:-translate-y-2 [@media(hover:hover)]:group-hover:scale-[1.03]";
+    "transition-transform duration-500 ease-smooth [@media(hover:hover)]:group-hover:-translate-y-1.5";
 
   return (
     <div className="rounded-[12px] overflow-hidden border border-border bg-black shadow-[0_12px_40px_-12px_rgba(0,0,0,0.7)]">
@@ -116,20 +133,22 @@ function Captura({ work: w, etiquetas }: { work: Work; etiquetas: string[] }) {
           {barra}
         </span>
       </div>
-      <div className="relative aspect-[16/10] overflow-hidden">
-        {w.encaje === "pieza" ? (
-          <>
+      <div className="relative overflow-hidden">
+        {w.encaje === "pieza" || !tam ? (
+          <div className="relative aspect-[16/10]">
             {/* Detrás, la misma imagen difuminada y oscura: rellena los lados
-                de una pieza cuadrada o vertical sin dejar bandas negras. */}
-            <Image
-              src={w.imagen!}
-              alt=""
-              fill
-              sizes={sizes}
-              quality={40}
-              className="object-cover scale-110 blur-2xl brightness-[0.5] saturate-150"
-              aria-hidden
-            />
+                de una pieza cuadrada o vertical sin dejar bandas negras. Se
+                sale un poco del hueco para que el difuminado no deje borde. */}
+            <div className="absolute -inset-6" aria-hidden>
+              <Image
+                src={w.imagen!}
+                alt=""
+                fill
+                sizes={sizes}
+                quality={40}
+                className="object-cover blur-2xl brightness-[0.5] saturate-150"
+              />
+            </div>
             <div className={`absolute inset-0 ${mover}`}>
               <Image
                 src={w.imagen!}
@@ -139,15 +158,16 @@ function Captura({ work: w, etiquetas }: { work: Work; etiquetas: string[] }) {
                 className="object-contain"
               />
             </div>
-          </>
+          </div>
         ) : (
-          <div className={`absolute inset-0 ${mover}`}>
+          <div className={mover}>
             <Image
               src={w.imagen!}
               alt={w.title}
-              fill
+              width={tam.ancho}
+              height={tam.alto}
               sizes={sizes}
-              className="object-cover object-top"
+              className="block w-full h-auto"
             />
           </div>
         )}
