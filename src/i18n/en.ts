@@ -114,7 +114,6 @@ export const en: Diccionario = {
     hice: "What I did",
     resultado: "Result",
     verWeb: "Visit the site",
-    verCaso: "View case",
   },
 
   antesDespues: {

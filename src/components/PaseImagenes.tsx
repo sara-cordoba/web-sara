@@ -11,15 +11,18 @@ export type Diapositiva = {
   encaje: "captura" | "pieza";
 };
 
-/** Cuánto se ve cada imagen y cuánto dura el fundido entre dos. */
-const VISIBLE_MS = 4000;
+/** Cuánto se ve cada imagen. El fundido entre dos dura 0,9 s (ver la clase
+ *  duration-[900ms] de abajo). */
+const VISIBLE_MS = 3000;
 
 /* El pase de imágenes de la portada de cada ficha de proyecto.
 
    - Fundido de opacidad y nada más: sin deslizar ni ampliar.
    - La primera imagen carga como cualquier otra de la página. Las demás no
-     se montan (ni se descargan) hasta que la ficha entra en pantalla.
-   - Se para cuando la ficha no se ve y cuando la pestaña no está activa.
+     se montan (ni se descargan) hasta que la ficha está a punto de asomar.
+   - Arranca solo en cuanto se ve un 20 % de la ficha, sin tocar nada: el
+     ratón no lo arranca ni lo para. Se para cuando la ficha deja de verse y
+     cuando la pestaña no está activa.
    - Solo pasa a una imagen que ya ha cargado: nunca funde a un hueco negro.
    - Con "reducir movimiento" activado no hay pase: se queda la primera.
    - `retraso` escalona las fichas para que no cambien todas a la vez. */
@@ -61,18 +64,28 @@ export default function PaseImagenes({
     return () => document.removeEventListener("visibilitychange", alCambiar);
   }, []);
 
+  // Dos observadores: uno, con margen, solo monta (descarga) las imágenes un
+  // poco antes de que la ficha asome, para que la segunda ya esté lista; el
+  // otro arranca y para el pase cuando se ve al menos un 20 % de la ficha.
   useEffect(() => {
-    if (!hayPase || !caja.current) return;
-    const obs = new IntersectionObserver(
+    const el = caja.current;
+    if (!hayPase || !el) return;
+    const cerca = new IntersectionObserver(
       ([e]) => {
-        setEnPantalla(e.isIntersecting);
         if (e.isIntersecting) setVista(true);
       },
-      // Un poco antes de que asome, para que la segunda ya esté lista.
-      { rootMargin: "200px 0px" },
+      { rootMargin: "300px 0px" },
     );
-    obs.observe(caja.current);
-    return () => obs.disconnect();
+    const visible = new IntersectionObserver(
+      ([e]) => setEnPantalla(e.isIntersecting && e.intersectionRatio >= 0.2),
+      { threshold: [0, 0.2] },
+    );
+    cerca.observe(el);
+    visible.observe(el);
+    return () => {
+      cerca.disconnect();
+      visible.disconnect();
+    };
   }, [hayPase]);
 
   useEffect(() => {
@@ -100,7 +113,7 @@ export default function PaseImagenes({
             key={f.src}
             aria-hidden={!visible}
             className={
-              "absolute inset-0 transition-opacity duration-[1200ms] ease-in-out " +
+              "absolute inset-0 transition-opacity duration-[900ms] ease-in-out " +
               (visible ? "opacity-100" : "opacity-0")
             }
           >

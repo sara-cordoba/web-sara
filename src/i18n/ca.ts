@@ -111,7 +111,6 @@ export const ca: Diccionario = {
     hice: "Què vaig fer",
     resultado: "Resultat",
     verWeb: "Veure la web",
-    verCaso: "Veure el cas",
   },
 
   antesDespues: {
