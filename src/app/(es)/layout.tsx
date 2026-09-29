@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(DOMINIO),
   title: es.meta.titulo,
   description: es.meta.descripcion,
+  // Verificación del dominio en Google Search Console.
+  verification: { google: "xO9C4dIyZHfEuQaA_kzh1-kdUSNaKOcRQmDS9f6SFSs" },
 };
 
 export const viewport: Viewport = {
