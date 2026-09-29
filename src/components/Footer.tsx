@@ -2,7 +2,7 @@ import Link from "next/link";
 import { GALERIA } from "@/data/galeria";
 import { CONTACT_EMAIL } from "@/data/site";
 import { textos } from "@/i18n";
-import type { Idioma } from "@/i18n/config";
+import { enlace, type Idioma } from "@/i18n/config";
 
 export default function Footer({
   // El perfil profesional se enlaza solo desde el pie de la home: es para
@@ -16,10 +16,12 @@ export default function Footer({
   idioma?: Idioma;
 }) {
   const t = textos(idioma);
+  // Las páginas que solo existen en español (el perfil y /recomienda) se
+  // enlazan también desde el catalán, que las lee igual; desde el inglés no.
   const enIngles = idioma === "en";
-  const inicio = enIngles ? "/en" : "/";
-  const trabajos = enIngles ? "/en/work" : "/trabajos";
-  const contacto = enIngles ? "/en/contact" : "/contacto";
+  const inicio = enlace("/", idioma);
+  const trabajos = enlace("/trabajos", idioma);
+  const contacto = enlace("/contacto", idioma);
 
   return (
     <footer className="mt-[64px] md:mt-[100px] border-t border-border px-6 md:px-8 max-w-page mx-auto text-[13px] text-text-muted">

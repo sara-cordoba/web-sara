@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { Section, Eyebrow, H2 } from "../ui";
-import { WORKS, type Work } from "@/data/v3";
+import type { Work } from "@/data/v3";
 import { textos, type Diccionario } from "@/i18n";
 import type { Idioma } from "@/i18n/config";
-import { trabajoEn } from "@/i18n/contenido-en";
+import { trabajosPara } from "@/i18n/contenido";
 import PaseImagenes, { type Diapositiva } from "@/components/PaseImagenes";
 import { galeriaDe } from "@/data/imagenes";
 
@@ -17,7 +17,7 @@ export default function Works({ idioma = "es", eyebrow, heading }: Props) {
   const t = textos(idioma);
   // Siempre por la lista española: una ficha sin traducir sale en español,
   // que es mejor que no salir.
-  const trabajos = idioma === "en" ? WORKS.map(trabajoEn) : WORKS;
+  const trabajos = trabajosPara(idioma);
 
   return (
     <Section>

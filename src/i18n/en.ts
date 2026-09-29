@@ -1,6 +1,6 @@
 // Every piece of interface text in English.
 //
-// This file mirrors es.ts exactly. TypeScript enforces that: if a key is
+// This file mirrors es.ts exactly, like ca.ts does. TypeScript enforces that: if a key is
 // missing or misspelled, the build fails instead of shipping a Spanish
 // string into the English site.
 //
@@ -33,6 +33,7 @@ export const en: Diccionario = {
   idioma: {
     etiqueta: "Language",
     verEnEspanol: "View in Spanish",
+    verEnCatalan: "View in Catalan",
     verEnIngles: "View in English",
   },
 

@@ -2,21 +2,19 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Section, Eyebrow, H2, Lede } from "../ui";
-import { ALCANCE, TESTIMONIOS } from "@/data/testimonios";
 import { textos } from "@/i18n";
 import type { Idioma } from "@/i18n/config";
-import { ALCANCE_EN, testimonioEn } from "@/i18n/contenido-en";
+import { alcancePara, testimoniosPara } from "@/i18n/contenido";
 
 export default function Testimonios({ idioma = "es" }: { idioma?: Idioma }) {
   const pista = useRef<HTMLUListElement | null>(null);
   const [indice, setIndice] = useState(0);
 
   const txt = textos(idioma);
-  const enIngles = idioma === "en";
   // Siempre sobre la lista española: un testimonio sin traducir sale en
   // español en vez de desaparecer del carrusel.
-  const lista = enIngles ? TESTIMONIOS.map(testimonioEn) : TESTIMONIOS;
-  const alcance = enIngles ? ALCANCE_EN : ALCANCE;
+  const lista = testimoniosPara(idioma);
+  const alcance = alcancePara(idioma);
 
   /* El carrusel es una lista que se desplaza de verdad: se puede arrastrar con
      el dedo, con la rueda o con el teclado. Las flechas solo mueven esa misma

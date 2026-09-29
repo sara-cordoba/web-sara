@@ -1,6 +1,6 @@
 import { Section, CtaButton } from "../ui";
 import { textos } from "@/i18n";
-import type { Idioma } from "@/i18n/config";
+import { enlace, type Idioma } from "@/i18n/config";
 
 export default function Banner({ idioma = "es" }: { idioma?: Idioma }) {
   const t = textos(idioma);
@@ -34,7 +34,7 @@ export default function Banner({ idioma = "es" }: { idioma?: Idioma }) {
             {t.banner.parrafo.despues}
           </p>
           <div className="inline-flex">
-            <CtaButton href={idioma === "en" ? "/en/contact" : "/contacto"}>
+            <CtaButton href={enlace("/contacto", idioma)}>
               {t.banner.cta}
             </CtaButton>
           </div>

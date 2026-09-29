@@ -2,11 +2,17 @@
 //
 // Cada página llama a metaPagina() con su ruta, su título y su descripción, y
 // de ahí sale todo lo demás: canonical, hreflang (si la página existe en los
-// dos idiomas), la tarjeta de Open Graph para LinkedIn o WhatsApp y la de
+// tres idiomas), la tarjeta de Open Graph para LinkedIn o WhatsApp y la de
 // Twitter/X. Así ninguna página se queda sin vista previa al compartirla.
 
 import type { Metadata } from "next";
-import { DOMINIO, EQUIVALENTES, alternativas, type Idioma } from "./config";
+import {
+  DOMINIO,
+  EQUIVALENTES,
+  IDIOMAS,
+  alternativas,
+  type Idioma,
+} from "./config";
 
 /** La imagen que sale al compartir un enlace. 1200 × 630, la medida estándar.
  *  Se generan a mano desde una plantilla HTML: si cambian los textos de
@@ -16,17 +22,25 @@ export const IMAGEN_COMPARTIR: Record<Idioma, { url: string; alt: string }> = {
     url: "/og/sara-cordoba-es.jpg",
     alt: "Sara Córdoba · Diseño y desarrollo web, WordPress y branding",
   },
+  ca: {
+    url: "/og/sara-cordoba-ca.jpg",
+    alt: "Sara Córdoba · Disseny i desenvolupament web, WordPress i branding",
+  },
   en: {
     url: "/og/sara-cordoba-en.jpg",
     alt: "Sara Córdoba · Web design and development, WordPress and branding",
   },
 };
 
-const LOCALE: Record<Idioma, string> = { es: "es_ES", en: "en_GB" };
+const LOCALE: Record<Idioma, string> = {
+  es: "es_ES",
+  ca: "ca_ES",
+  en: "en_GB",
+};
 
 type Opciones = {
   idioma: Idioma;
-  /** La ruta de ESTA página en su idioma: "/trabajos", "/en/work"... */
+  /** La ruta de ESTA página en su idioma: "/trabajos", "/ca/treballs"... */
   ruta: string;
   titulo: string;
   descripcion: string;
@@ -46,13 +60,13 @@ export function metaPagina({
   tipo = "website",
 }: Opciones): Metadata {
   const par = EQUIVALENTES.find((p) => p[idioma] === ruta);
-  const otro: Idioma = idioma === "es" ? "en" : "es";
+  const otros = IDIOMAS.filter((i) => i !== idioma).map((i) => LOCALE[i]);
   const imagen = IMAGEN_COMPARTIR[idioma];
 
   return {
     title: titulo,
     description: descripcion,
-    // Con pareja en el otro idioma, canonical + hreflang; sin ella, solo
+    // Con pareja en los otros idiomas, canonical + hreflang; sin ella, solo
     // canonical: anunciar una versión que no existe es peor que no anunciarla.
     alternates: par
       ? alternativas(par.es, idioma)
@@ -61,7 +75,7 @@ export function metaPagina({
       type: tipo,
       siteName: "Sara Córdoba",
       locale: LOCALE[idioma],
-      ...(par ? { alternateLocale: [LOCALE[otro]] } : {}),
+      ...(par ? { alternateLocale: otros } : {}),
       url: `${DOMINIO}${ruta}`,
       title: tituloCompartir,
       description: descripcionCompartir,

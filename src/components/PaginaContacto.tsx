@@ -3,7 +3,7 @@ import { Eyebrow, H1, Lede } from "@/components/ui";
 import { textos } from "@/i18n";
 import type { Idioma } from "@/i18n/config";
 
-/* El cuerpo de /contacto y de /en/contact. */
+/* El cuerpo de /contacto, /ca/contacte y /en/contact. */
 export default function PaginaContacto({
   idioma = "es",
 }: {

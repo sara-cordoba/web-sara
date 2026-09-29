@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   Plantilla de la imagen que sale al compartir la web (Open Graph), 1200 × 630.
-  Se abre con ?idioma=es o ?idioma=en, se hace una captura a ese tamaño y se
+  Se abre con ?idioma=es, ?idioma=ca o ?idioma=en, se hace una captura a ese tamaño y se
   guarda en public/og/sara-cordoba-<idioma>.jpg. Los textos siguen los de
   src/i18n: si cambian arriba, se vuelve a sacar.
 -->
@@ -51,12 +51,13 @@
 <script>
   const T = {
     es: { pastilla: "España · Remoto", lema: "Diseño y desarrollo web · WordPress · Branding · Diseño gráfico · Contenido para redes · Chatbots con IA" },
+    ca: { pastilla: "Espanya · En remot", lema: "Disseny i desenvolupament web · WordPress · Branding · Disseny gràfic · Contingut per a xarxes · Xatbots amb IA" },
     en: { pastilla: "Spain · Remote", lema: "Web design and development · WordPress · Branding · Graphic design · Social media content · AI chatbots" },
   };
   const t = T[new URLSearchParams(location.search).get("idioma")] || T.es;
   document.getElementById("pastilla").textContent = t.pastilla;
   document.getElementById("lema").textContent = t.lema;
-  document.documentElement.lang = t === T.en ? "en" : "es";
+  document.documentElement.lang = Object.keys(T).find((k) => T[k] === t);
 </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 import { CONTACT_EMAIL } from "@/data/site";
-import { DOMINIO, type Idioma } from "@/i18n/config";
+import { DOMINIO, enlace, type Idioma } from "@/i18n/config";
 import { textos } from "@/i18n";
 
 /* Datos para Google en formato JSON-LD (schema.org): quién es Sara, a qué se
@@ -29,6 +29,20 @@ const SABE_DE: Record<Idioma, string[]> = {
     "Chatbots con IA",
     "Automatización con IA",
   ],
+  ca: [
+    "Desenvolupament web",
+    "Disseny web",
+    "WordPress",
+    "Elementor",
+    "Next.js",
+    "Branding",
+    "Identitat visual",
+    "Disseny gràfic",
+    "Contingut per a xarxes socials",
+    "Edició de vídeo",
+    "Xatbots amb IA",
+    "Automatització amb IA",
+  ],
   en: [
     "Web development",
     "Web design",
@@ -47,12 +61,13 @@ const SABE_DE: Record<Idioma, string[]> = {
 
 const PUESTO: Record<Idioma, string> = {
   es: "Diseñadora y desarrolladora web freelance",
+  ca: "Dissenyadora i desenvolupadora web freelance",
   en: "Freelance web designer and developer",
 };
 
 export default function DatosEstructurados({ idioma }: { idioma: Idioma }) {
   const t = textos(idioma);
-  const inicio = idioma === "en" ? `${DOMINIO}/en` : DOMINIO;
+  const inicio = idioma === "es" ? DOMINIO : `${DOMINIO}${enlace("/", idioma)}`;
 
   const datos = {
     "@context": "https://schema.org",

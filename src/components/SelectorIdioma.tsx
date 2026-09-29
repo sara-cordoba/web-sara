@@ -6,10 +6,10 @@ import { textos } from "@/i18n";
 import { IDIOMAS, otraVersion, type Idioma } from "@/i18n/config";
 import { recordarIdioma } from "@/i18n/preferencia";
 
-const ETIQUETA: Record<Idioma, string> = { es: "ES", en: "EN" };
+const ETIQUETA: Record<Idioma, string> = { es: "ES", ca: "CA", en: "EN" };
 
 /**
- * El selector de idioma de la cabecera. Sale en las dos versiones y en todas
+ * El selector de idioma de la cabecera. Sale en los tres idiomas y en todas
  * las páginas.
  *
  * Va con <a> y no con <Link> a propósito: cada idioma tiene su propio layout
@@ -64,7 +64,11 @@ export default function SelectorIdioma({
             href={otraVersion(ruta, codigo)}
             onClick={() => recordarIdioma(codigo)}
             aria-label={
-              codigo === "en" ? t.idioma.verEnIngles : t.idioma.verEnEspanol
+              {
+                es: t.idioma.verEnEspanol,
+                ca: t.idioma.verEnCatalan,
+                en: t.idioma.verEnIngles,
+              }[codigo]
             }
             className={clases}
           >

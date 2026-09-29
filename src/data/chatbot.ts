@@ -78,6 +78,10 @@ export const PAGINAS_SIN_NIKA = ["/aviso-legal", "/privacidad", "/cookies"];
  * El guion de Nika está escrito entero en español y no se ha traducido: un
  * chat que contesta en español a quien está leyendo la web en inglés es peor
  * que no tener chat. El día que se traduzca, se quita "/en" de aquí.
+ *
+ * En /ca sí sale, en castellano: quien lee en catalán lo entiende, y el
+ * guion tiene topes de longitud medidos en móvil que habría que volver a
+ * medir en catalán. Si algún día se traduce, es un guion entero nuevo.
  */
 export const PREFIJOS_SIN_NIKA = ["/en"];
 

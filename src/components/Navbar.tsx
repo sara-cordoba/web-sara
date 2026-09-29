@@ -8,35 +8,27 @@ import SelectorIdioma from "@/components/SelectorIdioma";
 import SugerenciaIdioma from "@/components/SugerenciaIdioma";
 import { GALERIA } from "@/data/galeria";
 import { textos } from "@/i18n";
-import type { Idioma } from "@/i18n/config";
+import { enlace, type Idioma } from "@/i18n/config";
 
 /* Los enlaces del menú, por idioma.
    En inglés no sale el CV: /perfil solo existe en español, con el PDF en
    español, y un enlace del menú inglés que lleva a una página española es
-   un callejón sin salida. */
+   un callejón sin salida. En catalán sí sale: quien lee en catalán lee en
+   castellano, y el CV le interesa igual (sobre todo a quien contrata en
+   Cataluña). */
 function paginas(idioma: Idioma) {
   const t = textos(idioma);
 
-  if (idioma === "en") {
-    return [
-      { href: "/en", label: t.navbar.inicio },
-      ...(GALERIA.length > 0
-        ? [{ href: "/en/work", label: t.navbar.trabajos }]
-        : []),
-      { href: "/en/contact", label: t.navbar.contacto },
-    ];
-  }
-
   return [
-    { href: "/", label: t.navbar.inicio },
+    { href: enlace("/", idioma), label: t.navbar.inicio },
     // El enlace a la galería solo aparece cuando hay piezas que enseñar.
     ...(GALERIA.length > 0
-      ? [{ href: "/trabajos", label: t.navbar.trabajos }]
+      ? [{ href: enlace("/trabajos", idioma), label: t.navbar.trabajos }]
       : []),
     // A /perfil se llegaba solo con el enlace directo: quien entra por su
     // cuenta a ver quién es Sara no lo encontraba por ningún sitio.
-    { href: "/perfil", label: t.navbar.cv },
-    { href: "/contacto", label: t.navbar.contacto },
+    ...(idioma !== "en" ? [{ href: "/perfil", label: t.navbar.cv }] : []),
+    { href: enlace("/contacto", idioma), label: t.navbar.contacto },
   ];
 }
 
@@ -44,8 +36,8 @@ export default function Navbar({ idioma }: { idioma: Idioma }) {
   const pathname = usePathname();
   const t = textos(idioma);
   const PAGES = paginas(idioma);
-  const inicio = idioma === "en" ? "/en" : "/";
-  const contacto = idioma === "en" ? "/en/contact" : "/contacto";
+  const inicio = enlace("/", idioma);
+  const contacto = enlace("/contacto", idioma);
 
   /* En móvil los cuatro enlaces no caben en la barra al lado del logo y del
      botón, así que van detrás de un desplegable. La barra no cambia de alto:
@@ -104,8 +96,10 @@ export default function Navbar({ idioma }: { idioma: Idioma }) {
             <Link
               key={p.href}
               href={p.href}
+              /* Más estrechas entre 768 y 1023 px: con el selector de tres
+                 idiomas, a 768 px "Contacto" se montaba encima del selector. */
               className={clsx(
-                "text-[13px] font-medium px-[14px] py-2 rounded-lg transition-colors duration-[250ms]",
+                "text-[13px] font-medium px-[10px] lg:px-[14px] py-2 rounded-lg transition-colors duration-[250ms]",
                 active
                   ? "text-lime bg-[rgba(163,217,119,0.08)]"
                   : "text-text-soft hover:text-text hover:bg-[rgba(163,217,119,0.05)]"

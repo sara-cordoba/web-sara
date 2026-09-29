@@ -6,11 +6,11 @@ import Nika from "@/components/Nika";
 import type { Idioma } from "@/i18n/config";
 
 /**
- * Todo lo que va dentro del <body> y es igual en los dos idiomas.
+ * Todo lo que va dentro del <body> y es igual en los tres idiomas.
  *
- * Existe porque hay dos layouts raíz, uno por idioma, y esto tenía que
- * quedarse escrito una sola vez: así la versión española no se puede
- * desalinear de la inglesa por tocar solo una de las dos.
+ * Existe porque hay un layout raíz por idioma, y esto tenía que quedarse
+ * escrito una sola vez: así ninguna versión se puede desalinear de las otras
+ * por tocar solo una.
  */
 export default function Marco({
   idioma,

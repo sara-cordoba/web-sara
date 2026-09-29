@@ -3,7 +3,8 @@
 // Esto es SOLO lo que antes estaba escrito dentro del marcado. El contenido
 // que ya vivía separado en src/data/ (las fichas de proyecto, los servicios,
 // los testimonios, la galería) sigue allí y no se duplica aquí: src/data/ es
-// la fuente en español, y su traducción al inglés está en contenido-en.ts.
+// la fuente en español, y sus traducciones están en contenido-ca.ts y
+// contenido-en.ts.
 //
 // Las frases con una parte en negrita o en verde van partidas en trozos
 // (antes / fuerte / despues) en vez de llevar etiquetas dentro del texto:
@@ -35,6 +36,7 @@ export const es = {
   idioma: {
     etiqueta: "Idioma",
     verEnEspanol: "Ver en español",
+    verEnCatalan: "Ver en catalán",
     verEnIngles: "Ver en inglés",
   },
 
@@ -290,5 +292,6 @@ export const es = {
   },
 };
 
-/** El inglés tiene que tener exactamente esta forma. Lo comprueba TypeScript. */
+/** El catalán y el inglés tienen que tener exactamente esta forma. Lo
+ *  comprueba TypeScript. */
 export type Diccionario = typeof es;

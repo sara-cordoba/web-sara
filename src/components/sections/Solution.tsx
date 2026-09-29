@@ -1,8 +1,7 @@
 import { Section, Eyebrow, H2, Lede } from "../ui";
-import { SOLUTIONS } from "@/data/v3";
 import { textos } from "@/i18n";
 import type { Idioma } from "@/i18n/config";
-import { servicioEn } from "@/i18n/contenido-en";
+import { serviciosPara } from "@/i18n/contenido";
 
 /* Un icono por servicio. La clave es el `icon` de SOLUTIONS ("01", "02"...),
    que también sirve para buscar su traducción: por eso no se cambia allí. */
@@ -78,7 +77,7 @@ export default function Solution({
   const t = textos(idioma);
   // Se recorre siempre la lista española: si un servicio no está traducido,
   // sale en español en vez de desaparecer de la página.
-  const servicios = idioma === "en" ? SOLUTIONS.map(servicioEn) : SOLUTIONS;
+  const servicios = serviciosPara(idioma);
 
   return (
     <Section>

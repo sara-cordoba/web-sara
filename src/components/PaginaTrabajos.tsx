@@ -3,11 +3,11 @@ import Galeria from "@/components/Galeria";
 import { CtaButton, Eyebrow, H1, Lede } from "@/components/ui";
 import { GALERIA } from "@/data/galeria";
 import { textos } from "@/i18n";
-import type { Idioma } from "@/i18n/config";
-import { piezaEn } from "@/i18n/contenido-en";
+import { enlace, type Idioma } from "@/i18n/config";
+import { piezasPara } from "@/i18n/contenido";
 
-/* El cuerpo de /trabajos y de /en/work. Es el mismo en los dos idiomas: la
-   página de cada idioma solo pone su metadata y llama aquí. */
+/* El cuerpo de /trabajos, /ca/treballs y /en/work. Es el mismo en los tres
+   idiomas: la página de cada idioma solo pone su metadata y llama aquí. */
 export default function PaginaTrabajos({
   idioma = "es",
 }: {
@@ -15,7 +15,7 @@ export default function PaginaTrabajos({
 }) {
   const t = textos(idioma);
   const vacia = GALERIA.length === 0;
-  const piezas = idioma === "en" ? GALERIA.map(piezaEn) : GALERIA;
+  const piezas = piezasPara(idioma);
 
   return (
     <>
@@ -38,7 +38,7 @@ export default function PaginaTrabajos({
 
         {!vacia && (
           <div className="mt-16 flex flex-col sm:flex-row sm:items-center gap-4">
-            <CtaButton href={idioma === "en" ? "/en/contact" : "/contacto"}>
+            <CtaButton href={enlace("/contacto", idioma)}>
               {t.trabajosPagina.cta}
             </CtaButton>
             <span className="text-text-muted text-[13px]">

@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Section, Eyebrow, H2, Lede, CtaButton } from "../ui";
 import WaveBg from "@/components/WaveBg";
 import { textos } from "@/i18n";
-import type { Idioma } from "@/i18n/config";
+import { enlace, type Idioma } from "@/i18n/config";
 
 const WAVE_MASK =
   "linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)";
@@ -64,7 +64,7 @@ export default function About({ idioma = "es" }: { idioma?: Idioma }) {
               <p className="m-0">{t.about.p3}</p>
             </div>
             <div className="mt-6">
-              <CtaButton href={idioma === "en" ? "/en/contact" : "/contacto"}>
+              <CtaButton href={enlace("/contacto", idioma)}>
                 {t.statement.cta}
               </CtaButton>
             </div>

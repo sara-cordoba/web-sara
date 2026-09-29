@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { Eyebrow, H1, CtaButton } from "@/components/ui";
 import { textos } from "@/i18n";
-import type { Idioma } from "@/i18n/config";
+import { enlace, type Idioma } from "@/i18n/config";
 
 interface TypewriterTitleProps {
   texto: string;
@@ -163,7 +163,7 @@ export default function Statement({ idioma = "es" }: { idioma?: Idioma }) {
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            <CtaButton href={idioma === "en" ? "/en/contact" : "/contacto"}>
+            <CtaButton href={enlace("/contacto", idioma)}>
               {t.statement.cta}
             </CtaButton>
           </motion.div>
