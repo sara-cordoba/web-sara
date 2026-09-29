@@ -147,11 +147,6 @@ export const en: Diccionario = {
       fuerte: "perspective no course teaches",
       despues: ".",
     },
-    p2: {
-      antes: "I don't work with everyone. I want to",
-      fuerte: "really understand your project",
-      despues: "before I take it on.",
-    },
     p3: "If you think we're a fit, get in touch.",
     bullets: [
       {

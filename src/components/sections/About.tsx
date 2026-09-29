@@ -60,13 +60,6 @@ export default function About({ idioma = "es" }: { idioma?: Idioma }) {
                 </strong>
                 {t.about.p1.despues}
               </p>
-              <p className="m-0">
-                {t.about.p2.antes}{" "}
-                <strong className="font-semibold text-text">
-                  {t.about.p2.fuerte}
-                </strong>{" "}
-                {t.about.p2.despues}
-              </p>
               <p className="m-0">{t.about.p3}</p>
             </div>
             <div className="mt-6">

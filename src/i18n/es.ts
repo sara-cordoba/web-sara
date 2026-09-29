@@ -144,11 +144,6 @@ export const es = {
       fuerte: "visión que no se aprende en ningún curso",
       despues: ".",
     },
-    p2: {
-      antes: "No trabajo con todo el mundo. Me interesa",
-      fuerte: "entender tu proyecto de verdad",
-      despues: "antes de meterme en él.",
-    },
     p3: "Si crees que encajamos, ¡escríbeme!",
     bullets: [
       {
