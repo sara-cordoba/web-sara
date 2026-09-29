@@ -20,7 +20,7 @@ const VISIBLE_MS = 3000;
    - Fundido de opacidad y nada más: sin deslizar ni ampliar.
    - La primera imagen carga como cualquier otra de la página. Las demás no
      se montan (ni se descargan) hasta que la ficha está a punto de asomar.
-   - Arranca solo en cuanto se ve un 20 % de la ficha, sin tocar nada: el
+   - Arranca solo en cuanto se ve un 30 % de la ficha, sin tocar nada: el
      ratón no lo arranca ni lo para. Se para cuando la ficha deja de verse y
      cuando la pestaña no está activa.
    - Solo pasa a una imagen que ya ha cargado: nunca funde a un hueco negro.
@@ -66,7 +66,7 @@ export default function PaseImagenes({
 
   // Dos observadores: uno, con margen, solo monta (descarga) las imágenes un
   // poco antes de que la ficha asome, para que la segunda ya esté lista; el
-  // otro arranca y para el pase cuando se ve al menos un 20 % de la ficha.
+  // otro arranca y para el pase cuando se ve al menos un 30 % de la ficha.
   useEffect(() => {
     const el = caja.current;
     if (!hayPase || !el) return;
@@ -77,8 +77,8 @@ export default function PaseImagenes({
       { rootMargin: "300px 0px" },
     );
     const visible = new IntersectionObserver(
-      ([e]) => setEnPantalla(e.isIntersecting && e.intersectionRatio >= 0.2),
-      { threshold: [0, 0.2] },
+      ([e]) => setEnPantalla(e.isIntersecting && e.intersectionRatio >= 0.3),
+      { threshold: [0, 0.3] },
     );
     cerca.observe(el);
     visible.observe(el);
