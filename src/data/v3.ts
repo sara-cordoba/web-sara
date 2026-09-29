@@ -72,6 +72,11 @@ export type Work = {
   resultado: string;
   /** Enlace a la web en vivo, solo si existe y el cliente autoriza enseñarla. */
   url?: string;
+  /** La imagen grande de la tarjeta, en public/img/proyectos. */
+  imagen?: string;
+  /** "captura": una web apaisada, se recorta y se alinea arriba.
+   *  "pieza": cuadrada o vertical, se ve entera sobre ella misma difuminada. */
+  encaje?: "captura" | "pieza";
 };
 
 
@@ -83,6 +88,8 @@ export type Work = {
 export const WORKS: Work[] = [
   {
     title: "Cronos AI Consulting",
+    imagen: "/img/proyectos/cronos.webp",
+    encaje: "captura",
     year: "2025 — ACTUAL",
     type: "Marca · Web · Contenido",
     logo: "/img/cronos.png",
@@ -101,6 +108,8 @@ export const WORKS: Work[] = [
   },
   {
     title: "GPAthletes",
+    imagen: "/img/proyectos/gpathletes.webp",
+    encaje: "pieza",
     year: "2026",
     type: "Identidad · Redes · Contenido",
     logo: "/img/gpathletes.jpg",
@@ -113,6 +122,8 @@ export const WORKS: Work[] = [
   },
   {
     title: "Ser Annora",
+    imagen: "/img/proyectos/annora.webp",
+    encaje: "captura",
     year: "2026",
     type: "Web",
     // El símbolo de Annora, en su marrón de marca sobre su crema. Va solo el
@@ -128,6 +139,8 @@ export const WORKS: Work[] = [
   },
   {
     title: "AJE Madrid",
+    imagen: "/img/proyectos/aje-madrid.webp",
+    encaje: "pieza",
     year: "2026",
     type: "Eventos · Gráfica · Contenido",
     logo: "/img/aje-madrid.png",
@@ -140,6 +153,8 @@ export const WORKS: Work[] = [
   },
   {
     title: "Ajedrez Sistémico",
+    imagen: "/img/proyectos/ajedrez-sistemico.webp",
+    encaje: "captura",
     year: "2026",
     type: "Web",
     logo: "/img/guillermo-amor.png",
@@ -153,6 +168,8 @@ export const WORKS: Work[] = [
   },
   {
     title: "Develand Academia",
+    imagen: "/img/proyectos/develand.webp",
+    encaje: "pieza",
     year: "2026",
     type: "Edición de vídeo",
     logo: "/img/develand.png",
@@ -163,6 +180,8 @@ export const WORKS: Work[] = [
   },
   {
     title: "WakandIA",
+    imagen: "/img/proyectos/wakandia.webp",
+    encaje: "captura",
     year: "2025",
     type: "Identidad · Web · Contenido",
     // El símbolo venía en vertical y con mucho aire: está recortado a la caja

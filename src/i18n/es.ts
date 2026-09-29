@@ -116,6 +116,7 @@ export const es = {
     hice: "Hice",
     resultado: "Resultado",
     verWeb: "Ver la web",
+    verCaso: "Ver caso",
   },
 
   antesDespues: {
