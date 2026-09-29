@@ -15,9 +15,14 @@ export type Diapositiva = {
  *  duration-[900ms] de abajo). */
 const VISIBLE_MS = 3000;
 
+/** Lo que tarda el PRIMER cambio desde que la ficha aparece con el scroll.
+ *  Es más corto que los siguientes a propósito: así se ve enseguida que la
+ *  ficha pasa imágenes, en vez de parecer una captura quieta. */
+const PRIMERA_MS = 1000;
+
 /** Lo que espera de más la columna de la derecha, para que las dos fichas de
  *  una fila no cambien a la vez. */
-const RETRASO_COLUMNA_MS = 700;
+const RETRASO_COLUMNA_MS = 400;
 
 /** La rejilla de fichas pasa a dos columnas en `lg`. Si se cambia el
  *  `lg:grid-cols-2` de Works.tsx, hay que cambiar esto con ello. */
@@ -123,7 +128,7 @@ export default function PaseImagenes({
       });
       t = setTimeout(pasar, VISIBLE_MS);
     };
-    t = setTimeout(pasar, VISIBLE_MS + retraso);
+    t = setTimeout(pasar, PRIMERA_MS + retraso);
     return () => clearTimeout(t);
   }, [hayPase, enPantalla, pestanaActiva, fotos.length, retraso]);
 
